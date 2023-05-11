@@ -4,7 +4,7 @@ import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.Location;
 
 public class Autoplayer {
-    private MoverComposite mover = new MoverComposite();
+    private MoverStrategy mover = new MoverStrategy();
     private Actor movingActor;
 
     public Autoplayer(Actor actor) {

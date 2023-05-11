@@ -82,6 +82,7 @@ public class RandomMover implements IMover {
         return false;
     }
 
+    @Override
     public void setMoveValidator(MoveValidator moveValidator) {
         this.moveValidator = moveValidator;
     }

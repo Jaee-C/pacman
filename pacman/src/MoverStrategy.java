@@ -3,10 +3,7 @@ package src;
 import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.Location;
 
-import java.util.Arrays;
-import java.util.Properties;
-
-public class MoverComposite implements IMover {
+public class MoverStrategy implements IMover {
 
     private RandomMover randomMover = new RandomMover();
     private PropertyMover propertyMover = new PropertyMover();

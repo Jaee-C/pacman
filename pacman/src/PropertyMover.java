@@ -9,7 +9,7 @@ import java.util.List;
 
 public class PropertyMover implements IMover {
     private List<String> propertyMoves = new ArrayList<>();
-    private int propertyMoveIndex = 1000;
+    private int propertyMoveIndex = 0;
     private MoveValidator moveValidator;
 
     public Location move(Actor movingActor, Location closestPill) {

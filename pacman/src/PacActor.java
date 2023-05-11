@@ -17,10 +17,6 @@ public class PacActor extends Actor implements GGKeyRepeatListener
   private int nbPills = 0;
   private int score = 0;
   private Game game;
-  private ArrayList<Location> visitedList = new ArrayList<Location>();
-  private List<String> propertyMoves = new ArrayList<>();
-  private int propertyMoveIndex = 0;
-  private final int listLength = 10;
   private int seed;
   private Random randomiser = new Random();
   private Autoplayer autoplayer;
@@ -44,9 +40,6 @@ public class PacActor extends Actor implements GGKeyRepeatListener
 
   public void setPropertyMoves(String propertyMoveString) {
     autoplayer.setPropertyMoves(propertyMoveString);
-    if (propertyMoveString != null) {
-      this.propertyMoves = Arrays.asList(propertyMoveString.split(","));
-    }
   }
 
   public void keyRepeated(int keyCode)
@@ -97,7 +90,6 @@ public class PacActor extends Actor implements GGKeyRepeatListener
         setLocation(next);
         eatPill(next);
       }
-//      moveInAutoMode();
     }
     this.game.getGameCallback().pacManLocationChanged(getLocation(), score, nbPills);
   }
@@ -115,88 +107,6 @@ public class PacActor extends Actor implements GGKeyRepeatListener
     }
 
     return currentLocation;
-  }
-
-  private void followPropertyMoves() {
-    String currentMove = propertyMoves.get(propertyMoveIndex);
-    switch(currentMove) {
-      case "R":
-        turn(90);
-        break;
-      case "L":
-        turn(-90);
-        break;
-      case "M":
-        Location next = getNextMoveLocation();
-        if (canMove(next)) {
-          setLocation(next);
-          eatPill(next);
-        }
-        break;
-    }
-    propertyMoveIndex++;
-  }
-
-  private void moveInAutoMode() {
-    if (propertyMoves.size() > propertyMoveIndex) {
-      followPropertyMoves();
-      return;
-    }
-    Location closestPill = closestPillLocation();
-    double oldDirection = getDirection();
-
-    Location.CompassDirection compassDir =
-            getLocation().get4CompassDirectionTo(closestPill);
-    Location next = getLocation().getNeighbourLocation(compassDir);
-    setDirection(compassDir);
-    if (!isVisited(next) && canMove(next)) {
-      setLocation(next);
-    } else {
-      // normal movement
-      int sign = randomiser.nextDouble() < 0.5 ? 1 : -1;
-      setDirection(oldDirection);
-      turn(sign * 90);  // Try to turn left/right
-      next = getNextMoveLocation();
-      if (canMove(next)) {
-        setLocation(next);
-      } else {
-        setDirection(oldDirection);
-        next = getNextMoveLocation();
-        if (canMove(next)) // Try to move forward
-        {
-          setLocation(next);
-        } else {
-          setDirection(oldDirection);
-          turn(-sign * 90);  // Try to turn right/left
-          next = getNextMoveLocation();
-          if (canMove(next)) {
-            setLocation(next);
-          } else {
-            setDirection(oldDirection);
-            turn(180);  // Turn backward
-            next = getNextMoveLocation();
-            setLocation(next);
-          }
-        }
-      }
-    }
-    eatPill(next);
-    addVisitedList(next);
-  }
-
-  private void addVisitedList(Location location)
-  {
-    visitedList.add(location);
-    if (visitedList.size() == listLength)
-      visitedList.remove(0);
-  }
-
-  private boolean isVisited(Location location)
-  {
-    for (Location loc : visitedList)
-      if (loc.equals(location))
-        return true;
-    return false;
   }
 
   private boolean canMove(Location location)

@@ -9,7 +9,6 @@ import java.util.Random;
 public class RandomMover implements IMover {
     private int seed;
     private Random randomiser = new Random();
-    private double direction;
     private ArrayList<Location> visitedList = new ArrayList<Location>();
     private final int listLength = 10;
     private MoveValidator moveValidator = null;
@@ -31,28 +30,28 @@ public class RandomMover implements IMover {
         } else {
             // normal movement
             int sign = randomiser.nextDouble() < 0.5 ? 1 : -1;
-            setDirection(oldDirection);
+            movingActor.setDirection(oldDirection);
             movingActor.turn(sign * 90);  // Try to turn left/right
             next = movingActor.getNextMoveLocation();
             if (moveValidator.canMove(next)) {
                 addVisitedList(next);
                 return next;
             } else {
-                setDirection(oldDirection);
+                movingActor.setDirection(oldDirection);
                 next = movingActor.getNextMoveLocation();
                 if (moveValidator.canMove(next)) // Try to move forward
                 {
                     addVisitedList(next);
                     return next;
                 } else {
-                    setDirection(oldDirection);
+                    movingActor.setDirection(oldDirection);
                     movingActor.turn(-sign * 90);  // Try to turn right/left
                     next = movingActor.getNextMoveLocation();
                     if (moveValidator.canMove(next)) {
                         addVisitedList(next);
                         return next;
                     } else {
-                        setDirection(oldDirection);
+                        movingActor.setDirection(oldDirection);
                         movingActor.turn(180);  // Turn backward
                         next = movingActor.getNextMoveLocation();
                         addVisitedList(next);
@@ -66,14 +65,6 @@ public class RandomMover implements IMover {
     public void setSeed(int seed) {
         this.seed = seed;
         randomiser.setSeed(seed);
-    }
-
-    private void setDirection(double direction) {
-        direction %= 360.0;
-        if (direction < 0.0) {
-            direction += 360.0;
-        }
-        this.direction = direction;
     }
 
     private void addVisitedList(Location location)

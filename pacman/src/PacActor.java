@@ -23,10 +23,12 @@ public class PacActor extends Actor implements GGKeyRepeatListener
   private final int listLength = 10;
   private int seed;
   private Random randomiser = new Random();
+  private Autoplayer autoplayer;
   public PacActor(Game game)
   {
     super(true, "sprites/pacpix.gif", nbSprites);  // Rotatable
     this.game = game;
+    this.autoplayer = new Autoplayer(this);
   }
   private boolean isAuto = false;
 
@@ -41,6 +43,7 @@ public class PacActor extends Actor implements GGKeyRepeatListener
   }
 
   public void setPropertyMoves(String propertyMoveString) {
+    autoplayer.setPropertyMoves(propertyMoveString);
     if (propertyMoveString != null) {
       this.propertyMoves = Arrays.asList(propertyMoveString.split(","));
     }
@@ -88,7 +91,13 @@ public class PacActor extends Actor implements GGKeyRepeatListener
       idSprite = 0;
 
     if (isAuto) {
-      moveInAutoMode();
+      Location next = autoplayer.move(closestPillLocation());
+      if (next != null) {
+        // Move action is not a turn action
+        setLocation(next);
+        eatPill(next);
+      }
+//      moveInAutoMode();
     }
     this.game.getGameCallback().pacManLocationChanged(getLocation(), score, nbPills);
   }

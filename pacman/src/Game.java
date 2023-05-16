@@ -11,8 +11,8 @@ import java.util.Properties;
 
 public class Game extends GameGrid
 {
-  private final static int nbHorzCells = 20;
-  private final static int nbVertCells = 11;
+  public final static int nbHorzCells = 20;
+  public final static int nbVertCells = 11;
   protected PacManGameGrid grid = new PacManGameGrid(nbHorzCells, nbVertCells);
 
   protected PacActor pacActor = new PacActor(this);

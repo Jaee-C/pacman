@@ -24,7 +24,7 @@ public class PacActor extends Actor implements GGKeyRepeatListener
   {
     super(true, "sprites/pacpix.gif", nbSprites);  // Rotatable
     this.game = game;
-    this.autoplayer = new Autoplayer(this);
+    this.autoplayer = new Autoplayer(this, game);
   }
   private boolean isAuto = false;
 

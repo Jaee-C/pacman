@@ -1,4 +1,4 @@
-package matachi.mapeditor.editor;
+package src.matachi.mapeditor.editor;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-import matachi.mapeditor.grid.Camera;
+import src.matachi.mapeditor.grid.Camera;
 
 
 /**
@@ -84,6 +84,10 @@ public class View {
 		loadButton.addActionListener(controller);
 		loadButton.setActionCommand("load");
 
+		JButton startGameButton = new JButton("Start Game");
+		startGameButton.addActionListener(controller);
+		startGameButton.setActionCommand("start_game");
+
 		JPanel right = new JPanel();
 		right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
 		Border border = BorderFactory.createEmptyBorder(10, 10, 10, 10);
@@ -91,6 +95,7 @@ public class View {
 		// right.add(showGridButton);
 		right.add(saveButton);
 		right.add(loadButton);
+		right.add(startGameButton);
 
 		/** The top panel, that shows coordinates and stuff. */
 		CameraInformationLabel cameraInformationLabel = new CameraInformationLabel(

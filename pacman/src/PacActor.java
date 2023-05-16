@@ -206,6 +206,7 @@ public class PacActor extends Actor implements GGKeyRepeatListener
 
   private void eatPill(Location location)
   {
+    // Pacman collisions
     Color c = getBackground().getColor(location);
     if (c.equals(Color.white))
     {

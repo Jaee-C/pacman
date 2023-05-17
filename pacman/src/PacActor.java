@@ -144,6 +144,7 @@ public class PacActor extends Actor implements GGKeyRepeatListener
       game.getGameCallback().pacManEatPillsAndItems(location, "ice");
       game.removeItem("ice",location);
     }
+    game.removePillAndItemLocation(location);
     String title = "[PacMan in the Multiverse] Current score: " + score;
     gameGrid.setTitle(title);
   }

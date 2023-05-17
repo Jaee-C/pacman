@@ -7,18 +7,27 @@ public class MoverStrategy implements IMover {
 
     private RandomMover randomMover = new RandomMover();
     private PropertyMover propertyMover = new PropertyMover();
+    private ClosestPillMover closestPillMover = new ClosestPillMover();
     private IMover mover = null;
 
     @Override
     public Location move(Actor movingActor, Location closestPill) {
         decideMover();
-        return mover.move(movingActor, closestPill);
+        Location next = null;
+
+        if ((next = mover.move(movingActor, closestPill)) == null) {
+            mover = randomMover;
+            next = mover.move(movingActor, closestPill);
+        }
+    
+        return next;
     }
 
     @Override
     public void setMoveValidator(MoveValidator moveValidator) {
         randomMover.setMoveValidator(moveValidator);
         propertyMover.setMoveValidator(moveValidator);
+        closestPillMover.setMoveValidator(moveValidator);
     }
 
     public void setPropertyMoves(String propertyMoveString) {
@@ -33,7 +42,7 @@ public class MoverStrategy implements IMover {
         if (propertyMover.usePropertyMover()) {
             mover = propertyMover;
         } else {
-            mover = randomMover;
+            mover = closestPillMover;
         }
     }
 }

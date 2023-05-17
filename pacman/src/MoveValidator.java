@@ -21,4 +21,12 @@ public class MoveValidator {
         return !c.equals(Color.gray) && location.getX() < horzCells
                 && location.getX() >= 0 && location.getY() < vertCells && location.getY() >= 0;
     }
+
+    public int maxX() {
+        return horzCells - 1;
+    }
+
+    public int maxY() {
+        return vertCells - 1;
+    }
 }

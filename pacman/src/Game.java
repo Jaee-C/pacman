@@ -66,14 +66,14 @@ public class Game extends GameGrid
     show();
     // Loop to look for collision in the application thread
     // This makes it improbable that we miss a hit
-    boolean hasPacmanBeenHit;
+    boolean hasPacmanBeenHit = false;
     boolean hasPacmanEatAllPills;
     setupPillAndItemsLocations();
     int maxPillsAndItems = countPillsAndItems();
     
     do {
-      hasPacmanBeenHit = troll.getLocation().equals(pacActor.getLocation()) ||
-              tx5.getLocation().equals(pacActor.getLocation());
+      // hasPacmanBeenHit = troll.getLocation().equals(pacActor.getLocation()) ||
+      //         tx5.getLocation().equals(pacActor.getLocation());
       hasPacmanEatAllPills = pacActor.getNbPills() >= maxPillsAndItems;
       delay(10);
     } while(!hasPacmanBeenHit && !hasPacmanEatAllPills);
@@ -151,12 +151,17 @@ public class Game extends GameGrid
     return pillAndItemLocations;
   }
 
+  public void removePillAndItemLocation(Location location) {
+      pillAndItemLocations.remove(location);
+  }
+
   public ArrayList<Portal> getPortals() {
     return portals;
   }
 
   private void loadPillAndItemsLocations() {
     String pillsLocationString = properties.getProperty("Pills.location");
+    System.out.println(pillsLocationString);
     if (pillsLocationString != null) {
       String[] singlePillLocationStrings = pillsLocationString.split(";");
       for (String singlePillLocationString: singlePillLocationStrings) {

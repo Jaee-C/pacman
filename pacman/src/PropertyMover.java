@@ -12,7 +12,7 @@ public class PropertyMover implements IMover {
     private int propertyMoveIndex = 0;
     private MoveValidator moveValidator;
 
-    public Location move(Actor movingActor, Location closestPill) {
+    public Location move(Actor movingActor, ArrayList<Location> items) {
         String currentMove = propertyMoves.get(propertyMoveIndex);
         Location next = null;
         propertyMoveIndex++;

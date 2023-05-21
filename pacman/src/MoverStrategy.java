@@ -3,21 +3,24 @@ package src;
 import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.Location;
 
+import java.util.ArrayList;
+
 public class MoverStrategy implements IMover {
 
     private RandomMover randomMover = new RandomMover();
     private PropertyMover propertyMover = new PropertyMover();
     private ClosestPillMover closestPillMover = new ClosestPillMover();
+    private BFSMover bfsMover = new BFSMover();
     private IMover mover = null;
 
     @Override
-    public Location move(Actor movingActor, Location closestPill) {
+    public Location move(Actor movingActor, ArrayList<Location> items) {
         decideMover();
         Location next = null;
 
-        if ((next = mover.move(movingActor, closestPill)) == null) {
-            mover = randomMover;
-            next = mover.move(movingActor, closestPill);
+        if ((next = mover.move(movingActor, items)) == null) {
+            mover = bfsMover;
+            next = mover.move(movingActor, items);
         }
     
         return next;
@@ -28,6 +31,7 @@ public class MoverStrategy implements IMover {
         randomMover.setMoveValidator(moveValidator);
         propertyMover.setMoveValidator(moveValidator);
         closestPillMover.setMoveValidator(moveValidator);
+        bfsMover.setMoveValidator(moveValidator);
     }
 
     public void setPropertyMoves(String propertyMoveString) {

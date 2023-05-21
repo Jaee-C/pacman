@@ -3,6 +3,8 @@ package src;
 import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.Location;
 
+import java.util.ArrayList;
+
 public class Autoplayer {
     private MoverStrategy mover = new MoverStrategy();
     private Actor movingActor;
@@ -19,11 +21,11 @@ public class Autoplayer {
         mover.setPropertyMoves(propertyMoveString);
     }
 
-    public Location move(Location closestPill) {
+    public Location move(ArrayList<Location> items) {
         if (movingActor == null) {
             throw new RuntimeException("No actor registered for autoplayer");
         }
-        return mover.move(movingActor, closestPill);
+        return mover.move(movingActor, items);
     }
 
     public void setSeed(int seed) {

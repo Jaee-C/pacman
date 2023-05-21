@@ -84,7 +84,7 @@ public class PacActor extends Actor implements GGKeyRepeatListener
       idSprite = 0;
 
     if (isAuto) {
-      Location next = autoplayer.move(closestPillLocation());
+      Location next = autoplayer.move(game.getPillAndItemLocations());
       if (next != null) {
         // Move action is not a turn action
         setLocation(next);

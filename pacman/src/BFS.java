@@ -8,19 +8,17 @@ import java.util.List;
 
 public class BFS {
     private ArrayList<SearchGameState> queue = new ArrayList<>();
-    private HashSet<Location> visited = new HashSet<>();
 
-    public List<Move> search(SearchGameState startState) {
+    public List<Location> search(SearchGameState startState) {
         queue.add(startState);
         while (!queue.isEmpty()) {
             SearchGameState currentState = queue.remove(0);
             if (currentState.isGoalState()) {
-                return currentState.getMoves();
+                System.out.println("Reached goal " + currentState.getCurrentLocation());
+                queue = new ArrayList<>();
+                return currentState.getPath();
             }
-            if (!visited.contains(currentState.getPacmanLocation())) {
-                visited.add(currentState.getPacmanLocation());
-                queue.addAll(currentState.getNextStates());
-            }
+            queue.addAll(currentState.getNextStates());
         }
         return null;
     }

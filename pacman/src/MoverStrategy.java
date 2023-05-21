@@ -19,7 +19,7 @@ public class MoverStrategy implements IMover {
         Location next = null;
 
         if ((next = mover.move(movingActor, items)) == null) {
-            mover = bfsMover;
+            mover = randomMover;
             next = mover.move(movingActor, items);
         }
     
@@ -46,7 +46,7 @@ public class MoverStrategy implements IMover {
         if (propertyMover.usePropertyMover()) {
             mover = propertyMover;
         } else {
-            mover = closestPillMover;
+            mover = bfsMover;
         }
     }
 }

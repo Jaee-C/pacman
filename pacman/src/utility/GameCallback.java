@@ -6,6 +6,8 @@ import src.Monster;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.List;
 
 /**
  * Please do not change this class. This class is used for testing and your code needs to print the correct output to pass the test
@@ -52,5 +54,14 @@ public class GameCallback {
         String pillOrItemLocationString = String.format("[PacMan] Location: %d-%d. Eat Pill/Item: %s", pacmanLocation.getY(),
                 pacmanLocation.getY(), type);
         writeString(pillOrItemLocationString);
+    }
+
+    public void gameCheckNoMapsFound() {
+        writeString("[Game foldername - no maps found]");
+    }
+
+    public void gameCheckMultipleMapsSameLevel(List<String> maps) {
+        String s = String.format("[Game foldername - multiple maps at same level: %s]", String.join(";", maps));
+        writeString(s);
     }
 }

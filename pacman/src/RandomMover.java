@@ -15,14 +15,14 @@ public class RandomMover implements IMover {
     private MoveValidator moveValidator = null;
 
     @Override
-    public Location move(Actor movingActor, ArrayList<Location> items) {
+    public Location move(Actor movingActor, Location target) {
         if (this.moveValidator == null) {
             throw new IllegalStateException("MoveValidator is not set");
         }
         double oldDirection = movingActor.getDirection();
 
         Location.CompassDirection compassDir =
-                movingActor.getLocation().get4CompassDirectionTo(closestPillLocation(movingActor, items));
+                movingActor.getLocation().get4CompassDirectionTo(target);
         Location next = movingActor.getLocation().getNeighbourLocation(compassDir);
         movingActor.setDirection(compassDir);
         if (!isVisited(next) && moveValidator.canMove(next)) {
@@ -61,21 +61,6 @@ public class RandomMover implements IMover {
                 }
             }
         }
-    }
-
-    private Location closestPillLocation(Actor movingActor, ArrayList<Location> items) {
-        int currentDistance = 1000;
-        Location currentLocation = null;
-        List<Location> pillAndItemLocations = items;
-        for (Location location: pillAndItemLocations) {
-            int distanceToPill = location.getDistanceTo(movingActor.getLocation());
-            if (distanceToPill < currentDistance) {
-                currentLocation = location;
-                currentDistance = distanceToPill;
-            }
-        }
-
-        return currentLocation;
     }
 
     public void setSeed(int seed) {

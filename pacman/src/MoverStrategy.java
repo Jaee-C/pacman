@@ -14,13 +14,13 @@ public class MoverStrategy implements IMover {
     private IMover mover = null;
 
     @Override
-    public Location move(Actor movingActor, ArrayList<Location> items) {
+    public Location move(Actor movingActor, Location target) {
         decideMover();
         Location next = null;
 
-        if ((next = mover.move(movingActor, items)) == null) {
+        if ((next = mover.move(movingActor, target)) == null) {
             mover = randomMover;
-            next = mover.move(movingActor, items);
+            next = mover.move(movingActor, target);
         }
     
         return next;

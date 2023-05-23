@@ -12,7 +12,8 @@ public class PropertyMover implements IMover {
     private int propertyMoveIndex = 0;
     private MoveValidator moveValidator;
 
-    public Location move(Actor movingActor, ArrayList<Location> items) {
+    @Override
+    public Location move(Actor movingActor, Location target) {
         String currentMove = propertyMoves.get(propertyMoveIndex);
         Location next = null;
         propertyMoveIndex++;

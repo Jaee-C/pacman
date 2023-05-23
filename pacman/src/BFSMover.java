@@ -12,9 +12,9 @@ public class BFSMover implements IMover {
     private List<Location> path = new ArrayList<>();
 
     @Override
-    public Location move(Actor movingActor, ArrayList<Location> items) {
-        if (path.isEmpty() && !items.isEmpty()) {
-            Location nextItem = closestPillLocation(movingActor, items);
+    public Location move(Actor movingActor, Location target) {
+        if (path.isEmpty()) {
+            Location nextItem = target;
             System.out.println("Next: " + nextItem);
             System.out.println("Initial Location: " + movingActor.getLocation());
             SearchGameState gameState = new SearchGameState(movingActor.getLocation(), nextItem, moveValidator, new ArrayList<>());
@@ -31,20 +31,5 @@ public class BFSMover implements IMover {
     @Override
     public void setMoveValidator(MoveValidator moveValidator) {
         this.moveValidator = moveValidator;
-    }
-
-    private Location closestPillLocation(Actor movingActor, ArrayList<Location> items) {
-        int currentDistance = 1000;
-        Location currentLocation = null;
-        List<Location> pillAndItemLocations = items;
-        for (Location location: pillAndItemLocations) {
-            int distanceToPill = location.getDistanceTo(movingActor.getLocation());
-            if (distanceToPill < currentDistance) {
-                currentLocation = location;
-                currentDistance = distanceToPill;
-            }
-        }
-
-        return currentLocation;
     }
 }

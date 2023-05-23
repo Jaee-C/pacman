@@ -12,7 +12,7 @@ public class ClosestPillMover implements IMover {
     private final int listLength = 3;
 
     @Override
-    public Location move(Actor movingActor, ArrayList<Location> items) {
+    public Location move(Actor movingActor, Location target) {
         Location currLocation = movingActor.getLocation();
 
         // Move towards the nearest pill or gold
@@ -22,7 +22,7 @@ public class ClosestPillMover implements IMover {
             if (isVisited(location) || !moveValidator.canMove(location)) {
                 continue;
             }
-            int distance = location.getDistanceTo(closestPillLocation(movingActor, items));
+            int distance = location.getDistanceTo(target);
             if (distance < minDistance) {
                 minDistance = distance;
                 minLocation = location;
@@ -37,20 +37,6 @@ public class ClosestPillMover implements IMover {
         this.moveValidator = moveValidator;
     }
 
-    private Location closestPillLocation(Actor movingActor, ArrayList<Location> items) {
-        int currentDistance = 1000;
-        Location currentLocation = null;
-        List<Location> pillAndItemLocations = items;
-        for (Location location: pillAndItemLocations) {
-            int distanceToPill = location.getDistanceTo(movingActor.getLocation());
-            if (distanceToPill < currentDistance) {
-                currentLocation = location;
-                currentDistance = distanceToPill;
-            }
-        }
-
-        return currentLocation;
-    }
 
     private void addVisitedList(Location location)
     {

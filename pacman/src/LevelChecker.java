@@ -23,6 +23,16 @@ public class LevelChecker {
         this.gameCallback = callback;
     }
 
+    /**
+     * Returns true if the levels pass the 4 validity checks and false otherwise. Also does error logs if validity check is not passed.
+     * Level Checks:
+     *  1. One starting point for pacman
+     *  2. two tiles for each portal
+     *  3. at least two gold and pill in total
+     *  4. each gold and pill is accessible
+     * @param fileNames
+     * @return
+     */
     public boolean checkLevels(List<String> fileNames) {
         List<String> res = new ArrayList<>();
 

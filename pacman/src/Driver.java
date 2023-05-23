@@ -6,6 +6,7 @@ import src.utility.PropertiesLoader;
 
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
 
 public class Driver {
     public static final String DEFAULT_PROPERTIES_PATH = "properties/test2.properties";
@@ -27,6 +28,12 @@ public class Driver {
 //        GameChecker gameChecker = new GameChecker(gameCallback);
 //        List<String> fileNames = gameChecker.getGames();
 //        System.out.println("Filenames: " + fileNames);
+
+        // TODO Check if LevelChecker Works
+//        LevelChecker levelChecker = new LevelChecker(controller, gameCallback)
+//        if (levelChecker.checkLevels(fileNames)) {
+//            // then @rel can use fileNames to be played
+//        }
 
         new Game(gameCallback, properties);
         new Controller();

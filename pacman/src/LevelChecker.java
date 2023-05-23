@@ -1,5 +1,6 @@
 package src;
 
+import ch.aplu.jgamegrid.Location;
 import src.matachi.mapeditor.editor.Controller;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ public class LevelChecker {
     Controller controller;
     GameCallback gameCallback;
     List<String> portalStrings = Arrays.asList("PortalWhiteTile", "PortalYellowTile", "PortalDarkGoldTile", "PortalDarkGrayTile");
+    MapValidator mapValidator = new MapValidator();
 
     public LevelChecker(Controller controller, GameCallback callback) {
         this.controller = controller;
@@ -144,9 +146,34 @@ public class LevelChecker {
                     }
                 }
 
-                // TODO Convert the XML Map to actual map and run autoplayer
                 System.out.println(fileName + " Maze: " + mazeString);
                 PacManGameGrid gameGrid = new PacManGameGrid(columns, rows, mazeString.toString());
+
+                if (pacCoords.size() == 0) {
+                    // No pacman, don't need to check map
+                    continue;
+                }
+
+                List<Location> unreached = mapValidator.checkMap(gameGrid);
+                HashMap<GameGridCell, List<String>> unreachedItems = new HashMap<>();
+                if (!unreached.isEmpty()) {
+                    for (Location location : unreached) {
+                        GameGridCell unreachedCell = gameGrid.getCell(location);
+                        if (unreachedItems.containsKey(unreachedCell)) {
+                            List<String> existingList = new ArrayList<>(unreachedItems.get(unreachedCell));
+                            existingList.add(coorToString(location));
+                            unreachedItems.put(unreachedCell, existingList);
+                        } else {
+                            unreachedItems.put(unreachedCell, List.of(coorToString(location)));
+                        }
+                    }
+                    for (GameGridCell item : unreachedItems.keySet()) {
+                        List<String> itemCoords = unreachedItems.get(item);
+                        gameCallback.levelCheckNotAccessible(fileName, item.toString(), itemCoords);
+                        System.out.println("MAP IS NOT ACCESSIBLE");
+                        // TODO: Switch mode
+                    }
+                }
 
                 allGameGrids.add(gameGrid);
 
@@ -160,5 +187,8 @@ public class LevelChecker {
 
     private String coorToString(int x, int y) {
         return "(" + x + "," + y + ")";
+    }
+    private String coorToString(Location location) {
+        return "(" + location.getX() + "," + location.getY() + ")";
     }
 }

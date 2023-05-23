@@ -1,17 +1,17 @@
 package src;
 
 public enum GameGridCell {
-    PATH,
-    WALL,
-    PILL,
-    GOLD,
-    ICE,
-    PAC,
-    TROLL,
+    Path,
+    Wall,
+    Pill,
+    Gold,
+    Ice,
+    Pacman,
+    Troll,
     TX5,
-    PORTAL_WHITE,
-    PORTAL_YELLOW,
-    PORTAL_DARK_GOLD,
-    PORTAL_DARK_GRAY,
+    Portal_White,
+    Portal_Yellow,
+    Portal_Dark_Gold,
+    Portal_Dark_Gray,
     INVALID,
 }

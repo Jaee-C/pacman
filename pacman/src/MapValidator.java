@@ -1,6 +1,7 @@
 package src;
 
 import ch.aplu.jgamegrid.Actor;
+import ch.aplu.jgamegrid.GameGrid;
 import ch.aplu.jgamegrid.Location;
 
 import java.util.ArrayList;
@@ -8,74 +9,73 @@ import java.util.HashSet;
 import java.util.List;
 
 public class MapValidator {
-    private static final MapValidator instance = null;
-
-    public static MapValidator getInstance() {
-        if (instance == null) {
-            return new MapValidator();
-        }
-        return instance;
-    }
-
-    public boolean isValid(PacManGameGrid grid) {
+    public ArrayList<Location> checkMap(PacManGameGrid grid) {
+        // Temp game is required for actor to perform actions, such as updating location
+        GameGrid tempGame = new GameGrid(grid.getNbHorzCells(), grid.getNbVertCells(), 30, false);
         Location pacmanStartLocation = grid.getPacManStartLocation();
         if (pacmanStartLocation == null) {
-            return true;
+            return new ArrayList<>();
         }
 
         Actor pacman = new Actor();
+        tempGame.doRun();
+        tempGame.addActor(pacman, pacmanStartLocation);
         ArrayList<Location> target = setupPillAndItemsLocations(grid);
-        MoveValidator moveValidator = new MoveValidator(pacman, Game.nbHorzCells, Game.nbVertCells);
+        MoveValidator moveValidator = new MoveValidator(pacman, grid.getNbHorzCells(), grid.getNbVertCells());
         IMover automover = new ClosestPillMover();
         automover.setMoveValidator(moveValidator);
-        pacman.setLocation(pacmanStartLocation);
 
         List<Location> tobeVisited = new ArrayList<>();
         HashSet<Location> visited = new HashSet<>();
 
         Location next;
 
-        do {
-            next = null;
+        return new ArrayList<>();
 
-            for (Location l : pacman.getLocation().getNeighbourLocations(0.5)) {
-                if (visited.contains(l)) {
-                    continue;
-                }
-
-                if (moveValidator.canMove(l)) {
-                    if (next == null) {
-                        next = l;
-                    }
-                    tobeVisited.add(l);
-                }
-            }
-
-            if (next == null && !tobeVisited.isEmpty()) {
-                next = tobeVisited.get(0);
-                Location automoverNext = automover.move(pacman, next);
-                while (!automoverNext.equals(next)) {
-                    next = automoverNext;
-                    automoverNext = automover.move(pacman, next);
-                }
-
-            }
-
-            if (next == null) {
-                return false;
-            }
-
-            pacman.setLocation(next);
-            visited.add(next);
-            target.remove(next);
-
-            if (target.isEmpty()) {
-                return true;
-            }
-
-        } while (!tobeVisited.isEmpty());
-
-        return false;
+        // TODO: This is not working, need a MoveValidator that doesn't depend on background colors
+//        do {
+//            next = null;
+//
+//            for (Location l : pacman.getLocation().getNeighbourLocations(0.5)) {
+//                if (visited.contains(l)) {
+//                    continue;
+//                }
+//
+//                if (moveValidator.canMove(l)) {
+//                    if (next == null) {
+//                        next = l;
+//                    }
+//                    tobeVisited.add(l);
+//                }
+//            }
+//
+//            if (next == null && !tobeVisited.isEmpty()) {
+//                next = tobeVisited.get(0);
+//                Location automoverNext = automover.move(pacman, next);
+//                while (!automoverNext.equals(next)) {
+//                    next = automoverNext;
+//                    automoverNext = automover.move(pacman, next);
+//                }
+//
+//            }
+//
+//            if (next == null) {
+//                tempGame.doPause();
+//                return target;
+//            }
+//
+//            pacman.setLocation(next);
+//            visited.add(next);
+//            target.remove(next);
+//
+//            if (target.isEmpty()) {
+//                tempGame.doPause();
+//                return target;
+//            }
+//
+//        } while (!tobeVisited.isEmpty());
+//
+//        return target;
     }
 
     private ArrayList<Location> setupPillAndItemsLocations(PacManGameGrid grid) {
@@ -86,7 +86,7 @@ public class MapValidator {
             {
                 Location location = new Location(x, y);
                 GameGridCell a = grid.getCell(location);
-                if (a == GameGridCell.PILL || a == GameGridCell.GOLD) {
+                if (a == GameGridCell.Pill || a == GameGridCell.Gold) {
                     pillAndItemLocations.add(location);
                 }
             }

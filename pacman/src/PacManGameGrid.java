@@ -58,7 +58,7 @@ public class PacManGameGrid
     for (int i = 0; i < nbVertCells; i++)
     {
       for (int k = 0; k < nbHorzCells; k++) {
-        if (mazeArray[i][k] == GameGridCell.PAC)
+        if (mazeArray[i][k] == GameGridCell.Pacman)
           return new Location(k, i);
       }
     }
@@ -72,29 +72,37 @@ public class PacManGameGrid
   private GameGridCell toInt(char c)
   {
     if (c == 'x')
-      return GameGridCell.WALL;
+      return GameGridCell.Wall;
     if (c == '.')
-      return GameGridCell.PILL;
+      return GameGridCell.Pill;
     if (c == ' ')
-      return GameGridCell.PATH;
+      return GameGridCell.Path;
     if (c == 'g')
-      return GameGridCell.GOLD;
+      return GameGridCell.Gold;
     if (c == 'i')
-      return GameGridCell.ICE;
+      return GameGridCell.Ice;
     if (c == 'p')
-        return GameGridCell.PAC;
+        return GameGridCell.Pacman;
     if (c == 't')
-        return GameGridCell.TROLL;
+        return GameGridCell.Troll;
     if (c == '5')
         return GameGridCell.TX5;
     if (c == 'w')
-        return GameGridCell.PORTAL_WHITE;
+        return GameGridCell.Portal_White;
     if (c == 'y')
-        return GameGridCell.PORTAL_YELLOW;
+        return GameGridCell.Portal_Yellow;
     if (c == 'o')
-        return GameGridCell.PORTAL_DARK_GOLD;
+        return GameGridCell.Portal_Dark_Gold;
     if (c == 'a')
-        return GameGridCell.PORTAL_DARK_GRAY;
+        return GameGridCell.Portal_Dark_Gray;
     return GameGridCell.INVALID;
+  }
+
+  public int getNbHorzCells() {
+    return nbHorzCells;
+  }
+
+  public int getNbVertCells() {
+    return nbVertCells;
   }
 }

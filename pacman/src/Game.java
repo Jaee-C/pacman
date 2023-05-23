@@ -129,9 +129,9 @@ public class Game extends GameGrid
       {
         Location location = new Location(x, y);
         GameGridCell a = grid.getCell(location);
-        if (a == GameGridCell.ICE && propertyPillLocations.size() == 0) { // Pill
+        if (a == GameGridCell.Ice && propertyPillLocations.size() == 0) { // Pill
           pillsAndItemsCount++;
-        } else if (a == GameGridCell.GOLD && propertyGoldLocations.size() == 0) { // Gold
+        } else if (a == GameGridCell.Gold && propertyGoldLocations.size() == 0) { // Gold
           pillsAndItemsCount++;
         }
       }
@@ -186,13 +186,13 @@ public class Game extends GameGrid
       {
         Location location = new Location(x, y);
         GameGridCell a = grid.getCell(location);
-        if (a == GameGridCell.PILL && propertyPillLocations.size() == 0) {
+        if (a == GameGridCell.Pill && propertyPillLocations.size() == 0) {
           pillAndItemLocations.add(location);
         }
-        if (a == GameGridCell.GOLD &&  propertyGoldLocations.size() == 0) {
+        if (a == GameGridCell.Gold &&  propertyGoldLocations.size() == 0) {
           pillAndItemLocations.add(location);
         }
-        if (a == GameGridCell.ICE) {
+        if (a == GameGridCell.Ice) {
           pillAndItemLocations.add(location);
         }
       }
@@ -222,13 +222,13 @@ public class Game extends GameGrid
         bg.setPaintColor(Color.white);
         Location location = new Location(x, y);
         GameGridCell a = grid.getCell(location);
-        if (a != GameGridCell.WALL)
+        if (a != GameGridCell.Wall)
           bg.fillCell(location, Color.lightGray);
-        if (a == GameGridCell.PILL && propertyPillLocations.size() == 0) { // Pill
+        if (a == GameGridCell.Pill && propertyPillLocations.size() == 0) { // Pill
           putPill(bg, location);
-        } else if (a == GameGridCell.GOLD && propertyGoldLocations.size() == 0) { // Gold
+        } else if (a == GameGridCell.Gold && propertyGoldLocations.size() == 0) { // Gold
           putGold(bg, location);
-        } else if (a == GameGridCell.ICE) {
+        } else if (a == GameGridCell.Ice) {
           putIce(bg, location);
         }
       }

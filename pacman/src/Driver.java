@@ -4,6 +4,7 @@ import src.matachi.mapeditor.editor.Controller;
 import src.utility.GameCallback;
 import src.utility.PropertiesLoader;
 
+import java.util.List;
 import java.util.Properties;
 
 public class Driver {
@@ -21,6 +22,12 @@ public class Driver {
         }
         final Properties properties = PropertiesLoader.loadPropertiesFile(propertiesPath);
         GameCallback gameCallback = new GameCallback();
+
+        // TODO Check if gameChecker Works - XY Laptop can't run the 2D Map stuff ;-;
+//        GameChecker gameChecker = new GameChecker(gameCallback);
+//        List<String> fileNames = gameChecker.getGames();
+//        System.out.println("Filenames: " + fileNames);
+
         new Game(gameCallback, properties);
         new Controller();
     }

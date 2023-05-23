@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.time.format.SignStyle;
 import java.util.List;
 
 /**
@@ -62,6 +63,31 @@ public class GameCallback {
 
     public void gameCheckMultipleMapsSameLevel(List<String> maps) {
         String s = String.format("[Game foldername - multiple maps at same level: %s]", String.join(";", maps));
+        writeString(s);
+    }
+
+    public void levelCheckNoPacmanStart(String fileName) {
+        String s = String.format("[%s - no start for PacMan]",fileName);
+        writeString(s);
+    }
+
+    public void levelCheckMultiplePacmanStart(String fileName, List<String> coordinates) {
+        String s = String.format("[%s - more than one start for Pacman: %s]",fileName, coordinates);
+        writeString(s);
+    }
+
+    public void levelCheckPortalError(String fileName, String portalName, List<String> coordinates) {
+        String s = String.format("[%s - portal %s count is not: %s]",fileName, coordinates);
+        writeString(s);
+    }
+
+    public void levelCheckGoldPillError(String fileName) {
+        String s = String.format("[%s - less than 2 Gold and Pill]", fileName);
+        writeString(s);
+    }
+
+    public void levelCheckNotAccessible(String fileName, String GoldOrPill, List<String> coordinates) {
+        String s = String.format("[%s - %s not accessible: %s]", fileName, GoldOrPill, coordinates);
         writeString(s);
     }
 }

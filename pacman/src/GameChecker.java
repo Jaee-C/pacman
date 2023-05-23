@@ -15,7 +15,8 @@ public class GameChecker {
         this.gameCallback = gameCallback;
     }
 
-    public void getGames() {
+    public List<String> getGames() {
+        List<String> res = new ArrayList<>();
         String folderPath = "/game";
 
         // Create a File object representing the folder
@@ -27,7 +28,7 @@ public class GameChecker {
             gameCallback.gameCheckNoMapsFound();
             // TODO Switch Mode
 
-            return;
+            return res;
         }
 
         // List files in the folder
@@ -39,7 +40,7 @@ public class GameChecker {
             gameCallback.gameCheckNoMapsFound();
             // TODO Switch Mode
 
-            return;
+            return res;
         }
 
         // Add filenames to a map of levelNum-arrayOfLevelNames - finding for duplicate level numbers
@@ -71,20 +72,23 @@ public class GameChecker {
             gameCallback.gameCheckNoMapsFound();
             // TODO Switch Mode
 
-            return;
+            return res;
         }
 
         // Report Error if multiple files of the same level number
         for (List<String> val : levelsMap.values()) {
-            if (val.size() > 1) {
+            if (val.size() == 1) {
+                res.addAll(val);
+            } else {
                 // Error log
                 gameCallback.gameCheckMultipleMapsSameLevel(val);
                 // TODO Switch Mode
 
-                return;
+                res.clear();
+                return res;
             }
         }
 
-
+        return res;
     }
 }

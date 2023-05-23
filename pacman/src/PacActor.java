@@ -88,7 +88,6 @@ public class PacActor extends Actor implements GGKeyRepeatListener
       if (next != null) {
         // Move action is not a turn action
         setLocation(next);
-        System.out.println("PacMan location: " + next);
         eatPill(next);
       }
     }

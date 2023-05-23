@@ -7,13 +7,13 @@ public class PacManGameGrid
 {
   private int nbHorzCells;
   private int nbVertCells;
-  private int[][] mazeArray;
+  private GameGridCell[][] mazeArray;
 
   public PacManGameGrid(int nbHorzCells, int nbVertCells)
   {
     this.nbHorzCells = nbHorzCells;
     this.nbVertCells = nbVertCells;
-    mazeArray = new int[nbVertCells][nbHorzCells];
+    mazeArray = new GameGridCell[nbVertCells][nbHorzCells];
     String maze =
       "xxxxxxxxxxxxxxxxxxxx" + // 0
       "x....x....g...x....x" + // 1
@@ -32,28 +32,69 @@ public class PacManGameGrid
     for (int i = 0; i < nbVertCells; i++)
     {
       for (int k = 0; k < nbHorzCells; k++) {
-        int value = toInt(maze.charAt(nbHorzCells * i + k));
+        GameGridCell value = toInt(maze.charAt(nbHorzCells * i + k));
+        mazeArray[i][k] = value;
+      }
+    }
+  }
+  public PacManGameGrid(int nbHorzCells, int nbVertCells, String maze)
+  {
+    this.nbHorzCells = nbHorzCells;
+    this.nbVertCells = nbVertCells;
+    mazeArray = new GameGridCell[nbVertCells][nbHorzCells];
+
+    // Copy structure into integer array
+    for (int i = 0; i < nbVertCells; i++)
+    {
+      for (int k = 0; k < nbHorzCells; k++) {
+        GameGridCell value = toInt(maze.charAt(nbHorzCells * i + k));
         mazeArray[i][k] = value;
       }
     }
   }
 
-  public int getCell(Location location)
+  public Location getPacManStartLocation()
+  {
+    for (int i = 0; i < nbVertCells; i++)
+    {
+      for (int k = 0; k < nbHorzCells; k++) {
+        if (mazeArray[i][k] == GameGridCell.PAC)
+          return new Location(k, i);
+      }
+    }
+    return null;
+  }
+
+  public GameGridCell getCell(Location location)
   {
     return mazeArray[location.y][location.x];
   }
-  private int toInt(char c)
+  private GameGridCell toInt(char c)
   {
     if (c == 'x')
-      return 0;
+      return GameGridCell.WALL;
     if (c == '.')
-      return 1;
+      return GameGridCell.PILL;
     if (c == ' ')
-      return 2;
+      return GameGridCell.PATH;
     if (c == 'g')
-      return 3;
+      return GameGridCell.GOLD;
     if (c == 'i')
-      return 4;
-    return -1;
+      return GameGridCell.ICE;
+    if (c == 'p')
+        return GameGridCell.PAC;
+    if (c == 't')
+        return GameGridCell.TROLL;
+    if (c == '5')
+        return GameGridCell.TX5;
+    if (c == 'w')
+        return GameGridCell.PORTAL_WHITE;
+    if (c == 'y')
+        return GameGridCell.PORTAL_YELLOW;
+    if (c == 'o')
+        return GameGridCell.PORTAL_DARK_GOLD;
+    if (c == 'a')
+        return GameGridCell.PORTAL_DARK_GRAY;
+    return GameGridCell.INVALID;
   }
 }

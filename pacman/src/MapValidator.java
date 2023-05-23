@@ -17,7 +17,8 @@ public class MapValidator {
         return instance;
     }
 
-    public boolean isValid(Location pacmanStartLocation, PacManGameGrid grid) {
+    public boolean isValid(PacManGameGrid grid) {
+        Location pacmanStartLocation = grid.getPacManStartLocation();
         if (pacmanStartLocation == null) {
             return true;
         }
@@ -84,14 +85,8 @@ public class MapValidator {
             for (int x = 0; x < Game.nbHorzCells; x++)
             {
                 Location location = new Location(x, y);
-                int a = grid.getCell(location);
-                if (a == 1) {
-                    pillAndItemLocations.add(location);
-                }
-                if (a == 3) {
-                    pillAndItemLocations.add(location);
-                }
-                if (a == 4) {
+                GameGridCell a = grid.getCell(location);
+                if (a == GameGridCell.PILL || a == GameGridCell.GOLD) {
                     pillAndItemLocations.add(location);
                 }
             }

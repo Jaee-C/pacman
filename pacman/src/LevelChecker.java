@@ -33,11 +33,11 @@ public class LevelChecker {
      * @param fileNames
      * @return
      */
-    public boolean checkLevels(List<String> fileNames) {
-        List<String> res = new ArrayList<>();
+    public List<PacManGameGrid> checkLevels(List<String> fileNames) {
+        List<PacManGameGrid> allGameGrids = new ArrayList<>();
 
         for (String fileName : fileNames) {
-            String filePath = "/game/" + fileName;
+            String filePath = "./game/" + fileName;
 
             try {
                 File inputFile = new File(filePath);
@@ -61,8 +61,7 @@ public class LevelChecker {
                     }
                 }
 
-                // If you wanna Create the 2D grid array - uncomment the commented lines
-//                String[][] gridArray = new String[rows][columns];
+                StringBuilder mazeString = new StringBuilder();
 
                 // Populate the grid array with cell values
                 int goldPillCount = 0;
@@ -75,23 +74,53 @@ public class LevelChecker {
                         Element cell = (Element) cellList.item(j);
                         String cellValue = cell.getTextContent();
 
-                        if (cellValue == "PacTile") {
+                        if (cellValue.equals("PacTile")) {
                             // Store coordinates of PacTiles
-
-                        } else if (cellValue == "GoldTile" || cellValue == "PillTile") {
+                            pacCoords.add(coorToString(i, j));
+                        } else if (cellValue.equals("GoldTile") || cellValue.equals("PillTile")) {
                             // Count the number of gold and pill tiles
                             goldPillCount++;
                         } else if (portalStrings.contains(cellValue)) {
                             // Count the number of portals of each colour - store coordinates in a hashmap
                             if (portalCoordsMap.containsKey(cellValue)) {
-                                List<String> existingList = portalCoordsMap.get(cellValue);
+                                List<String> existingList = new ArrayList<>(portalCoordsMap.get(cellValue));
                                 existingList.add(coorToString(i, j));
                                 portalCoordsMap.put(cellValue, existingList);
                             } else {
-                                portalCoordsMap.put(cellValue, Arrays.asList(coorToString(i, j)));
+                                portalCoordsMap.put(cellValue, List.of(coorToString(i, j)));
                             }
                         }
-//                        gridArray[i][j] = cellValue;
+
+                        // Encode the cell value into a char
+                        char tileNr = 'a';
+                        if (cellValue.equals("PathTile"))
+                            tileNr = ' ';
+                        else if (cellValue.equals("WallTile"))
+                            tileNr = 'x';
+                        else if (cellValue.equals("PillTile"))
+                            tileNr = '.';
+                        else if (cellValue.equals("GoldTile"))
+                            tileNr = 'g';
+                        else if (cellValue.equals("IceTile"))
+                            tileNr = 'i';
+                        else if (cellValue.equals("PacTile"))
+                            tileNr = 'p';
+                        else if (cellValue.equals("TrollTile"))
+                            tileNr = 't';
+                        else if (cellValue.equals("TX5Tile"))
+                            tileNr = '5';
+                        else if (cellValue.equals("PortalWhiteTile"))
+                            tileNr = 'w';
+                        else if (cellValue.equals("PortalYellowTile"))
+                            tileNr = 'y';
+                        else if (cellValue.equals("PortalDarkGoldTile"))
+                            tileNr = 'o';
+                        else if (cellValue.equals("PortalDarkGrayTile"))
+                            tileNr = 'a';
+                        else
+                            tileNr = '0';    // What does this encode to?
+
+                        mazeString.append(tileNr);
                     }
                 }
 
@@ -116,13 +145,17 @@ public class LevelChecker {
                 }
 
                 // TODO Convert the XML Map to actual map and run autoplayer
+                System.out.println(fileName + " Maze: " + mazeString);
+                PacManGameGrid gameGrid = new PacManGameGrid(columns, rows, mazeString.toString());
+
+                allGameGrids.add(gameGrid);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        return true;
+        return allGameGrids;
     }
 
     private String coorToString(int x, int y) {

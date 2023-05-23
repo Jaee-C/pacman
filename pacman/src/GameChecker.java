@@ -17,7 +17,7 @@ public class GameChecker {
 
     public List<String> getGames() {
         List<String> res = new ArrayList<>();
-        String folderPath = "/game";
+        String folderPath = "./game";
 
         // Create a File object representing the folder
         File folder = new File(folderPath);
@@ -47,6 +47,10 @@ public class GameChecker {
         Map<Integer, List<String>> levelsMap = new HashMap<>();
         for (File file : files) {
             String fileName = file.getName();
+
+            if (fileName.equals("2_ErrorMaplog.txt")) {
+                continue;
+            }
 
             // Extract the number using regex
             Pattern pattern = Pattern.compile("^\\d+");

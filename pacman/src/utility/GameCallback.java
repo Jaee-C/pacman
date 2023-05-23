@@ -77,7 +77,7 @@ public class GameCallback {
     }
 
     public void levelCheckPortalError(String fileName, String portalName, List<String> coordinates) {
-        String s = String.format("[%s - portal %s count is not: %s]",fileName, coordinates);
+        String s = String.format("[%s - portal %s count is not: %s]",fileName, portalName, coordinates);
         writeString(s);
     }
 

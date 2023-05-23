@@ -23,17 +23,20 @@ public class Driver {
         }
         final Properties properties = PropertiesLoader.loadPropertiesFile(propertiesPath);
         GameCallback gameCallback = new GameCallback();
+        Controller controller = new Controller();
 
         // TODO Check if gameChecker Works - XY Laptop can't run the 2D Map stuff ;-;
-//        GameChecker gameChecker = new GameChecker(gameCallback);
-//        List<String> fileNames = gameChecker.getGames();
-//        System.out.println("Filenames: " + fileNames);
+        GameChecker gameChecker = new GameChecker(gameCallback);
+        List<String> fileNames = gameChecker.getGames();
 
         // TODO Check if LevelChecker Works
-//        LevelChecker levelChecker = new LevelChecker(controller, gameCallback)
-//        if (levelChecker.checkLevels(fileNames)) {
-//            // then @rel can use fileNames to be played
-//        }
+        LevelChecker levelChecker = new LevelChecker(controller, gameCallback);
+        List<PacManGameGrid> gameGrids = levelChecker.checkLevels(fileNames);
+
+        if (gameGrids.size() == 0) {
+            System.out.println("No valid levels found");
+            return;
+        }
 
         new Game(gameCallback, properties);
     }

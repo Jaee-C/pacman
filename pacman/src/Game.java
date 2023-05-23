@@ -128,10 +128,10 @@ public class Game extends GameGrid
       for (int x = 0; x < nbHorzCells; x++)
       {
         Location location = new Location(x, y);
-        int a = grid.getCell(location);
-        if (a == 1 && propertyPillLocations.size() == 0) { // Pill
+        GameGridCell a = grid.getCell(location);
+        if (a == GameGridCell.ICE && propertyPillLocations.size() == 0) { // Pill
           pillsAndItemsCount++;
-        } else if (a == 3 && propertyGoldLocations.size() == 0) { // Gold
+        } else if (a == GameGridCell.GOLD && propertyGoldLocations.size() == 0) { // Gold
           pillsAndItemsCount++;
         }
       }
@@ -185,14 +185,14 @@ public class Game extends GameGrid
       for (int x = 0; x < nbHorzCells; x++)
       {
         Location location = new Location(x, y);
-        int a = grid.getCell(location);
-        if (a == 1 && propertyPillLocations.size() == 0) {
+        GameGridCell a = grid.getCell(location);
+        if (a == GameGridCell.PILL && propertyPillLocations.size() == 0) {
           pillAndItemLocations.add(location);
         }
-        if (a == 3 &&  propertyGoldLocations.size() == 0) {
+        if (a == GameGridCell.GOLD &&  propertyGoldLocations.size() == 0) {
           pillAndItemLocations.add(location);
         }
-        if (a == 4) {
+        if (a == GameGridCell.ICE) {
           pillAndItemLocations.add(location);
         }
       }
@@ -221,14 +221,14 @@ public class Game extends GameGrid
       {
         bg.setPaintColor(Color.white);
         Location location = new Location(x, y);
-        int a = grid.getCell(location);
-        if (a > 0)
+        GameGridCell a = grid.getCell(location);
+        if (a != GameGridCell.WALL)
           bg.fillCell(location, Color.lightGray);
-        if (a == 1 && propertyPillLocations.size() == 0) { // Pill
+        if (a == GameGridCell.PILL && propertyPillLocations.size() == 0) { // Pill
           putPill(bg, location);
-        } else if (a == 3 && propertyGoldLocations.size() == 0) { // Gold
+        } else if (a == GameGridCell.GOLD && propertyGoldLocations.size() == 0) { // Gold
           putGold(bg, location);
-        } else if (a == 4) {
+        } else if (a == GameGridCell.ICE) {
           putIce(bg, location);
         }
       }

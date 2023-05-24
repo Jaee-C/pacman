@@ -40,7 +40,7 @@ public final class Driver {
     public static void main(String args[]) {
         String propertiesPath = DEFAULT_PROPERTIES_PATH;
         gameCallback = new GameCallback();
-        DriverMode mode = DriverMode.EDIT;
+        DriverMode mode = DriverMode.TEST;
         if (args.length > 0) {
             propertiesPath = args[0];
             if (!(Arrays.asList("test", "edit")).contains(args[1])) {
@@ -85,7 +85,7 @@ public final class Driver {
     }
 
     public static void toEditMode() {
-        System.out.println("!!!!!!!!! Edit Mode !!!!!!!!!!!1");
+        System.out.println("!!!!!!!!! Edit Mode !!!!!!!!!!!");
         mode = DriverMode.EDIT;
         controller = new Controller();
         if (game != null) {

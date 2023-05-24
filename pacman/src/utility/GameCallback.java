@@ -90,4 +90,8 @@ public class GameCallback {
         String s = String.format("[%s - %s not accessible: %s]", fileName, GoldOrPill, coordinates);
         writeString(s);
     }
+
+    public void invalidMode() {
+        writeString("[Invalid Mode Argument. Mode argument must be `edit` or `test`]");
+    }
 }

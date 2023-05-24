@@ -12,6 +12,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 
+import static ch.aplu.util.QuitPane.dispose;
+
 public class Game extends GameGrid
 {
   public final static int nbHorzCells = 20;
@@ -39,6 +41,8 @@ public class Game extends GameGrid
     //Setup game
 
     super(nbHorzCells, nbVertCells, 20, false);
+    System.out.println("Game Constructor Called");
+
     this.gameCallback = gameCallback;
     this.properties = properties;
 
@@ -316,5 +320,9 @@ public class Game extends GameGrid
   }
   public int getNumVertCells(){
     return this.nbVertCells;
+  }
+
+  public void close() {
+    dispose();
   }
 }

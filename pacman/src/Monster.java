@@ -17,7 +17,7 @@ public class Monster extends Actor
   private Random randomiser = new Random(0);
   private CollisionChecker wallCollisions;
   private CollisionChecker portalCollisions;
-  private List<Portal> portals;
+  private PortalStore portals;
 
 
   public Monster(Game game, MonsterType type)
@@ -25,7 +25,7 @@ public class Monster extends Actor
     super("sprites/" + type.getImageName());
     this.game = game;
     this.type = type;
-    this.wallCollisions = new CollisionChecker(game.getNumHorzCells(), game.getNumVertCells());
+    this.wallCollisions = new BoundsCollisionChecker(game.getNumHorzCells(), game.getNumVertCells());
     this.portalCollisions = new CollisionChecker(game.getNumHorzCells(), game.getNumVertCells());
   }
 
@@ -42,13 +42,9 @@ public class Monster extends Actor
     }, seconds * SECOND_TO_MILLISECONDS);
   }
 
-  public void setupPortals(List<Portal> portals) {
-    List<Location> portalLocations = new ArrayList<>();
-    for (Portal portal: portals) {
-      portalLocations.add(portal.getLocation());
-    }
+  public void setupPortals(PortalStore portals) {
     this.portals = portals;
-    this.portalCollisions.setCollisionLocations(portalLocations);
+    this.portalCollisions.setCollisionLocations(portals.getLocations());
   }
 
   public void setupWalls(List<Location> wallLocations) {
@@ -136,20 +132,11 @@ public class Monster extends Actor
     addVisitedList(next);
 
     if (portalCollisions.collide(next)) {
-      Portal portal = getPortal(next);
+      Portal portal = portals.getPortalAt(next);
       if (portal != null) {
-        portal.teleport(this);
+        portal.teleport(portals, this);
       }
     }
-  }
-
-  private Portal getPortal(Location next) {
-    for (Portal portal: portals) {
-      if (portal.getLocation().equals(next)) {
-        return portal;
-      }
-    }
-    return null;
   }
 
   public MonsterType getType() {

@@ -8,8 +8,6 @@ import src.utility.GameCallback;
 import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Properties;
 
 import static ch.aplu.util.QuitPane.dispose;
@@ -27,7 +25,7 @@ public class Game extends GameGrid
   private ArrayList<Location> pillAndItemLocations = new ArrayList<Location>();
   private ArrayList<Actor> iceCubes = new ArrayList<Actor>();
   private ArrayList<Actor> goldPieces = new ArrayList<Actor>();
-  private ArrayList<Portal> portals = new ArrayList<Portal>();
+  private PortalStore portals = new PortalStore();
   private GameCallback gameCallback;
   private Properties properties;
   private int seed = 30006;
@@ -175,10 +173,6 @@ public class Game extends GameGrid
       pillAndItemLocations.remove(location);
   }
 
-  public ArrayList<Portal> getPortals() {
-    return portals;
-  }
-
   private void loadPillAndItemsLocations() {
     String pillsLocationString = properties.getProperty("Pills.location");
     if (pillsLocationString != null) {
@@ -254,13 +248,13 @@ public class Game extends GameGrid
         } else if (a == GameGridCell.Ice) {
           putIce(bg, location);
         } else if (a == GameGridCell.Portal_Dark_Gold) {
-          putPortal(location, PortalColour.DARK_GOLD);
-        } else if (a == GameGridCell.Portal_Dark_Gray) {
-          putPortal(location, PortalColour.DARK_GREY);
+          this.portals.put(this, PortalColour.DARK_GOLD, location);
+        } else if (a == GameGridCell.Portal_Dark_Grey) {
+          this.portals.put(this, PortalColour.DARK_GREY, location);
         } else if (a == GameGridCell.Portal_Yellow) {
-          putPortal(location, PortalColour.YELLOW);
+          this.portals.put(this, PortalColour.YELLOW, location);
         } else if (a == GameGridCell.Portal_White) {
-          putPortal(location, PortalColour.WHITE);
+          this.portals.put(this, PortalColour.WHITE, location);
         }
       }
     }
@@ -276,12 +270,6 @@ public class Game extends GameGrid
     Actor gold = new Actor("sprites/gold.png");
     this.goldPieces.add(gold);
     addActor(gold, location);
-  }
-
-  private void putPortal(Location location, PortalColour color) {
-    Portal portal = portalFactory.createPortal(this, color);
-    this.portals.add(portal);
-    addActor(portal, location);
   }
 
   private void putIce(GGBackground bg, Location location){

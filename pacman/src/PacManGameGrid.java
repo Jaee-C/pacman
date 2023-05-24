@@ -122,7 +122,7 @@ public class PacManGameGrid
     if (c == 'o')
         return GameGridCell.Portal_Dark_Gold;
     if (c == 'a')
-        return GameGridCell.Portal_Dark_Gray;
+        return GameGridCell.Portal_Dark_Grey;
     return GameGridCell.INVALID;
   }
 

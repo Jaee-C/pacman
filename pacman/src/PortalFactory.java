@@ -14,9 +14,9 @@ public class PortalFactory {
         return instance;
     }
 
-    public Portal createPortal(Game game, PortalColour colour) {
+    public Portal createPortal(PortalColour colour) {
         // Check if portal already has a pair
-        Portal portal = new Portal(game, colour);
+        Portal portal = new Portal(colour);
         return portal;
     }
 }

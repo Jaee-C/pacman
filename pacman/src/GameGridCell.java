@@ -12,6 +12,6 @@ public enum GameGridCell {
     Portal_White,
     Portal_Yellow,
     Portal_Dark_Gold,
-    Portal_Dark_Gray,
+    Portal_Dark_Grey,
     INVALID,
 }

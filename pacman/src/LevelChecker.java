@@ -142,9 +142,9 @@ public class LevelChecker {
                         gameCallback.levelCheckPortalError(fileName, portalName.replace("Portal", ""), portalCoords);
                     }
                 }
-
-                System.out.println(fileName + " Maze: " + mazeString);
                 PacManGameGrid gameGrid = new PacManGameGrid(columns, rows, mazeString.toString());
+
+                System.out.print(fileName + ": ");
 
                 if (pacCoords.size() == 0) {
                     // No pacman, don't need to check map

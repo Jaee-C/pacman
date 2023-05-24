@@ -19,8 +19,8 @@ public class MoveValidator {
 
     public boolean canMove(Location location) {
         // Entity out of bounds
-        if (location.getX() <= 0 || location.getX() >= horzCells ||
-                location.getY() <= 0 || location.getY() >= vertCells) {
+        if (location.getX() < 0 || location.getX() >= horzCells ||
+                location.getY() < 0 || location.getY() >= vertCells) {
             return false;
         }
 

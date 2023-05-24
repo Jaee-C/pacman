@@ -179,7 +179,6 @@ public class Game extends GameGrid
 
   private void loadPillAndItemsLocations() {
     String pillsLocationString = properties.getProperty("Pills.location");
-    System.out.println(pillsLocationString);
     if (pillsLocationString != null) {
       String[] singlePillLocationStrings = pillsLocationString.split(";");
       for (String singlePillLocationString: singlePillLocationStrings) {

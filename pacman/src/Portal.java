@@ -1,15 +1,13 @@
 package src;
 
 import ch.aplu.jgamegrid.Actor;
-
+import ch.aplu.jgamegrid.Location;
 
 
 public class Portal extends Actor {
-    private Game game;
     private PortalColour colour;
-    public Portal(Game game, PortalColour colour) {
+    public Portal(PortalColour colour) {
         super("sprites/" + colour.getImageName());
-        this.game = game;
         this.colour = colour;
     }
 
@@ -17,8 +15,8 @@ public class Portal extends Actor {
         return colour;
     }
 
-    public Portal getPortalPartner() {
-        for (Portal p : game.getPortals()) {
+    private Portal getPortalPartner(PortalStore store) {
+        for (Portal p : store.getAll()) {
             if (p.getColour() == this.colour && p != this) {
                 return p;
             }
@@ -26,10 +24,14 @@ public class Portal extends Actor {
         return null;
     }
 
-    public void teleport(Actor actor) {
-        // called when actor collides with portal and actor's previous location was not the portal location
-
+    /**
+     * called when actor collides with portal and actor's previous location was not the portal location
+     *
+     */
+    public Location teleport(PortalStore store, Actor actor) {
         // teleports actor to portal partner
-        actor.setPixelLocation(this.getPortalPartner().getPixelLocation());
+        Location partnerLocation = this.getPortalPartner(store).getLocation();
+        actor.setLocation(partnerLocation);
+        return partnerLocation;
     }
 }

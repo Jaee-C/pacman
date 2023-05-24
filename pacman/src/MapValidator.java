@@ -9,6 +9,7 @@ import java.util.List;
 
 public class MapValidator {
     private List<Location> wallLocations;
+    private PortalStore portals;
 
     public ArrayList<Location> checkMap(PacManGameGrid grid) {
         // Temp game is required for actor to perform actions, such as updating location
@@ -21,11 +22,11 @@ public class MapValidator {
         Actor pacman = new Actor();
         tempGame.doRun();
         tempGame.addActor(pacman, pacmanStartLocation);
-        ArrayList<Location> target = setupPillAndItemsLocations(grid);
-        CollisionChecker collisionChecker = new CollisionChecker(grid.getNbHorzCells(), grid.getNbVertCells());
+        ArrayList<Location> target = setupEntitiesLocation(tempGame, grid);
+        CollisionChecker collisionChecker = new BoundsCollisionChecker(grid.getNbHorzCells(), grid.getNbVertCells());
         collisionChecker.setCollisionLocations(wallLocations);
-        IMover automover = new ClosestPillMover();
-        automover.setMoveValidator(collisionChecker);
+        CollisionChecker portalCollisionChecker = new CollisionChecker(grid.getNbHorzCells(), grid.getNbVertCells());
+        portalCollisionChecker.setCollisionLocations(portals.getLocations());
 
         List<Location> tobeVisited = new ArrayList<>();
         List<Location> visited = new ArrayList<>();
@@ -33,7 +34,6 @@ public class MapValidator {
 
         Location next;
 
-        // TODO: This is not working, need a MoveValidator that doesn't depend on background colors
         do {
             next = null;
 
@@ -41,7 +41,7 @@ public class MapValidator {
                 boolean repeated = visited.contains(l);
 
                 if (repeated)
-                    continue;;
+                    continue;
 
                 if (!collisionChecker.collide(l)) {
                     if (next == null)
@@ -61,7 +61,14 @@ public class MapValidator {
                 return target;
             }
 
-            pacman.setLocation(next);
+            if (portalCollisionChecker.collide(next)) {
+                // Reached portal
+                Portal portal = portals.getPortalAt(next);
+                next = portal.teleport(portals, pacman);
+            } else {
+                pacman.setLocation(next);
+            }
+
             visited.add(next);
             target.remove(next);
 
@@ -74,9 +81,10 @@ public class MapValidator {
         } while (true);
     }
 
-    private ArrayList<Location> setupPillAndItemsLocations(PacManGameGrid grid) {
+    private ArrayList<Location> setupEntitiesLocation(GameGrid game, PacManGameGrid grid) {
         ArrayList<Location> pillAndItemLocations = new ArrayList<>();
         this.wallLocations = new ArrayList<>();
+        this.portals = new PortalStore();
         for (int y = 0; y < Game.nbVertCells; y++)
         {
             for (int x = 0; x < Game.nbHorzCells; x++)
@@ -89,7 +97,18 @@ public class MapValidator {
                 if (a == GameGridCell.Wall) {
                     wallLocations.add(location);
                 }
-
+                if (a == GameGridCell.Portal_White) {
+                    portals.put(game, PortalColour.WHITE, location);
+                }
+                if (a == GameGridCell.Portal_Yellow) {
+                    portals.put(game, PortalColour.YELLOW, location);
+                }
+                if (a == GameGridCell.Portal_Dark_Gold) {
+                    portals.put(game, PortalColour.DARK_GOLD, location);
+                }
+                if (a == GameGridCell.Portal_Dark_Grey) {
+                    portals.put(game, PortalColour.DARK_GREY, location);
+                }
             }
         }
         return pillAndItemLocations;

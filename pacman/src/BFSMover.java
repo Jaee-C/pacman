@@ -10,6 +10,8 @@ public class BFSMover implements IMover {
     private BFS searcher = new BFS();
     private CollisionChecker collisionChecker;
     private List<Location> path = new ArrayList<>();
+    private List<Portal> portals;
+    private CollisionChecker portalCollisions;
 
     @Override
     public Location move(Actor movingActor, Location target) {
@@ -17,7 +19,7 @@ public class BFSMover implements IMover {
             Location nextItem = target;
             System.out.println("Next: " + nextItem);
             System.out.println("Initial Location: " + movingActor.getLocation());
-            SearchGameState gameState = new SearchGameState(movingActor.getLocation(), nextItem, collisionChecker, new ArrayList<>());
+            SearchGameState gameState = new SearchGameState(movingActor.getLocation(), nextItem, collisionChecker, new ArrayList<>(), portalCollisions, portals);
             path = searcher.search(gameState);
         }
 
@@ -29,7 +31,13 @@ public class BFSMover implements IMover {
     }
 
     @Override
-    public void setMoveValidator(CollisionChecker collisionChecker) {
+    public void setCollisionChecker(CollisionChecker collisionChecker) {
         this.collisionChecker = collisionChecker;
+    }
+
+    @Override
+    public void setPortals(List<Portal> portals, CollisionChecker portalCollisions) {
+        this.portalCollisions = portalCollisions;
+        this.portals = portals;
     }
 }

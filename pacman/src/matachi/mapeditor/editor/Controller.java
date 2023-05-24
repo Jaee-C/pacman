@@ -1,6 +1,5 @@
 package src.matachi.mapeditor.editor;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -12,7 +11,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;

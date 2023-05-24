@@ -35,6 +35,7 @@ public class Game extends GameGrid
   private ArrayList<Location> propertyGoldLocations = new ArrayList<>();
   private List<Location> wallLocations = new ArrayList<>();
   private PortalFactory portalFactory;
+  public boolean lose = false;
 
   public Game(GameCallback gameCallback, Properties properties, PacManGameGrid level)
   {
@@ -88,10 +89,11 @@ public class Game extends GameGrid
     boolean hasPacmanEatAllPills;
     setupPillAndItemsLocations();
     int maxPillsAndItems = countPillsAndItems();
+    System.out.println(maxPillsAndItems);
 
     do {
-      // hasPacmanBeenHit = troll.getLocation().equals(pacActor.getLocation()) ||
-      //         tx5.getLocation().equals(pacActor.getLocation());
+       hasPacmanBeenHit = troll.getLocation().equals(pacActor.getLocation()) ||
+               tx5.getLocation().equals(pacActor.getLocation());
       hasPacmanEatAllPills = pacActor.getNbPills() >= maxPillsAndItems;
       delay(10);
     } while(!hasPacmanBeenHit && !hasPacmanEatAllPills);
@@ -107,6 +109,7 @@ public class Game extends GameGrid
       bg.setPaintColor(Color.red);
       title = "GAME OVER";
       addActor(new Actor("sprites/explosion3.gif"), loc);
+      lose = true;
     } else if (hasPacmanEatAllPills) {
       bg.setPaintColor(Color.yellow);
       title = "YOU WIN";
@@ -123,21 +126,16 @@ public class Game extends GameGrid
   }
 
   private void setupActorLocations() {
-    String[] trollLocations = this.properties.getProperty("Troll.location").split(",");
-    String[] tx5Locations = this.properties.getProperty("TX5.location").split(",");
-    String[] pacManLocations = this.properties.getProperty("PacMan.location").split(",");
-    int trollX = Integer.parseInt(trollLocations[0]);
-    int trollY = Integer.parseInt(trollLocations[1]);
+    if(!grid.getTX5Locations().isEmpty()){
+      addActor(tx5, grid.getTX5Locations().get(0), Location.NORTH);
+    }
 
-    int tx5X = Integer.parseInt(tx5Locations[0]);
-    int tx5Y = Integer.parseInt(tx5Locations[1]);
+    if(!grid.getTrollLocations().isEmpty()){
+      addActor(troll, grid.getTrollLocations().get(0), Location.NORTH);
+    }
 
-    int pacManX = Integer.parseInt(pacManLocations[0]);
-    int pacManY = Integer.parseInt(pacManLocations[1]);
+    addActor(pacActor, grid.getPacManStartLocation());
 
-    addActor(troll, new Location(trollX, trollY), Location.NORTH);
-    addActor(pacActor, new Location(pacManX, pacManY));
-    addActor(tx5, new Location(tx5X, tx5Y), Location.NORTH);
   }
 
   private int countPillsAndItems() {
@@ -148,20 +146,21 @@ public class Game extends GameGrid
       {
         Location location = new Location(x, y);
         GameGridCell a = grid.getCell(location);
-        if (a == GameGridCell.Ice && propertyPillLocations.size() == 0) { // Pill
+
+        if (a == GameGridCell.Gold) { // Gold
           pillsAndItemsCount++;
-        } else if (a == GameGridCell.Gold && propertyGoldLocations.size() == 0) { // Gold
+        } else if (a == GameGridCell.Pill){
           pillsAndItemsCount++;
         }
       }
     }
-    if (propertyPillLocations.size() != 0) {
-      pillsAndItemsCount += propertyPillLocations.size();
-    }
-
-    if (propertyGoldLocations.size() != 0) {
-      pillsAndItemsCount += propertyGoldLocations.size();
-    }
+//    if (propertyPillLocations.size() != 0) {
+//      pillsAndItemsCount += propertyPillLocations.size();
+//    }
+//
+//    if (propertyGoldLocations.size() != 0) {
+//      pillsAndItemsCount += propertyGoldLocations.size();
+//    }
 
     return pillsAndItemsCount;
   }
@@ -246,9 +245,9 @@ public class Game extends GameGrid
         } else {
           wallLocations.add(location); // Wall
         }
-        if (a == GameGridCell.Pill && propertyPillLocations.size() == 0) { // Pill
+        if (a == GameGridCell.Pill ) { // Pill
           putPill(bg, location);
-        } else if (a == GameGridCell.Gold && propertyGoldLocations.size() == 0) { // Gold
+        } else if (a == GameGridCell.Gold ) { // Gold
           putGold(bg, location);
         } else if (a == GameGridCell.Ice) {
           putIce(bg, location);
@@ -262,14 +261,6 @@ public class Game extends GameGrid
           putPortal(location, PortalColour.WHITE);
         }
       }
-    }
-
-    for (Location location : propertyPillLocations) {
-      putPill(bg, location);
-    }
-
-    for (Location location : propertyGoldLocations) {
-      putGold(bg, location);
     }
   }
 

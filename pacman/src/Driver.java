@@ -74,11 +74,13 @@ public final class Driver {
         }
         int counter = 0;
         while (counter < gameGrids.size()){
-            new Game(gameCallback, properties, gameGrids.get(counter));
+            Game curr_level = new Game(gameCallback, properties, gameGrids.get(counter));
+            if(curr_level.lose){
+                break;
+            }
             counter++;
         }
 
-        game = new Game(gameCallback, properties, gameGrids.get(counter));
         if (controller != null) {
             controller.close();
         }

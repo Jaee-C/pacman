@@ -3,6 +3,8 @@ package src;
 
 import ch.aplu.jgamegrid.*;
 
+import java.util.ArrayList;
+
 public class PacManGameGrid
 {
   private int nbHorzCells;
@@ -63,6 +65,32 @@ public class PacManGameGrid
       }
     }
     return null;
+  }
+
+  public ArrayList<Location> getTrollLocations(){
+    ArrayList<Location> trollLocations = new ArrayList<>();
+    for (int i = 0; i < nbVertCells; i++)
+    {
+      for (int k = 0; k < nbHorzCells; k++) {
+        if (mazeArray[i][k] == GameGridCell.Troll)
+          trollLocations.add(new Location(k,i));
+      }
+    }
+    return trollLocations;
+
+  }
+
+  public ArrayList<Location> getTX5Locations(){
+    ArrayList<Location> TX5Locations = new ArrayList<>();
+    for (int i = 0; i < nbVertCells; i++)
+    {
+      for (int k = 0; k < nbHorzCells; k++) {
+        if (mazeArray[i][k] == GameGridCell.TX5)
+          TX5Locations.add(new Location(k,i));
+      }
+    }
+    return TX5Locations;
+
   }
 
   public GameGridCell getCell(Location location)

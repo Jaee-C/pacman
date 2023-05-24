@@ -77,6 +77,10 @@ public class Game extends GameGrid
     pacActor.setPropertyMoves(properties.getProperty("PacMan.move"));
     pacActor.setupWalls(wallLocations);
     pacActor.setupPortals(portals);
+    troll.setupWalls(wallLocations);
+    tx5.setupWalls(wallLocations);
+    troll.setupPortals(portals);
+    tx5.setupPortals(portals);
 
 
     //Run the game

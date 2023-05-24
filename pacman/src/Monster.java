@@ -15,12 +15,18 @@ public class Monster extends Actor
   private boolean stopMoving = false;
   private int seed = 0;
   private Random randomiser = new Random(0);
+  private CollisionChecker wallCollisions;
+  private CollisionChecker portalCollisions;
+  private List<Portal> portals;
+
 
   public Monster(Game game, MonsterType type)
   {
     super("sprites/" + type.getImageName());
     this.game = game;
     this.type = type;
+    this.wallCollisions = new CollisionChecker(game.getNumHorzCells(), game.getNumVertCells());
+    this.portalCollisions = new CollisionChecker(game.getNumHorzCells(), game.getNumVertCells());
   }
 
   public void stopMoving(int seconds) {
@@ -34,6 +40,19 @@ public class Monster extends Actor
         monster.stopMoving = false;
       }
     }, seconds * SECOND_TO_MILLISECONDS);
+  }
+
+  public void setupPortals(List<Portal> portals) {
+    List<Location> portalLocations = new ArrayList<>();
+    for (Portal portal: portals) {
+      portalLocations.add(portal.getLocation());
+    }
+    this.portals = portals;
+    this.portalCollisions.setCollisionLocations(portalLocations);
+  }
+
+  public void setupWalls(List<Location> wallLocations) {
+    this.wallCollisions.setCollisionLocations(wallLocations);
   }
 
   public void setSeed(int seed) {
@@ -70,7 +89,7 @@ public class Monster extends Actor
     Location next = getLocation().getNeighbourLocation(compassDir);
     setDirection(compassDir);
     if (type == MonsterType.TX5 &&
-      !isVisited(next) && canMove(next))
+      !isVisited(next) && !wallCollisions.collide(next))
     {
       setLocation(next);
     }
@@ -81,7 +100,7 @@ public class Monster extends Actor
       setDirection(oldDirection);
       turn(sign * 90);  // Try to turn left/right
       next = getNextMoveLocation();
-      if (canMove(next))
+      if (!wallCollisions.collide(next))
       {
         setLocation(next);
       }
@@ -89,7 +108,7 @@ public class Monster extends Actor
       {
         setDirection(oldDirection);
         next = getNextMoveLocation();
-        if (canMove(next)) // Try to move forward
+        if (!wallCollisions.collide(next)) // Try to move forward
         {
           setLocation(next);
         }
@@ -98,7 +117,7 @@ public class Monster extends Actor
           setDirection(oldDirection);
           turn(-sign * 90);  // Try to turn right/left
           next = getNextMoveLocation();
-          if (canMove(next))
+          if (!wallCollisions.collide(next))
           {
             setLocation(next);
           }
@@ -115,6 +134,22 @@ public class Monster extends Actor
     }
     game.getGameCallback().monsterLocationChanged(this);
     addVisitedList(next);
+
+    if (portalCollisions.collide(next)) {
+      Portal portal = getPortal(next);
+      if (portal != null) {
+        portal.teleport(this);
+      }
+    }
+  }
+
+  private Portal getPortal(Location next) {
+    for (Portal portal: portals) {
+      if (portal.getLocation().equals(next)) {
+        return portal;
+      }
+    }
+    return null;
   }
 
   public MonsterType getType() {
@@ -134,15 +169,5 @@ public class Monster extends Actor
       if (loc.equals(location))
         return true;
     return false;
-  }
-
-  private boolean canMove(Location location)
-  {
-    Color c = getBackground().getColor(location);
-    if (c.equals(Color.gray) || location.getX() >= game.getNumHorzCells()
-          || location.getX() < 0 || location.getY() >= game.getNumVertCells() || location.getY() < 0)
-      return false;
-    else
-      return true;
   }
 }

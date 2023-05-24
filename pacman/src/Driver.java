@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class Driver {
     enum DriverMode {
@@ -27,6 +29,7 @@ public final class Driver {
 
     private static GameChecker gameChecker;
     private static LevelChecker levelChecker;
+    private static String loadFilename = null;
     private static String gameRes = "";
     private Driver() {
 
@@ -46,12 +49,19 @@ public final class Driver {
     public static void main(String args[]) {
         String propertiesPath = DEFAULT_PROPERTIES_PATH;
         gameCallback = new GameCallback();
-        DriverMode mode = DriverMode.TEST;
-        if (args.length > 0) {
-            propertiesPath = args[0];
-            if (!(Arrays.asList("test", "edit")).contains(args[1])) {
-                gameCallback.invalidMode();
-            } else if (args[1].equals("test")) {
+        if (args.length == 0) {
+            mode = DriverMode.EDIT;
+        } else {
+            Pattern xmlPattern = Pattern.compile("\\.xml$");
+            Matcher xmlMatcher = xmlPattern.matcher(args[0]);
+
+            // Skip non-xml files
+            if (xmlMatcher.find()) {
+                // Open this file in edit mode
+                mode = DriverMode.EDIT;
+                loadFilename = args[0];
+            } else {
+                // open in test mode
                 mode = DriverMode.TEST;
             }
         }
@@ -69,6 +79,7 @@ public final class Driver {
         if (mode == DriverMode.TEST) {
             System.out.println("  Change from TEST to EDIT");
             mode = DriverMode.EDIT;
+
         } else if (mode == DriverMode.EDIT) {
             System.out.println("  Change from EDIT to TEST");
             mode = DriverMode.TEST;
@@ -136,6 +147,9 @@ public final class Driver {
         } else if (mode == DriverMode.EDIT && controller == null) {
             System.out.println("!!!!!!111 Edit Mode !!!!!!!!!1");
             controller = new Controller();
+            if (loadFilename != null) {
+                controller.loadFile(loadFilename);
+            }
             if (game != null) {
                 game.close();
             }

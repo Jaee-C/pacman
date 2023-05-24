@@ -285,14 +285,13 @@ public class Controller implements ActionListener, GUIInformation {
 	public String loadFile(String filePath) {
 		SAXBuilder builder = new SAXBuilder();
 		try {
-			JFileChooser chooser = new JFileChooser();
+
 			File selectedFile = new File(filePath);
 			BufferedReader in;
 			FileReader reader = null;
 
-			int returnVal = chooser.showOpenDialog(null);
 			Document document;
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
+
 				if (selectedFile.canRead() && selectedFile.exists()) {
 					document = (Document) builder.build(selectedFile);
 
@@ -352,7 +351,6 @@ public class Controller implements ActionListener, GUIInformation {
 
 					return mapString;
 				}
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -48,16 +48,20 @@ public class GameChecker {
         for (File file : files) {
             String fileName = file.getName();
 
-            if (fileName.equals("2_ErrorMaplog.txt")) {
+            Pattern xmlPattern = Pattern.compile("\\.xml$");
+            Matcher xmlMatcher = xmlPattern.matcher(fileName);
+
+            // Skip non-xml files
+            if (!xmlMatcher.find()) {
                 continue;
             }
 
             // Extract the number using regex
-            Pattern pattern = Pattern.compile("^\\d+");
-            Matcher matcher = pattern.matcher(fileName);
+            Pattern numberPattern = Pattern.compile("^\\d+");
+            Matcher numberMatcher = numberPattern.matcher(fileName);
 
-            if (matcher.find()) {
-                int number = Integer.parseInt(matcher.group());
+            if (numberMatcher.find()) {
+                int number = Integer.parseInt(numberMatcher.group());
                 if (levelsMap.containsKey(number)) {
                     List<String> existingList = levelsMap.get(number);
                     existingList.add(fileName);

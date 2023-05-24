@@ -9,7 +9,6 @@ public class MoverStrategy implements IMover {
 
     private RandomMover randomMover = new RandomMover();
     private PropertyMover propertyMover = new PropertyMover();
-    private ClosestPillMover closestPillMover = new ClosestPillMover();
     private BFSMover bfsMover = new BFSMover();
     private IMover mover = null;
 
@@ -35,7 +34,6 @@ public class MoverStrategy implements IMover {
     public void setCollisionChecker(CollisionChecker collisionChecker) {
         randomMover.setCollisionChecker(collisionChecker);
         propertyMover.setCollisionChecker(collisionChecker);
-        closestPillMover.setCollisionChecker(collisionChecker);
         bfsMover.setCollisionChecker(collisionChecker);
     }
 
@@ -43,7 +41,6 @@ public class MoverStrategy implements IMover {
     public void setPortals(List<Portal> portals, CollisionChecker portalCollisions) {
         randomMover.setPortals(portals, portalCollisions);
         propertyMover.setPortals(portals, portalCollisions);
-        closestPillMover.setPortals(portals, portalCollisions);
         bfsMover.setPortals(portals, portalCollisions);
     }
 

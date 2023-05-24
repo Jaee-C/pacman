@@ -54,58 +54,58 @@ public class MapValidator {
 
         Location next;
 
-//        return new ArrayList<>();
+        return new ArrayList<>();
 
         // TODO: This is not working, need a MoveValidator that doesn't depend on background colors
-        do {
-            next = null;
-
-            for (Location l : pacman.getLocation().getNeighbourLocations(0.5)) {
-                boolean repeated = visited.contains(l);
-
-                if (repeated)
-                    continue;;
-
-                if (moveValidator.canMove(l)) {
-                    if (next == null) {
-                        next = l;
-                    }
-                    tobeVisited.add(l);
-                }
-            }
-            System.out.println("Surrounding locations: " + next);
-
-            if (next == null && !tobeVisited.isEmpty()) {
-                next = tobeVisited.get(0);
-                tobeVisited.remove(0);
-                System.out.println("To be visited: " + tobeVisited);
-            }
-
-            if (next == null) {
-                tempGame.doPause();
-                return target;
-            }
-
-            pacman.setLocation(next);
-            visited.add(next);
-            target.remove(next);
-
-            if (target.isEmpty()) {
-                tempGame.doPause();
-                return target;
-            }
-            i++;
-            System.out.println("Pacman Location: " + next);
-
-            if (i > 100) {
-                return target;
-            }
-
-
-
-        } while (!tobeVisited.isEmpty());
-
-        return target;
+//        do {
+//            next = null;
+//
+//            for (Location l : pacman.getLocation().getNeighbourLocations(0.5)) {
+//                boolean repeated = visited.contains(l);
+//
+//                if (repeated)
+//                    continue;;
+//
+//                if (moveValidator.canMove(l)) {
+//                    if (next == null) {
+//                        next = l;
+//                    }
+//                    tobeVisited.add(l);
+//                }
+//            }
+//            System.out.println("Surrounding locations: " + next);
+//
+//            if (next == null && !tobeVisited.isEmpty()) {
+//                next = tobeVisited.get(0);
+//                tobeVisited.remove(0);
+//                System.out.println("To be visited: " + tobeVisited);
+//            }
+//
+//            if (next == null) {
+//                tempGame.doPause();
+//                return target;
+//            }
+//
+//            pacman.setLocation(next);
+//            visited.add(next);
+//            target.remove(next);
+//
+//            if (target.isEmpty()) {
+//                tempGame.doPause();
+//                return target;
+//            }
+//            i++;
+//            System.out.println("Pacman Location: " + next);
+//
+//            if (i > 100) {
+//                return target;
+//            }
+//
+//
+//
+//        } while (!tobeVisited.isEmpty());
+//
+//        return target;
     }
 
     private ArrayList<Location> setupPillAndItemsLocations(PacManGameGrid grid) {

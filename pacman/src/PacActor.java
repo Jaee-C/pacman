@@ -26,7 +26,7 @@ public class PacActor extends Actor implements GGKeyRepeatListener
     this.game = game;
     this.wallCollisions = new CollisionChecker(game.getNumHorzCells(), game.getNumVertCells());
     this.portalCollisions = new CollisionChecker(game.getNumHorzCells(), game.getNumVertCells());
-    this.autoplayer = new Autoplayer(this, game);
+    this.autoplayer = new Autoplayer(this, game, wallCollisions);
   }
   private boolean isAuto = false;
 
@@ -44,7 +44,6 @@ public class PacActor extends Actor implements GGKeyRepeatListener
   }
 
   public void setupWalls(List<Location> wallLocations) {
-    this.autoplayer.setWallLocations(wallLocations);
     this.wallCollisions.setCollisionLocations(wallLocations);
   }
 
@@ -117,31 +116,6 @@ public class PacActor extends Actor implements GGKeyRepeatListener
       }
     }
     this.game.getGameCallback().pacManLocationChanged(getLocation(), score, nbPills);
-  }
-
-  private Location closestPillLocation() {
-    int currentDistance = 1000;
-    Location currentLocation = null;
-    List<Location> pillAndItemLocations = game.getPillAndItemLocations();
-    for (Location location: pillAndItemLocations) {
-      int distanceToPill = location.getDistanceTo(getLocation());
-      if (distanceToPill < currentDistance) {
-        currentLocation = location;
-        currentDistance = distanceToPill;
-      }
-    }
-
-    return currentLocation;
-  }
-
-  private boolean canMove(Location location)
-  {
-    Color c = getBackground().getColor(location);
-    if ( c.equals(Color.gray) || location.getX() >= game.getNumHorzCells()
-            || location.getX() < 0 || location.getY() >= game.getNumVertCells() || location.getY() < 0)
-      return false;
-    else
-      return true;
   }
 
   public int getNbPills() {

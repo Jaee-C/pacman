@@ -6,6 +6,7 @@ import ch.aplu.jgamegrid.*;
 import src.utility.GameCallback;
 
 import java.awt.*;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -32,12 +33,17 @@ public class Game extends GameGrid
   private ArrayList<Location> propertyGoldLocations = new ArrayList<>();
   private List<Location> wallLocations = new ArrayList<>();
 
-  public Game(GameCallback gameCallback, Properties properties)
+  public Game(GameCallback gameCallback, Properties properties, PacManGameGrid level)
   {
     //Setup game
+
     super(nbHorzCells, nbVertCells, 20, false);
     this.gameCallback = gameCallback;
     this.properties = properties;
+
+    this.grid = level;
+
+
     setSimulationPeriod(100);
     setTitle("[PacMan in the Multiverse]");
 
@@ -75,7 +81,7 @@ public class Game extends GameGrid
     boolean hasPacmanEatAllPills;
     setupPillAndItemsLocations();
     int maxPillsAndItems = countPillsAndItems();
-    
+
     do {
       // hasPacmanBeenHit = troll.getLocation().equals(pacActor.getLocation()) ||
       //         tx5.getLocation().equals(pacActor.getLocation());
@@ -98,6 +104,7 @@ public class Game extends GameGrid
       bg.setPaintColor(Color.yellow);
       title = "YOU WIN";
     }
+
     setTitle(title);
     gameCallback.endOfGame(title);
 

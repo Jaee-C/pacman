@@ -37,7 +37,12 @@ public class Driver {
             System.out.println("No valid levels found");
             return;
         }
+        int counter = 0;
+        while (counter < gameGrids.size()){
+            new Game(gameCallback, properties, gameGrids.get(counter));
+            counter++;
+        }
 
-        new Game(gameCallback, properties, gameGrids);
+
     }
 }

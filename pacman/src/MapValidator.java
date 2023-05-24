@@ -50,7 +50,7 @@ public class MapValidator {
         automover.setMoveValidator(moveValidator);
 
         List<Location> tobeVisited = new ArrayList<>();
-        HashSet<Location> visited = new HashSet<>();
+        List<Location> visited = new ArrayList<>();
 
         Location next;
 
@@ -61,13 +61,7 @@ public class MapValidator {
             next = null;
 
             for (Location l : pacman.getLocation().getNeighbourLocations(0.5)) {
-                boolean repeated = false;
-                for (Location visit : visited) {
-                    if (visit.equals(l)) {
-                        repeated = true;
-                        break;
-                    }
-                }
+                boolean repeated = visited.contains(l);
 
                 if (repeated)
                     continue;;
@@ -83,6 +77,7 @@ public class MapValidator {
 
             if (next == null && !tobeVisited.isEmpty()) {
                 next = tobeVisited.get(0);
+                tobeVisited.remove(0);
                 System.out.println("To be visited: " + tobeVisited);
             }
 

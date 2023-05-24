@@ -121,6 +121,7 @@ public final class Driver {
     }
 
     public void nextLevel() {
+        System.out.println("Next Level");
         counter++;
         if (counter < gameGrids.size()) {
             game.close();

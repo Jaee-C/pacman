@@ -6,6 +6,7 @@ import ch.aplu.jgamegrid.*;
 import src.utility.GameCallback;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -76,7 +77,7 @@ public class Game extends GameGrid
     pacActor.setPropertyMoves(properties.getProperty("PacMan.move"));
     pacActor.setupWalls(wallLocations);
     pacActor.setupPortals(portals);
-
+    setupPillAndItemsLocations();
 
     //Run the game
     doRun();
@@ -86,18 +87,14 @@ public class Game extends GameGrid
   @Override
   public void act() {
     super.act();
-    String isEndVal = isEnd();
-    if (!isEndVal.equals("")) {
-      System.out.println("Game End");
-      doPause();
-    }
+    isEnd();
   }
 
   public String isEnd() {
     // Loop to look for collision in the application thread
     // This makes it improbable that we miss a hit
     String returnVal = "";
-    setupPillAndItemsLocations();
+
     int maxPillsAndItems = countPillsAndItems();
 
 //    do {
@@ -108,10 +105,14 @@ public class Game extends GameGrid
 //
 //    } while(!hasPacmanBeenHit && !hasPacmanEatAllPills);
 //    delay(120);
-    if (pacActor == null || troll == null || tx5 == null) return "";
+    if (pacActor == null || troll == null || tx5 == null || !this.getFrame().isActive()) return "";
 
-    boolean hasPacmanBeenHit = troll.getLocation().equals(pacActor.getLocation()) ||
-            tx5.getLocation().equals(pacActor.getLocation());
+    boolean hasPacmanBeenHit = false;
+    if (this.getActors().containsAll(Arrays.asList(troll, tx5))) {
+      hasPacmanBeenHit = troll.getLocation().equals(pacActor.getLocation()) ||
+              tx5.getLocation().equals(pacActor.getLocation());
+    }
+
     boolean hasPacmanEatAllPills = pacActor.getNbPills() >= maxPillsAndItems;
     if (hasPacmanBeenHit || hasPacmanEatAllPills) {
       Location loc = pacActor.getLocation();
@@ -128,6 +129,7 @@ public class Game extends GameGrid
         addActor(new Actor("sprites/explosion3.gif"), loc);
         setTitle(title);
         gameCallback.endOfGame(title);
+        doPause();
 
         lose = true;
 
@@ -140,14 +142,13 @@ public class Game extends GameGrid
         title = "YOU WIN";
         setTitle(title);
         gameCallback.endOfGame(title);
+        doPause();
 
         Driver driver = Driver.getInstance();
         driver.nextLevel();
 
         returnVal = "Win";
       }
-
-
     }
 
     return returnVal;
@@ -335,6 +336,6 @@ public class Game extends GameGrid
 
   public void close() {
     System.out.println("Close Game");
-    this.getFrame().dispose();
+    stopGameThread();
   }
 }

@@ -8,8 +8,6 @@ import src.utility.GameCallback;
 import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Properties;
 
 import static ch.aplu.util.QuitPane.dispose;
@@ -85,12 +83,19 @@ public class Game extends GameGrid
     show();
   }
 
+  @Override
+  public void act() {
+    super.act();
+    String isEndVal = isEnd();
+    if (!isEndVal.equals("")) {
+      System.out.println("Game End");
+    }
+  }
+
   public String isEnd() {
-    System.out.println("isEnd");
     // Loop to look for collision in the application thread
     // This makes it improbable that we miss a hit
-    boolean hasPacmanBeenHit = false;
-    boolean hasPacmanEatAllPills;
+    String returnVal = "";
     setupPillAndItemsLocations();
     int maxPillsAndItems = countPillsAndItems();
 
@@ -102,9 +107,9 @@ public class Game extends GameGrid
 //
 //    } while(!hasPacmanBeenHit && !hasPacmanEatAllPills);
 //    delay(120);
-    hasPacmanBeenHit = troll.getLocation().equals(pacActor.getLocation()) ||
+    boolean hasPacmanBeenHit = troll.getLocation().equals(pacActor.getLocation()) ||
             tx5.getLocation().equals(pacActor.getLocation());
-    hasPacmanEatAllPills = pacActor.getNbPills() >= maxPillsAndItems;
+    boolean hasPacmanEatAllPills = pacActor.getNbPills() >= maxPillsAndItems;
     if (hasPacmanBeenHit || hasPacmanEatAllPills) {
       Location loc = pacActor.getLocation();
       troll.setStopMoving(true);
@@ -112,27 +117,39 @@ public class Game extends GameGrid
       pacActor.removeSelf();
 
       String title = "";
+
       GGBackground bg = getBg();
       if (hasPacmanBeenHit) {
         bg.setPaintColor(Color.red);
         title = "GAME OVER";
         addActor(new Actor("sprites/explosion3.gif"), loc);
+        setTitle(title);
+        gameCallback.endOfGame(title);
+        doPause();
+
         lose = true;
+
         Driver driver = Driver.getInstance();
-        return "Pacman Hit";
-      } else if (hasPacmanEatAllPills) {
+        driver.changeMode();
+
+        returnVal = "Pacman Hit";
+      } else {
         bg.setPaintColor(Color.yellow);
         title = "YOU WIN";
-        return "Win";
+        setTitle(title);
+        gameCallback.endOfGame(title);
+        doPause();
+
+        Driver driver = Driver.getInstance();
+        driver.nextLevel();
+
+        returnVal = "Win";
       }
 
-      setTitle(title);
-      gameCallback.endOfGame(title);
 
-      doPause();
     }
 
-    return "";
+    return returnVal;
   }
 
   public GameCallback getGameCallback() {
@@ -316,6 +333,7 @@ public class Game extends GameGrid
   }
 
   public void close() {
-    dispose();
+    System.out.println("Close Game");
+    this.getFrame().dispose();
   }
 }

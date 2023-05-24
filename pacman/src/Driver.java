@@ -31,6 +31,8 @@ public final class Driver {
     private static LevelChecker levelChecker;
     private static String loadFilename = null;
     private static String gameRes = "";
+    private static int counter = 0;
+    private static List<PacManGameGrid> gameGrids;
     private Driver() {
 
     }
@@ -94,55 +96,16 @@ public final class Driver {
                 controller.close();
             }
             controller = null;
-            System.out.println("!!!!!!1 Test Mode !!!!!!!!11");
+            System.out.println("!!!!!! Test Mode !!!!!!!!");
             List<String> fileNames = gameChecker.getGames();
-            List<PacManGameGrid> gameGrids = levelChecker.checkLevels(fileNames);
+            gameGrids = levelChecker.checkLevels(fileNames);
 
-            game = new Game(gameCallback, properties, gameGrids.get(0));
-            /*
             if (gameGrids.size() > 0) {
-                int counter = 0;
-                while (counter < gameGrids.size()){
-                    if (game == null) {
-                        game = new Game(gameCallback, properties, gameGrids.get(counter));
-                    }
-//                    String gameRes;
-//                    SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
-//                        @Override
-//                        public String doInBackground() throws Exception {
-//                            String val = game.isEnd();
-//                            while(!val.equals("Pacman Hit") && !val.equals("Win")) {
-//                                val = game.isEnd();
-//                            }
-//                            return val;
-//                        }
-//
-//                        @Override
-//                        public void done() {
-//                            try {
-//                                gameRes = get();
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    };
-//                    worker.execute();
-
-//                    if (gameRes.equals("Pacman Hit")) {
-//                        System.out.println("!!!!!!!1 PACMAN HITIITITIT");
-//                        changeMode();
-//                    }
-
-//                    if (game.isEnd() == "Pacman Hit") {
-//                        changeMode();
-//                    } else if (game.isEnd() == "Win") {
-//                        game.close();
-//                        game = null;
-//                        counter ++;
-//                    }
+                if (game == null) {
+                    counter = 0;
                 }
+                game = new Game(gameCallback, properties, gameGrids.get(counter));
             }
-            */
 
         } else if (mode == DriverMode.EDIT && controller == null) {
             System.out.println("!!!!!!111 Edit Mode !!!!!!!!!1");
@@ -155,5 +118,16 @@ public final class Driver {
             }
             game = null;
         }
+    }
+
+    public void nextLevel() {
+        counter++;
+        if (counter >= gameGrids.size()) {
+            game.close();
+            game = new Game(gameCallback, properties, gameGrids.get(counter));
+//            return true;
+        }
+
+//        return false;
     }
 }

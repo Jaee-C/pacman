@@ -1,13 +1,12 @@
 package src;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.Location;
 
 public class ClosestPillMover implements IMover {
-    private MoveValidator moveValidator;
+    private CollisionChecker collisionChecker;
     private ArrayList<Location> visitedList = new ArrayList<Location>();
     private final int listLength = 3;
 
@@ -19,7 +18,7 @@ public class ClosestPillMover implements IMover {
         int minDistance = Integer.MAX_VALUE;
         Location minLocation = null;
         for (Location location : currLocation.getNeighbourLocations(0.5)) {
-            if (isVisited(location) || !moveValidator.canMove(location)) {
+            if (isVisited(location) || !collisionChecker.canMove(location)) {
                 continue;
             }
             int distance = location.getDistanceTo(target);
@@ -33,8 +32,8 @@ public class ClosestPillMover implements IMover {
     }
 
     @Override
-    public void setMoveValidator(MoveValidator moveValidator) {
-        this.moveValidator = moveValidator;
+    public void setMoveValidator(CollisionChecker collisionChecker) {
+        this.collisionChecker = collisionChecker;
     }
 
 

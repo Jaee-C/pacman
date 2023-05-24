@@ -8,9 +8,9 @@ public class SearchGameState {
     private final Location currentLocation;
     private final Location target;
     private ArrayList<Location> path;
-    private MoveValidator validator;
+    private CollisionChecker validator;
 
-    public SearchGameState(Location currentLocation, Location target, MoveValidator validator, ArrayList<Location> path) {
+    public SearchGameState(Location currentLocation, Location target, CollisionChecker validator, ArrayList<Location> path) {
         this.currentLocation = currentLocation;
         this.target = target;
         this.validator = validator;

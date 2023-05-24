@@ -5,13 +5,13 @@ import ch.aplu.jgamegrid.Location;
 
 import java.util.List;
 
-public class MoveValidator {
+public class CollisionChecker {
     private Actor pacman;
     private final int horzCells;
     private final int vertCells;
     private List<Location> collisionLocations;
 
-    public MoveValidator (Actor pacman, int horzCells, int vertCells) {
+    public CollisionChecker(Actor pacman, int horzCells, int vertCells) {
         this.pacman = pacman;
         this.horzCells = horzCells;
         this.vertCells =vertCells;

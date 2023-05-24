@@ -72,6 +72,8 @@ public class Game extends GameGrid
     System.out.println("Pacman location: " + pacActor.getLocation());
     pacActor.setupAutoplayer(wallLocations);
     pacActor.setPropertyMoves(properties.getProperty("PacMan.move"));
+    pacActor.setupWalls(wallLocations);
+    pacActor.setupPortals(portals);
 
 
     //Run the game
@@ -175,7 +177,6 @@ public class Game extends GameGrid
 
   private void loadPillAndItemsLocations() {
     String pillsLocationString = properties.getProperty("Pills.location");
-    System.out.println(pillsLocationString);
     if (pillsLocationString != null) {
       String[] singlePillLocationStrings = pillsLocationString.split(";");
       for (String singlePillLocationString: singlePillLocationStrings) {

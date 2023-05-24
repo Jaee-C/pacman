@@ -3,8 +3,6 @@ package src;
 import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.Location;
 
-import java.util.ArrayList;
-
 public class MoverStrategy implements IMover {
 
     private RandomMover randomMover = new RandomMover();
@@ -32,11 +30,11 @@ public class MoverStrategy implements IMover {
     }
 
     @Override
-    public void setMoveValidator(MoveValidator moveValidator) {
-        randomMover.setMoveValidator(moveValidator);
-        propertyMover.setMoveValidator(moveValidator);
-        closestPillMover.setMoveValidator(moveValidator);
-        bfsMover.setMoveValidator(moveValidator);
+    public void setMoveValidator(CollisionChecker collisionChecker) {
+        randomMover.setMoveValidator(collisionChecker);
+        propertyMover.setMoveValidator(collisionChecker);
+        closestPillMover.setMoveValidator(collisionChecker);
+        bfsMover.setMoveValidator(collisionChecker);
     }
 
     public void setPropertyMoves(String propertyMoveString) {

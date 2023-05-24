@@ -8,7 +8,7 @@ import java.util.List;
 
 public class BFSMover implements IMover {
     private BFS searcher = new BFS();
-    private MoveValidator moveValidator;
+    private CollisionChecker collisionChecker;
     private List<Location> path = new ArrayList<>();
 
     @Override
@@ -17,7 +17,7 @@ public class BFSMover implements IMover {
             Location nextItem = target;
             System.out.println("Next: " + nextItem);
             System.out.println("Initial Location: " + movingActor.getLocation());
-            SearchGameState gameState = new SearchGameState(movingActor.getLocation(), nextItem, moveValidator, new ArrayList<>());
+            SearchGameState gameState = new SearchGameState(movingActor.getLocation(), nextItem, collisionChecker, new ArrayList<>());
             path = searcher.search(gameState);
         }
 
@@ -29,7 +29,7 @@ public class BFSMover implements IMover {
     }
 
     @Override
-    public void setMoveValidator(MoveValidator moveValidator) {
-        this.moveValidator = moveValidator;
+    public void setMoveValidator(CollisionChecker collisionChecker) {
+        this.collisionChecker = collisionChecker;
     }
 }

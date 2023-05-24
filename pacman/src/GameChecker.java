@@ -57,11 +57,11 @@ public class GameChecker {
             }
 
             // Extract the number using regex
-            Pattern numberPattern = Pattern.compile("^\\d+");
-            Matcher numberMatcher = numberPattern.matcher(fileName);
+            Pattern pattern = Pattern.compile("^\\d+");
+            Matcher matcher = pattern.matcher(fileName);
 
-            if (numberMatcher.find()) {
-                int number = Integer.parseInt(numberMatcher.group());
+            if (matcher.find()) {
+                int number = Integer.parseInt(matcher.group());
                 if (levelsMap.containsKey(number)) {
                     List<String> existingList = levelsMap.get(number);
                     existingList.add(fileName);

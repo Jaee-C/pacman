@@ -15,8 +15,13 @@ public class MoverStrategy implements IMover {
 
     @Override
     public Location move(Actor movingActor, Location target) {
-        decideMover();
         Location next = null;
+
+        if (propertyMover.usePropertyMover()) {
+            return propertyMover.move(movingActor, target);
+        } else {
+            mover = bfsMover;
+        }
 
         if ((next = mover.move(movingActor, target)) == null) {
             mover = randomMover;
@@ -40,13 +45,5 @@ public class MoverStrategy implements IMover {
 
     public void setSeed(int seed) {
         randomMover.setSeed(seed);
-    }
-
-    private void decideMover() {
-        if (propertyMover.usePropertyMover()) {
-            mover = propertyMover;
-        } else {
-            mover = bfsMover;
-        }
     }
 }

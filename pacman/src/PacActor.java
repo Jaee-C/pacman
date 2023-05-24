@@ -5,10 +5,7 @@ package src;
 import ch.aplu.jgamegrid.*;
 import java.awt.event.KeyEvent;
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class PacActor extends Actor implements GGKeyRepeatListener
 {
@@ -24,7 +21,6 @@ public class PacActor extends Actor implements GGKeyRepeatListener
   {
     super(true, "sprites/pacpix.gif", nbSprites);  // Rotatable
     this.game = game;
-    this.autoplayer = new Autoplayer(this, game);
   }
   private boolean isAuto = false;
 
@@ -32,6 +28,9 @@ public class PacActor extends Actor implements GGKeyRepeatListener
     isAuto = auto;
   }
 
+  public void setupAutoplayer(List<Location> invalidLocations) {
+    this.autoplayer = new Autoplayer(this, game, invalidLocations);
+  }
 
   public void setSeed(int seed) {
     this.seed = seed;

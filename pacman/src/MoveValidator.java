@@ -4,11 +4,15 @@ import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.Location;
 
 import java.awt.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 
 public class MoveValidator {
     private Actor pacman;
     private final int horzCells;
     private final int vertCells;
+    private List<Location> invalidLocations;
 
     public MoveValidator (Actor pacman, int horzCells, int vertCells) {
         this.pacman = pacman;
@@ -17,9 +21,18 @@ public class MoveValidator {
     }
 
     public boolean canMove(Location location) {
-        Color c = pacman.getBackground().getColor(location);
-        return !c.equals(Color.gray) && location.getX() < horzCells
-                && location.getX() >= 0 && location.getY() < vertCells && location.getY() >= 0;
+        // Entity out of bounds
+        if (location.getX() <= 0 || location.getX() >= horzCells ||
+                location.getY() <= 0 || location.getY() >= vertCells) {
+            return false;
+        }
+
+        // Entity in wall
+        return !invalidLocations.contains(location);
+    }
+
+    public void setInvalidLocations(List<Location> invalidLocations) {
+        this.invalidLocations = invalidLocations;
     }
 
     public int maxX() {

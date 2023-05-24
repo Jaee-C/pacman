@@ -7,6 +7,8 @@ import src.utility.GameCallback;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Properties;
 
 public class Game extends GameGrid
@@ -28,6 +30,7 @@ public class Game extends GameGrid
   private int seed = 30006;
   private ArrayList<Location> propertyPillLocations = new ArrayList<>();
   private ArrayList<Location> propertyGoldLocations = new ArrayList<>();
+  private List<Location> wallLocations = new ArrayList<>();
 
   public Game(GameCallback gameCallback, Properties properties)
   {
@@ -39,12 +42,12 @@ public class Game extends GameGrid
     setTitle("[PacMan in the Multiverse]");
 
     //Setup for auto test
-    pacActor.setPropertyMoves(properties.getProperty("PacMan.move"));
     pacActor.setAuto(Boolean.parseBoolean(properties.getProperty("PacMan.isAuto")));
     loadPillAndItemsLocations();
 
     GGBackground bg = getBg();
     drawGrid(bg);
+
 
     //Setup Random seeds
     seed = Integer.parseInt(properties.getProperty("seed"));
@@ -58,7 +61,9 @@ public class Game extends GameGrid
     pacActor.setSlowDown(3);
     tx5.stopMoving(5);
     setupActorLocations();
-
+    System.out.println("Pacman location: " + pacActor.getLocation());
+    pacActor.setupAutoplayer(wallLocations);
+    pacActor.setPropertyMoves(properties.getProperty("PacMan.move"));
 
 
     //Run the game
@@ -222,8 +227,12 @@ public class Game extends GameGrid
         bg.setPaintColor(Color.white);
         Location location = new Location(x, y);
         GameGridCell a = grid.getCell(location);
-        if (a != GameGridCell.Wall)
+
+        if (a != GameGridCell.Wall) { // Path
           bg.fillCell(location, Color.lightGray);
+        } else {
+          wallLocations.add(location); // Wall
+        }
         if (a == GameGridCell.Pill && propertyPillLocations.size() == 0) { // Pill
           putPill(bg, location);
         } else if (a == GameGridCell.Gold && propertyGoldLocations.size() == 0) { // Gold

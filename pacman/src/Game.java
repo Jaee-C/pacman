@@ -29,70 +29,81 @@ public class Game extends GameGrid
   private ArrayList<Location> propertyPillLocations = new ArrayList<>();
   private ArrayList<Location> propertyGoldLocations = new ArrayList<>();
 
-  public Game(GameCallback gameCallback, Properties properties)
+  public Game(GameCallback gameCallback, Properties properties, ArrayList<PacManGameGrid> levels)
   {
     //Setup game
     super(nbHorzCells, nbVertCells, 20, false);
     this.gameCallback = gameCallback;
     this.properties = properties;
+    this.grid = levels.get(0);
+    String title = "";
+
     setSimulationPeriod(100);
     setTitle("[PacMan in the Multiverse]");
 
     //Setup for auto test
-    pacActor.setPropertyMoves(properties.getProperty("PacMan.move"));
-    pacActor.setAuto(Boolean.parseBoolean(properties.getProperty("PacMan.isAuto")));
-    loadPillAndItemsLocations();
+    for(int i=0; i<levels.size(); i++){
+      pacActor.setPropertyMoves(properties.getProperty("PacMan.move"));
+      pacActor.setAuto(Boolean.parseBoolean(properties.getProperty("PacMan.isAuto")));
+      loadPillAndItemsLocations();
 
-    GGBackground bg = getBg();
-    drawGrid(bg);
+      GGBackground bg = getBg();
+      drawGrid(bg);
 
-    //Setup Random seeds
-    seed = Integer.parseInt(properties.getProperty("seed"));
-    pacActor.setSeed(seed);
-    troll.setSeed(seed);
-    tx5.setSeed(seed);
-    addKeyRepeatListener(pacActor);
-    setKeyRepeatPeriod(150);
-    troll.setSlowDown(3);
-    tx5.setSlowDown(3);
-    pacActor.setSlowDown(3);
-    tx5.stopMoving(5);
-    setupActorLocations();
+      //Setup Random seeds
+      seed = Integer.parseInt(properties.getProperty("seed"));
+      pacActor.setSeed(seed);
+      troll.setSeed(seed);
+      tx5.setSeed(seed);
+      addKeyRepeatListener(pacActor);
+      setKeyRepeatPeriod(150);
+      troll.setSlowDown(3);
+      tx5.setSlowDown(3);
+      pacActor.setSlowDown(3);
+      tx5.stopMoving(5);
+      setupActorLocations();
 
 
 
-    //Run the game
-    doRun();
-    show();
-    // Loop to look for collision in the application thread
-    // This makes it improbable that we miss a hit
-    boolean hasPacmanBeenHit = false;
-    boolean hasPacmanEatAllPills;
-    setupPillAndItemsLocations();
-    int maxPillsAndItems = countPillsAndItems();
-    
-    do {
-      // hasPacmanBeenHit = troll.getLocation().equals(pacActor.getLocation()) ||
-      //         tx5.getLocation().equals(pacActor.getLocation());
-      hasPacmanEatAllPills = pacActor.getNbPills() >= maxPillsAndItems;
-      delay(10);
-    } while(!hasPacmanBeenHit && !hasPacmanEatAllPills);
-    delay(120);
+      //Run the game
+      doRun();
+      show();
+      // Loop to look for collision in the application thread
+      // This makes it improbable that we miss a hit
+      boolean hasPacmanBeenHit = false;
+      boolean hasPacmanEatAllPills;
+      setupPillAndItemsLocations();
+      int maxPillsAndItems = countPillsAndItems();
 
-    Location loc = pacActor.getLocation();
-    troll.setStopMoving(true);
-    tx5.setStopMoving(true);
-    pacActor.removeSelf();
+      do {
+        // hasPacmanBeenHit = troll.getLocation().equals(pacActor.getLocation()) ||
+        //         tx5.getLocation().equals(pacActor.getLocation());
+        hasPacmanEatAllPills = pacActor.getNbPills() >= maxPillsAndItems;
+        delay(10);
+      } while(!hasPacmanBeenHit && !hasPacmanEatAllPills);
+      delay(120);
 
-    String title = "";
-    if (hasPacmanBeenHit) {
-      bg.setPaintColor(Color.red);
-      title = "GAME OVER";
-      addActor(new Actor("sprites/explosion3.gif"), loc);
-    } else if (hasPacmanEatAllPills) {
-      bg.setPaintColor(Color.yellow);
-      title = "YOU WIN";
+      Location loc = pacActor.getLocation();
+      troll.setStopMoving(true);
+      tx5.setStopMoving(true);
+      pacActor.removeSelf();
+
+
+      if (hasPacmanBeenHit) {
+        bg.setPaintColor(Color.red);
+        title = "GAME OVER";
+        addActor(new Actor("sprites/explosion3.gif"), loc);
+      } else if (hasPacmanEatAllPills) {
+        levels.remove(0);
+      }
+
+      if(levels.isEmpty()){
+        bg.setPaintColor(Color.yellow);
+        title = "YOU WIN";
+      }
+
     }
+
     setTitle(title);
     gameCallback.endOfGame(title);
 

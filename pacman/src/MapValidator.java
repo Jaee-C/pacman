@@ -23,7 +23,7 @@ public class MapValidator {
         tempGame.addActor(pacman, pacmanStartLocation);
         ArrayList<Location> target = setupPillAndItemsLocations(grid);
         MoveValidator moveValidator = new MoveValidator(pacman, grid.getNbHorzCells(), grid.getNbVertCells());
-        moveValidator.setInvalidLocations(wallLocations);
+        moveValidator.setCollisionLocations(wallLocations);
         IMover automover = new ClosestPillMover();
         automover.setMoveValidator(moveValidator);
 

@@ -32,6 +32,7 @@ public class Game extends GameGrid
   private ArrayList<Location> propertyPillLocations = new ArrayList<>();
   private ArrayList<Location> propertyGoldLocations = new ArrayList<>();
   private List<Location> wallLocations = new ArrayList<>();
+  private PortalFactory portalFactory;
 
   public Game(GameCallback gameCallback, Properties properties, PacManGameGrid level)
   {
@@ -42,6 +43,7 @@ public class Game extends GameGrid
     this.properties = properties;
 
     this.grid = level;
+    this.portalFactory = PortalFactory.getInstance();
 
 
     setSimulationPeriod(100);
@@ -246,6 +248,14 @@ public class Game extends GameGrid
           putGold(bg, location);
         } else if (a == GameGridCell.Ice) {
           putIce(bg, location);
+        } else if (a == GameGridCell.Portal_Dark_Gold) {
+          putPortal(location, PortalColour.DARK_GOLD);
+        } else if (a == GameGridCell.Portal_Dark_Gray) {
+          putPortal(location, PortalColour.DARK_GREY);
+        } else if (a == GameGridCell.Portal_Yellow) {
+          putPortal(location, PortalColour.YELLOW);
+        } else if (a == GameGridCell.Portal_White) {
+          putPortal(location, PortalColour.WHITE);
         }
       }
     }
@@ -269,6 +279,12 @@ public class Game extends GameGrid
     Actor gold = new Actor("sprites/gold.png");
     this.goldPieces.add(gold);
     addActor(gold, location);
+  }
+
+  private void putPortal(Location location, PortalColour color) {
+    Portal portal = portalFactory.createPortal(this, color);
+    this.portals.add(portal);
+    addActor(portal, location);
   }
 
   private void putIce(GGBackground bg, Location location){

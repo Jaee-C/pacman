@@ -4,7 +4,6 @@ import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.Location;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class Autoplayer {
@@ -16,7 +15,7 @@ public class Autoplayer {
         this.movingActor = actor;
         this.game = game;
         MoveValidator moveValidator = new MoveValidator(actor, Game.nbHorzCells, Game.nbVertCells);
-        moveValidator.setInvalidLocations(wallLocations);
+        moveValidator.setCollisionLocations(wallLocations);
         mover.setMoveValidator(moveValidator);
     }
 

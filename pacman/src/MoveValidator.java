@@ -3,16 +3,13 @@ package src;
 import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.Location;
 
-import java.awt.*;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 public class MoveValidator {
     private Actor pacman;
     private final int horzCells;
     private final int vertCells;
-    private List<Location> invalidLocations;
+    private List<Location> collisionLocations;
 
     public MoveValidator (Actor pacman, int horzCells, int vertCells) {
         this.pacman = pacman;
@@ -28,18 +25,10 @@ public class MoveValidator {
         }
 
         // Entity in wall
-        return !invalidLocations.contains(location);
+        return !collisionLocations.contains(location);
     }
 
-    public void setInvalidLocations(List<Location> invalidLocations) {
-        this.invalidLocations = invalidLocations;
-    }
-
-    public int maxX() {
-        return horzCells - 1;
-    }
-
-    public int maxY() {
-        return vertCells - 1;
+    public void setCollisionLocations(List<Location> collisionLocations) {
+        this.collisionLocations = collisionLocations;
     }
 }

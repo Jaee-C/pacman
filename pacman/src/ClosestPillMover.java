@@ -1,6 +1,7 @@
 package src;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.Location;
@@ -32,7 +33,7 @@ public class ClosestPillMover implements IMover {
     }
 
     @Override
-    public void setMoveValidator(CollisionChecker collisionChecker) {
+    public void setCollisionChecker(CollisionChecker collisionChecker) {
         this.collisionChecker = collisionChecker;
     }
 
@@ -50,5 +51,10 @@ public class ClosestPillMover implements IMover {
             if (loc.equals(location))
                 return true;
         return false;
+    }
+
+    @Override
+    public void setPortals(List<Portal> portals, CollisionChecker portalCollisions) {
+        return;
     }
 }

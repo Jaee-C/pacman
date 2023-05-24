@@ -73,7 +73,6 @@ public class Game extends GameGrid
     pacActor.setSlowDown(3);
     tx5.stopMoving(5);
     setupActorLocations();
-    System.out.println("Pacman location: " + pacActor.getLocation());
     pacActor.setPropertyMoves(properties.getProperty("PacMan.move"));
     pacActor.setupWalls(wallLocations);
     pacActor.setupPortals(portals);

@@ -25,7 +25,7 @@ public class MapValidator {
         CollisionChecker collisionChecker = new CollisionChecker(grid.getNbHorzCells(), grid.getNbVertCells());
         collisionChecker.setCollisionLocations(wallLocations);
         IMover automover = new ClosestPillMover();
-        automover.setMoveValidator(collisionChecker);
+        automover.setCollisionChecker(collisionChecker);
 
         List<Location> tobeVisited = new ArrayList<>();
         List<Location> visited = new ArrayList<>();

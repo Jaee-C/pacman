@@ -93,7 +93,6 @@ public class PacActor extends Actor implements GGKeyRepeatListener
     {
       for (Portal portal: portals) {
         if (portal.getLocation().equals(next)) {
-          System.out.println("Portal: reached");
           portal.teleport(this);
         }
       }

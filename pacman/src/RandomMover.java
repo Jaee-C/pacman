@@ -4,6 +4,7 @@ import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.Location;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class RandomMover implements IMover {
@@ -83,7 +84,12 @@ public class RandomMover implements IMover {
     }
 
     @Override
-    public void setMoveValidator(CollisionChecker collisionChecker) {
+    public void setCollisionChecker(CollisionChecker collisionChecker) {
         this.collisionChecker = collisionChecker;
+    }
+
+    @Override
+    public void setPortals(List<Portal> portals, CollisionChecker portalCollisions) {
+        return;
     }
 }

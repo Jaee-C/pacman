@@ -11,15 +11,10 @@ public class Autoplayer {
     private Actor movingActor;
     private Game game;
 
-    public Autoplayer(Actor actor, Game game) {
+    public Autoplayer(Actor actor, Game game, CollisionChecker wallCollisions) {
         this.movingActor = actor;
         this.game = game;
-    }
-
-    public void setWallLocations(List<Location> wallLocations) {
-        CollisionChecker collisionChecker = new CollisionChecker(Game.nbHorzCells, Game.nbVertCells);
-        collisionChecker.setCollisionLocations(wallLocations);
-        mover.setMoveValidator(collisionChecker);
+        mover.setMoveValidator(wallCollisions);
     }
 
     public void setPropertyMoves(String propertyMoveString) {

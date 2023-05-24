@@ -46,12 +46,4 @@ public class SearchGameState {
         }
         return currentLocation;
     }
-
-    public void printPath() {
-        System.out.print("Path: ");
-        for (Location move: path) {
-            System.out.print(move + " ");
-        }
-        System.out.println();
-    }
 }

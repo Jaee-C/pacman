@@ -24,8 +24,6 @@ public class MapValidator {
         ArrayList<Location> target = setupPillAndItemsLocations(grid);
         CollisionChecker collisionChecker = new CollisionChecker(grid.getNbHorzCells(), grid.getNbVertCells());
         collisionChecker.setCollisionLocations(wallLocations);
-        IMover automover = new ClosestPillMover();
-        automover.setMoveValidator(collisionChecker);
 
         List<Location> tobeVisited = new ArrayList<>();
         List<Location> visited = new ArrayList<>();
@@ -33,7 +31,6 @@ public class MapValidator {
 
         Location next;
 
-        // TODO: This is not working, need a MoveValidator that doesn't depend on background colors
         do {
             next = null;
 

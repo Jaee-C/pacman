@@ -36,7 +36,7 @@ public class PropertyMover implements IMover {
     }
 
     @Override
-    public void setMoveValidator(CollisionChecker collisionChecker) {
+    public void setCollisionChecker(CollisionChecker collisionChecker) {
         this.collisionChecker = collisionChecker;
     }
 
@@ -48,5 +48,10 @@ public class PropertyMover implements IMover {
         if (propertyMoveString != null) {
             this.propertyMoves = Arrays.asList(propertyMoveString.split(","));
         }
+    }
+
+    @Override
+    public void setPortals(List<Portal> portals, CollisionChecker portalCollisions) {
+        return;
     }
 }

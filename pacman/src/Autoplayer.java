@@ -14,11 +14,15 @@ public class Autoplayer {
     public Autoplayer(Actor actor, Game game, CollisionChecker wallCollisions) {
         this.movingActor = actor;
         this.game = game;
-        mover.setMoveValidator(wallCollisions);
+        mover.setCollisionChecker(wallCollisions);
     }
 
     public void setPropertyMoves(String propertyMoveString) {
         mover.setPropertyMoves(propertyMoveString);
+    }
+
+    public void setPortals(List<Portal> portals, CollisionChecker portalCollisions) {
+        mover.setPortals(portals, portalCollisions);
     }
 
     public Location move(ArrayList<Location> items) {

@@ -3,11 +3,12 @@ package src;
 import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.Location;
 
+import java.util.List;
+
 public class MoverStrategy implements IMover {
 
     private RandomMover randomMover = new RandomMover();
     private PropertyMover propertyMover = new PropertyMover();
-    private ClosestPillMover closestPillMover = new ClosestPillMover();
     private BFSMover bfsMover = new BFSMover();
     private IMover mover = null;
 
@@ -30,11 +31,17 @@ public class MoverStrategy implements IMover {
     }
 
     @Override
-    public void setMoveValidator(CollisionChecker collisionChecker) {
-        randomMover.setMoveValidator(collisionChecker);
-        propertyMover.setMoveValidator(collisionChecker);
-        closestPillMover.setMoveValidator(collisionChecker);
-        bfsMover.setMoveValidator(collisionChecker);
+    public void setCollisionChecker(CollisionChecker collisionChecker) {
+        randomMover.setCollisionChecker(collisionChecker);
+        propertyMover.setCollisionChecker(collisionChecker);
+        bfsMover.setCollisionChecker(collisionChecker);
+    }
+
+    @Override
+    public void setPortals(List<Portal> portals, CollisionChecker portalCollisions) {
+        randomMover.setPortals(portals, portalCollisions);
+        propertyMover.setPortals(portals, portalCollisions);
+        bfsMover.setPortals(portals, portalCollisions);
     }
 
     public void setPropertyMoves(String propertyMoveString) {

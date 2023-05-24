@@ -22,7 +22,7 @@ public class MapValidator {
         tempGame.doRun();
         tempGame.addActor(pacman, pacmanStartLocation);
         ArrayList<Location> target = setupPillAndItemsLocations(grid);
-        CollisionChecker collisionChecker = new CollisionChecker(pacman, grid.getNbHorzCells(), grid.getNbVertCells());
+        CollisionChecker collisionChecker = new CollisionChecker(grid.getNbHorzCells(), grid.getNbVertCells());
         collisionChecker.setCollisionLocations(wallLocations);
         IMover automover = new ClosestPillMover();
         automover.setMoveValidator(collisionChecker);
@@ -43,7 +43,7 @@ public class MapValidator {
                 if (repeated)
                     continue;;
 
-                if (collisionChecker.canMove(l)) {
+                if (!collisionChecker.collide(l)) {
                     if (next == null)
                         next = l;
                     else

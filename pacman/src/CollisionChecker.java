@@ -6,26 +6,24 @@ import ch.aplu.jgamegrid.Location;
 import java.util.List;
 
 public class CollisionChecker {
-    private Actor pacman;
     private final int horzCells;
     private final int vertCells;
     private List<Location> collisionLocations;
 
-    public CollisionChecker(Actor pacman, int horzCells, int vertCells) {
-        this.pacman = pacman;
+    public CollisionChecker(int horzCells, int vertCells) {
         this.horzCells = horzCells;
         this.vertCells =vertCells;
     }
 
-    public boolean canMove(Location location) {
+    public boolean collide(Location location) {
         // Entity out of bounds
         if (location.getX() < 0 || location.getX() >= horzCells ||
                 location.getY() < 0 || location.getY() >= vertCells) {
-            return false;
+            return true;
         }
 
         // Entity in wall
-        return !collisionLocations.contains(location);
+        return collisionLocations.contains(location);
     }
 
     public void setCollisionLocations(List<Location> collisionLocations) {

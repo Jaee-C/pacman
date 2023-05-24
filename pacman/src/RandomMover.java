@@ -24,7 +24,7 @@ public class RandomMover implements IMover {
                 movingActor.getLocation().get4CompassDirectionTo(target);
         Location next = movingActor.getLocation().getNeighbourLocation(compassDir);
         movingActor.setDirection(compassDir);
-        if (!isVisited(next) && collisionChecker.canMove(next)) {
+        if (!isVisited(next) && !collisionChecker.collide(next)) {
             addVisitedList(next);
             return next;
         } else {
@@ -33,13 +33,13 @@ public class RandomMover implements IMover {
             movingActor.setDirection(oldDirection);
             movingActor.turn(sign * 90);  // Try to turn left/right
             next = movingActor.getNextMoveLocation();
-            if (collisionChecker.canMove(next)) {
+            if (!collisionChecker.collide(next)) {
                 addVisitedList(next);
                 return next;
             } else {
                 movingActor.setDirection(oldDirection);
                 next = movingActor.getNextMoveLocation();
-                if (collisionChecker.canMove(next)) // Try to move forward
+                if (collisionChecker.collide(next)) // Try to move forward
                 {
                     addVisitedList(next);
                     return next;
@@ -47,7 +47,7 @@ public class RandomMover implements IMover {
                     movingActor.setDirection(oldDirection);
                     movingActor.turn(-sign * 90);  // Try to turn right/left
                     next = movingActor.getNextMoveLocation();
-                    if (collisionChecker.canMove(next)) {
+                    if (collisionChecker.collide(next)) {
                         addVisitedList(next);
                         return next;
                     } else {

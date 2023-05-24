@@ -24,8 +24,9 @@ public class PacActor extends Actor implements GGKeyRepeatListener
   {
     super(true, "sprites/pacpix.gif", nbSprites);  // Rotatable
     this.game = game;
-    this.wallCollisions = new CollisionChecker(this, game.getNumHorzCells(), game.getNumVertCells());
-    this.portalCollisions = new CollisionChecker(this, game.getNumHorzCells(), game.getNumVertCells());
+    this.wallCollisions = new CollisionChecker(game.getNumHorzCells(), game.getNumVertCells());
+    this.portalCollisions = new CollisionChecker(game.getNumHorzCells(), game.getNumVertCells());
+    this.autoplayer = new Autoplayer(this, game);
   }
   private boolean isAuto = false;
 
@@ -33,12 +34,8 @@ public class PacActor extends Actor implements GGKeyRepeatListener
     isAuto = auto;
   }
 
-  public void setupAutoplayer(List<Location> invalidLocations) {
-    this.autoplayer = new Autoplayer(this, game, invalidLocations);
-  }
-
   public void setupPortals(List<Portal> portals) {
-    List<Location> portalLocations = new ArrayList<Location>();
+    List<Location> portalLocations = new ArrayList<>();
     for (Portal portal: portals) {
       portalLocations.add(portal.getLocation());
     }
@@ -47,6 +44,7 @@ public class PacActor extends Actor implements GGKeyRepeatListener
   }
 
   public void setupWalls(List<Location> wallLocations) {
+    this.autoplayer.setWallLocations(wallLocations);
     this.wallCollisions.setCollisionLocations(wallLocations);
   }
 
@@ -86,13 +84,13 @@ public class PacActor extends Actor implements GGKeyRepeatListener
         setDirection(Location.SOUTH);
         break;
     }
-    if (next != null && wallCollisions.canMove(next))
+    if (next != null && !wallCollisions.collide(next))
     {
       setLocation(next);
       eatPill(next);
     }
 
-    if (next != null && !portalCollisions.canMove(next))
+    if (next != null && portalCollisions.collide(next))
     {
       for (Portal portal: portals) {
         if (portal.getLocation().equals(next)) {

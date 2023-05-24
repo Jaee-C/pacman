@@ -18,7 +18,7 @@ public class ClosestPillMover implements IMover {
         int minDistance = Integer.MAX_VALUE;
         Location minLocation = null;
         for (Location location : currLocation.getNeighbourLocations(0.5)) {
-            if (isVisited(location) || !collisionChecker.canMove(location)) {
+            if (isVisited(location) || collisionChecker.collide(location)) {
                 continue;
             }
             int distance = location.getDistanceTo(target);

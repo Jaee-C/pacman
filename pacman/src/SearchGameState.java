@@ -22,7 +22,7 @@ public class SearchGameState {
         ArrayList<SearchGameState> nextStates = new ArrayList<>();
 
         for (Location next : currentLocation.getNeighbourLocations(0.5)) {
-            if (validator.canMove(next)) {
+            if (!validator.collide(next)) {
                 Location newNext = new Location(next);
                 nextStates.add(new SearchGameState(newNext, this.target, validator, path));
             }

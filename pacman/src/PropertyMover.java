@@ -29,7 +29,7 @@ public class PropertyMover implements IMover {
                 break;
         }
 
-        if (next != null && collisionChecker.canMove(next))
+        if (next != null && !collisionChecker.collide(next))
             return next;
 
         return null;

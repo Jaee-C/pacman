@@ -18,7 +18,7 @@ public class Game extends GameGrid
 {
   public final static int nbHorzCells = 20;
   public final static int nbVertCells = 11;
-  protected PacManGameGrid grid = new PacManGameGrid(nbHorzCells, nbVertCells);
+  protected PacManGameGrid grid;
 
   protected PacActor pacActor = new PacActor(this);
   private Monster troll = new Monster(this, MonsterType.Troll);
@@ -74,7 +74,6 @@ public class Game extends GameGrid
     tx5.stopMoving(5);
     setupActorLocations();
     System.out.println("Pacman location: " + pacActor.getLocation());
-    pacActor.setupAutoplayer(wallLocations);
     pacActor.setPropertyMoves(properties.getProperty("PacMan.move"));
     pacActor.setupWalls(wallLocations);
     pacActor.setupPortals(portals);

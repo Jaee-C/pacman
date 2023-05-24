@@ -4,26 +4,11 @@ import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.GameGrid;
 import ch.aplu.jgamegrid.Location;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class MapValidator {
     private List<Location> wallLocations;
-    private FileWriter fileWriter;
-
-    private void writeString(String str) {
-        try {
-            fileWriter.write(str);
-            fileWriter.write("\n");
-            fileWriter.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public ArrayList<Location> checkMap(PacManGameGrid grid) {
         // Temp game is required for actor to perform actions, such as updating location
@@ -32,13 +17,6 @@ public class MapValidator {
         if (pacmanStartLocation == null) {
             return new ArrayList<>();
         }
-
-        try {
-            fileWriter = new FileWriter(new File("test.txt"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        int i = 0;
 
         Actor pacman = new Actor();
         tempGame.doRun();
@@ -51,61 +29,49 @@ public class MapValidator {
 
         List<Location> tobeVisited = new ArrayList<>();
         List<Location> visited = new ArrayList<>();
+        visited.add(pacmanStartLocation);
 
         Location next;
 
-        return new ArrayList<>();
-
         // TODO: This is not working, need a MoveValidator that doesn't depend on background colors
-//        do {
-//            next = null;
-//
-//            for (Location l : pacman.getLocation().getNeighbourLocations(0.5)) {
-//                boolean repeated = visited.contains(l);
-//
-//                if (repeated)
-//                    continue;;
-//
-//                if (moveValidator.canMove(l)) {
-//                    if (next == null) {
-//                        next = l;
-//                    }
-//                    tobeVisited.add(l);
-//                }
-//            }
-//            System.out.println("Surrounding locations: " + next);
-//
-//            if (next == null && !tobeVisited.isEmpty()) {
-//                next = tobeVisited.get(0);
-//                tobeVisited.remove(0);
-//                System.out.println("To be visited: " + tobeVisited);
-//            }
-//
-//            if (next == null) {
-//                tempGame.doPause();
-//                return target;
-//            }
-//
-//            pacman.setLocation(next);
-//            visited.add(next);
-//            target.remove(next);
-//
-//            if (target.isEmpty()) {
-//                tempGame.doPause();
-//                return target;
-//            }
-//            i++;
-//            System.out.println("Pacman Location: " + next);
-//
-//            if (i > 100) {
-//                return target;
-//            }
-//
-//
-//
-//        } while (!tobeVisited.isEmpty());
-//
-//        return target;
+        do {
+            next = null;
+
+            for (Location l : pacman.getLocation().getNeighbourLocations(0.5)) {
+                boolean repeated = visited.contains(l);
+
+                if (repeated)
+                    continue;;
+
+                if (moveValidator.canMove(l)) {
+                    if (next == null)
+                        next = l;
+                    else
+                        tobeVisited.add(l);
+                }
+            }
+
+            if (next == null && !tobeVisited.isEmpty()) {
+                next = tobeVisited.get(0);
+                tobeVisited.remove(0);
+            }
+
+            if (next == null) {
+                tempGame.doPause();
+                return target;
+            }
+
+            pacman.setLocation(next);
+            visited.add(next);
+            target.remove(next);
+
+            if (target.isEmpty()) {
+                tempGame.doPause();
+                System.out.println("MAP ACCESSIBLE");
+                return target;
+            }
+
+        } while (true);
     }
 
     private ArrayList<Location> setupPillAndItemsLocations(PacManGameGrid grid) {

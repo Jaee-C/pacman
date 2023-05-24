@@ -89,7 +89,6 @@ public class Game extends GameGrid
     boolean hasPacmanEatAllPills;
     setupPillAndItemsLocations();
     int maxPillsAndItems = countPillsAndItems();
-    System.out.println(maxPillsAndItems);
 
     do {
        hasPacmanBeenHit = troll.getLocation().equals(pacActor.getLocation()) ||

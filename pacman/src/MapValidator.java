@@ -22,10 +22,10 @@ public class MapValidator {
         tempGame.doRun();
         tempGame.addActor(pacman, pacmanStartLocation);
         ArrayList<Location> target = setupPillAndItemsLocations(grid);
-        MoveValidator moveValidator = new MoveValidator(pacman, grid.getNbHorzCells(), grid.getNbVertCells());
-        moveValidator.setCollisionLocations(wallLocations);
+        CollisionChecker collisionChecker = new CollisionChecker(pacman, grid.getNbHorzCells(), grid.getNbVertCells());
+        collisionChecker.setCollisionLocations(wallLocations);
         IMover automover = new ClosestPillMover();
-        automover.setMoveValidator(moveValidator);
+        automover.setMoveValidator(collisionChecker);
 
         List<Location> tobeVisited = new ArrayList<>();
         List<Location> visited = new ArrayList<>();
@@ -43,7 +43,7 @@ public class MapValidator {
                 if (repeated)
                     continue;;
 
-                if (moveValidator.canMove(l)) {
+                if (collisionChecker.canMove(l)) {
                     if (next == null)
                         next = l;
                     else

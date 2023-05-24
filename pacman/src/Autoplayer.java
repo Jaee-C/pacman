@@ -14,9 +14,9 @@ public class Autoplayer {
     public Autoplayer(Actor actor, Game game, List<Location> wallLocations) {
         this.movingActor = actor;
         this.game = game;
-        MoveValidator moveValidator = new MoveValidator(actor, Game.nbHorzCells, Game.nbVertCells);
-        moveValidator.setCollisionLocations(wallLocations);
-        mover.setMoveValidator(moveValidator);
+        CollisionChecker collisionChecker = new CollisionChecker(actor, Game.nbHorzCells, Game.nbVertCells);
+        collisionChecker.setCollisionLocations(wallLocations);
+        mover.setMoveValidator(collisionChecker);
     }
 
     public void setPropertyMoves(String propertyMoveString) {

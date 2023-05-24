@@ -10,7 +10,7 @@ import java.util.List;
 public class PropertyMover implements IMover {
     private List<String> propertyMoves = new ArrayList<>();
     private int propertyMoveIndex = 0;
-    private MoveValidator moveValidator;
+    private CollisionChecker collisionChecker;
 
     @Override
     public Location move(Actor movingActor, Location target) {
@@ -29,15 +29,15 @@ public class PropertyMover implements IMover {
                 break;
         }
 
-        if (next != null && moveValidator.canMove(next))
+        if (next != null && collisionChecker.canMove(next))
             return next;
 
         return null;
     }
 
     @Override
-    public void setMoveValidator(MoveValidator moveValidator) {
-        this.moveValidator = moveValidator;
+    public void setMoveValidator(CollisionChecker collisionChecker) {
+        this.collisionChecker = collisionChecker;
     }
 
     public boolean usePropertyMover() {

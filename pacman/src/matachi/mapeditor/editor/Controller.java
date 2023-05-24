@@ -17,6 +17,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import src.Driver;
 import src.matachi.mapeditor.grid.Camera;
 import src.matachi.mapeditor.grid.Grid;
 import src.matachi.mapeditor.grid.GridCamera;
@@ -55,13 +56,16 @@ public class Controller implements ActionListener, GUIInformation {
 
 	private int gridWith = Constants.MAP_WIDTH;
 	private int gridHeight = Constants.MAP_HEIGHT;
+	Driver driver;
 
 	/**
 	 * Construct the controller.
 	 */
 	public Controller() {
-		init(Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
+		System.out.println("Controller Constructor Called");
 
+		init(Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
+		driver = Driver.getInstance();
 	}
 
 	public void init(int width, int height) {
@@ -71,7 +75,7 @@ public class Controller implements ActionListener, GUIInformation {
 				Constants.GRID_HEIGHT);
 
 		grid = new GridView(this, camera, tiles); // Every tile is
-													// 30x30 pixels
+		// 30x30 pixels
 
 		this.view = new View(this, camera, grid, tiles);
 	}
@@ -98,6 +102,7 @@ public class Controller implements ActionListener, GUIInformation {
 			updateGrid(gridWith, gridHeight);
 		} else if (e.getActionCommand().equals("start_game")) {
 			// TODO: Code to switch to pacman game
+			driver.changeMode();
 		}
 	}
 
@@ -356,5 +361,9 @@ public class Controller implements ActionListener, GUIInformation {
 	@Override
 	public Tile getSelectedTile() {
 		return selectedTile;
+	}
+
+	public void close() {
+		System.out.println("Closing Controller");
 	}
 }

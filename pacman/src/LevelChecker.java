@@ -1,7 +1,6 @@
 package src;
 
 import ch.aplu.jgamegrid.Location;
-import src.matachi.mapeditor.editor.Controller;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -15,13 +14,11 @@ import javax.xml.parsers.*;
 import java.io.*;
 
 public class LevelChecker {
-    Controller controller;
     GameCallback gameCallback;
     List<String> portalStrings = Arrays.asList("PortalWhiteTile", "PortalYellowTile", "PortalDarkGoldTile", "PortalDarkGrayTile");
     MapValidator mapValidator = new MapValidator();
 
-    public LevelChecker(Controller controller, GameCallback callback) {
-        this.controller = controller;
+    public LevelChecker(GameCallback callback) {
         this.gameCallback = callback;
     }
 

@@ -209,9 +209,9 @@ public class LevelChecker {
     }
 
     private String coorToString(int x, int y) {
-        return "(" + x + "," + y + ")";
+        return "(" + (x+1) + "," + (y+1) + ")";
     }
     private String coorToString(Location location) {
-        return "(" + location.getX() + "," + location.getY() + ")";
+        return "(" + (location.getX()+1) + "," + (location.getY()+1) + ")";
     }
 }

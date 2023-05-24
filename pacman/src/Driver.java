@@ -5,6 +5,7 @@ import src.utility.GameCallback;
 import src.utility.PropertiesLoader;
 
 import javax.swing.*;
+import javax.swing.text.Document;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +27,7 @@ public final class Driver {
 
     private static GameChecker gameChecker;
     private static LevelChecker levelChecker;
+    private static String gameRes = "";
     private Driver() {
 
     }
@@ -44,6 +46,7 @@ public final class Driver {
     public static void main(String args[]) {
         String propertiesPath = DEFAULT_PROPERTIES_PATH;
         gameCallback = new GameCallback();
+        DriverMode mode = DriverMode.TEST;
         if (args.length > 0) {
             propertiesPath = args[0];
             if (!(Arrays.asList("test", "edit")).contains(args[1])) {
@@ -58,26 +61,7 @@ public final class Driver {
 
         properties = PropertiesLoader.loadPropertiesFile(propertiesPath);
 
-        if (mode == DriverMode.TEST && game == null) {
-            if (controller != null) {
-                controller.close();
-            }
-            controller = null;
-            System.out.println("Test Mode");
-            List<String> fileNames = gameChecker.getGames();
-            List<PacManGameGrid> gameGrids = levelChecker.checkLevels(fileNames);
-            if (gameGrids.size() > 0) {
-                game = new Game(gameCallback, properties, gameGrids.get(0));
-            }
-
-        } else if (mode == DriverMode.EDIT && controller == null) {
-            System.out.println("Edit Mode");
-            controller = new Controller();
-            if (game != null) {
-                game.close();
-            }
-            game = null;
-        }
+        runMode();
 
     }
 
@@ -90,74 +74,72 @@ public final class Driver {
             mode = DriverMode.TEST;
         }
 
+        runMode();
+    }
+
+    public static void runMode() {
         if (mode == DriverMode.TEST && game == null) {
-            System.out.println("Test Mode");
             if (controller != null) {
                 controller.close();
             }
             controller = null;
-
+            System.out.println("!!!!!!1 Test Mode !!!!!!!!11");
             List<String> fileNames = gameChecker.getGames();
             List<PacManGameGrid> gameGrids = levelChecker.checkLevels(fileNames);
-            if (gameGrids.size() > 0) {
-                game = new Game(gameCallback, properties, gameGrids.get(0));
-            }
 
+            game = new Game(gameCallback, properties, gameGrids.get(0));
+            /*
+            if (gameGrids.size() > 0) {
+                int counter = 0;
+                while (counter < gameGrids.size()){
+                    if (game == null) {
+                        game = new Game(gameCallback, properties, gameGrids.get(counter));
+                    }
+//                    String gameRes;
+//                    SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
+//                        @Override
+//                        public String doInBackground() throws Exception {
+//                            String val = game.isEnd();
+//                            while(!val.equals("Pacman Hit") && !val.equals("Win")) {
+//                                val = game.isEnd();
+//                            }
+//                            return val;
+//                        }
+//
+//                        @Override
+//                        public void done() {
+//                            try {
+//                                gameRes = get();
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    };
+//                    worker.execute();
+
+//                    if (gameRes.equals("Pacman Hit")) {
+//                        System.out.println("!!!!!!!1 PACMAN HITIITITIT");
+//                        changeMode();
+//                    }
+
+//                    if (game.isEnd() == "Pacman Hit") {
+//                        changeMode();
+//                    } else if (game.isEnd() == "Win") {
+//                        game.close();
+//                        game = null;
+//                        counter ++;
+//                    }
+                }
+            }
+            */
 
         } else if (mode == DriverMode.EDIT && controller == null) {
-            System.out.println("Edit Mode");
+            System.out.println("!!!!!!111 Edit Mode !!!!!!!!!1");
             controller = new Controller();
             if (game != null) {
                 game.close();
             }
             game = null;
         }
-    }
-
-//        if (mode == DriverMode.TEST) {
-//            toTestMode();
-//        } else {
-//            toEditMode();
-//        }
-//    }
-
-    public static void toTestMode() {
-        System.out.println("!!!!!!!!!!! Test Mode !!!!!!!!!!!!!");
-        System.out.println("  game: " + game + ", controller: " + controller);
-        if (controller != null) {
-//            controller.close();
-        }
-
-        mode = DriverMode.TEST;
-        GameChecker gameChecker = new GameChecker(gameCallback);
-        LevelChecker levelChecker = new LevelChecker(gameCallback);
-
-        List<String> fileNames = gameChecker.getGames();
-        List<PacManGameGrid> gameGrids = levelChecker.checkLevels(fileNames);
-
-        if (gameGrids.size() == 0) {
-            System.out.println("No valid levels found");
-            return;
-        }
-
-        int counter = 0;
-        while (counter < gameGrids.size()){
-            game = new Game(gameCallback, properties, gameGrids.get(counter));
-
-            game.run();
-            counter++;
-        }
-    }
-
-    public static void toEditMode() {
-        System.out.println("!!!!!!!!! Edit Mode !!!!!!!!!!!");
-        mode = DriverMode.EDIT;
-        controller = new Controller();
-        System.out.println("  game: " + game + ", controller: " + controller);
-        if (game != null) {
-            System.out.println("Yes");
-//            game.close();
-        }
-        game = null;
     }
 }

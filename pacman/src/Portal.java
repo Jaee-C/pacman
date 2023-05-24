@@ -19,7 +19,7 @@ public class Portal extends Actor {
 
     public Portal getPortalPartner() {
         for (Portal p : game.getPortals()) {
-            if (p.getColour() == this.colour) {
+            if (p.getColour() == this.colour && p != this) {
                 return p;
             }
         }

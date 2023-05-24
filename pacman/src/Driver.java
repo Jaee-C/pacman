@@ -38,6 +38,6 @@ public class Driver {
             return;
         }
 
-        new Game(gameCallback, properties);
+        new Game(gameCallback, properties, gameGrids);
     }
 }

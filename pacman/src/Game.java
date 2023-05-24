@@ -6,6 +6,7 @@ import ch.aplu.jgamegrid.*;
 import src.utility.GameCallback;
 
 import java.awt.*;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -29,7 +30,7 @@ public class Game extends GameGrid
   private ArrayList<Location> propertyPillLocations = new ArrayList<>();
   private ArrayList<Location> propertyGoldLocations = new ArrayList<>();
 
-  public Game(GameCallback gameCallback, Properties properties, ArrayList<PacManGameGrid> levels)
+  public Game(GameCallback gameCallback, Properties properties, List<PacManGameGrid> levels)
   {
     //Setup game
     super(nbHorzCells, nbVertCells, 20, false);

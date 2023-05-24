@@ -126,13 +126,29 @@ public class LevelChecker {
                 // Check only 1 pacman tile
                 if (pacCoords.size() == 0) {
                     gameCallback.levelCheckNoPacmanStart(fileName);
+                    Driver driver = Driver.getInstance();
+                    driver.changeMode();
+
+                    allGameGrids.clear();
+                    return allGameGrids;
+
                 } else if (pacCoords.size() > 1) {
                     gameCallback.levelCheckMultiplePacmanStart(fileName, pacCoords);
+                    Driver driver = Driver.getInstance();
+                    driver.changeMode();
+
+                    allGameGrids.clear();
+                    return allGameGrids;
                 }
 
                 // Check at least 2 gold and pill
                 if (goldPillCount < 2) {
                     gameCallback.levelCheckGoldPillError(fileName);
+                    Driver driver = Driver.getInstance();
+                    driver.changeMode();
+
+                    allGameGrids.clear();
+                    return allGameGrids;
                 }
 
                 // Check 2 portals of each colour
@@ -140,6 +156,11 @@ public class LevelChecker {
                     List<String> portalCoords = portalCoordsMap.get(portalName);
                     if (portalCoords.size() != 2) {
                         gameCallback.levelCheckPortalError(fileName, portalName.replace("Portal", ""), portalCoords);
+                        Driver driver = Driver.getInstance();
+                        driver.changeMode();
+
+                        allGameGrids.clear();
+                        return allGameGrids;
                     }
                 }
                 PacManGameGrid gameGrid = new PacManGameGrid(columns, rows, mazeString.toString());
@@ -168,9 +189,12 @@ public class LevelChecker {
                         List<String> itemCoords = unreachedItems.get(item);
                         gameCallback.levelCheckNotAccessible(fileName, item.toString(), itemCoords);
                         System.out.println("MAP IS NOT ACCESSIBLE");
-                        // TODO: Switch mode
+
                         Driver driver = Driver.getInstance();
-                        driver.toEditMode();
+                        driver.changeMode();
+
+                        allGameGrids.clear();
+                        return allGameGrids;
                     }
                 }
 

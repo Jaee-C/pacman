@@ -3,6 +3,7 @@
 package src;
 
 import ch.aplu.jgamegrid.*;
+import src.matachi.mapeditor.editor.Controller;
 import src.utility.GameCallback;
 
 import java.awt.*;
@@ -39,7 +40,6 @@ public class Game extends GameGrid
   public Game(GameCallback gameCallback, Properties properties, PacManGameGrid level)
   {
     //Setup game
-
     super(nbHorzCells, nbVertCells, 20, false);
     System.out.println("Game Constructor Called");
 
@@ -48,7 +48,6 @@ public class Game extends GameGrid
 
     this.grid = level;
     this.portalFactory = PortalFactory.getInstance();
-
 
     setSimulationPeriod(100);
     setTitle("[PacMan in the Multiverse]");
@@ -59,7 +58,6 @@ public class Game extends GameGrid
 
     GGBackground bg = getBg();
     drawGrid(bg);
-
 
     //Setup Random seeds
     seed = Integer.parseInt(properties.getProperty("seed"));
@@ -78,17 +76,25 @@ public class Game extends GameGrid
     pacActor.setupWalls(wallLocations);
     pacActor.setupPortals(portals);
 
+//    Driver driver = Driver.getInstance();
+//    driver.setFrame(this.getFrame());
 
-    //Run the game
     doRun();
     show();
+
+  }
+
+  public void run() {
+    System.out.println("Game Runnning!!!!");
+    //Run the game
+
+    GGBackground bg = getBg();
     // Loop to look for collision in the application thread
     // This makes it improbable that we miss a hit
     boolean hasPacmanBeenHit = false;
     boolean hasPacmanEatAllPills;
     setupPillAndItemsLocations();
     int maxPillsAndItems = countPillsAndItems();
-
     do {
       // hasPacmanBeenHit = troll.getLocation().equals(pacActor.getLocation()) ||
       //         tx5.getLocation().equals(pacActor.getLocation());
@@ -123,9 +129,12 @@ public class Game extends GameGrid
   }
 
   private void setupActorLocations() {
+
     String[] trollLocations = this.properties.getProperty("Troll.location").split(",");
     String[] tx5Locations = this.properties.getProperty("TX5.location").split(",");
     String[] pacManLocations = this.properties.getProperty("PacMan.location").split(",");
+
+
     int trollX = Integer.parseInt(trollLocations[0]);
     int trollY = Integer.parseInt(trollLocations[1]);
 
@@ -323,6 +332,7 @@ public class Game extends GameGrid
   }
 
   public void close() {
+    System.out.println("Game Close");
     dispose();
   }
 }

@@ -1,5 +1,6 @@
 package src.matachi.mapeditor.editor;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -11,8 +12,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -101,9 +101,14 @@ public class Controller implements ActionListener, GUIInformation {
 		} else if (e.getActionCommand().equals("update")) {
 			updateGrid(gridWith, gridHeight);
 		} else if (e.getActionCommand().equals("start_game")) {
-			// TODO: Code to switch to pacman game
-			driver.toTestMode();
+//			System.out.println("Actual closing Controller");
+//			JComponent comp = (JComponent) e.getSource();
+//			Window win = SwingUtilities.getWindowAncestor(comp);
+//			win.dispose();
+//			driver.toTestMode();d
+			driver.changeMode();
 		}
+
 	}
 
 	public void updateGrid(int width, int height) {
@@ -364,6 +369,11 @@ public class Controller implements ActionListener, GUIInformation {
 	}
 
 	public void close() {
-		System.out.println("Closing Controller");
+		System.out.println("Close Controller");
+		this.view.close();
+	}
+
+	public View getView() {
+		return view;
 	}
 }

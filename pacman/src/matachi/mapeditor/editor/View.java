@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import src.Game;
 import src.matachi.mapeditor.grid.Camera;
 
 
@@ -168,6 +169,11 @@ public class View {
 	public void close() {
 		frame.setVisible(false);
 	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
+
 	// /**
 	// * Flip the grid on or off.
 	// */

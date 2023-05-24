@@ -122,8 +122,9 @@ public final class Driver {
 
     public void nextLevel() {
         counter++;
-        if (counter >= gameGrids.size()) {
+        if (counter < gameGrids.size()) {
             game.close();
+
             game = new Game(gameCallback, properties, gameGrids.get(counter));
 //            return true;
         }

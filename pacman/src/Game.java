@@ -89,6 +89,7 @@ public class Game extends GameGrid
     String isEndVal = isEnd();
     if (!isEndVal.equals("")) {
       System.out.println("Game End");
+      doPause();
     }
   }
 
@@ -107,6 +108,8 @@ public class Game extends GameGrid
 //
 //    } while(!hasPacmanBeenHit && !hasPacmanEatAllPills);
 //    delay(120);
+    if (pacActor == null || troll == null || tx5 == null) return "";
+
     boolean hasPacmanBeenHit = troll.getLocation().equals(pacActor.getLocation()) ||
             tx5.getLocation().equals(pacActor.getLocation());
     boolean hasPacmanEatAllPills = pacActor.getNbPills() >= maxPillsAndItems;
@@ -125,7 +128,6 @@ public class Game extends GameGrid
         addActor(new Actor("sprites/explosion3.gif"), loc);
         setTitle(title);
         gameCallback.endOfGame(title);
-        doPause();
 
         lose = true;
 
@@ -138,7 +140,6 @@ public class Game extends GameGrid
         title = "YOU WIN";
         setTitle(title);
         gameCallback.endOfGame(title);
-        doPause();
 
         Driver driver = Driver.getInstance();
         driver.nextLevel();

@@ -126,6 +126,7 @@ public class LevelChecker {
                 // Check only 1 pacman tile
                 if (pacCoords.size() == 0) {
                     gameCallback.levelCheckNoPacmanStart(fileName);
+                    System.out.println("ERROR LEVEL CHECK: No Pacman Start");
                     Driver driver = Driver.getInstance();
                     driver.changeMode();
 
@@ -134,6 +135,7 @@ public class LevelChecker {
 
                 } else if (pacCoords.size() > 1) {
                     gameCallback.levelCheckMultiplePacmanStart(fileName, pacCoords);
+                    System.out.println("ERROR LEVEL CHECK: Multiple Pacman Start");
                     Driver driver = Driver.getInstance();
                     driver.changeMode();
 
@@ -144,6 +146,7 @@ public class LevelChecker {
                 // Check at least 2 gold and pill
                 if (goldPillCount < 2) {
                     gameCallback.levelCheckGoldPillError(fileName);
+                    System.out.println("ERROR LEVEL CHECK: levelCheckGoldPillError");
                     Driver driver = Driver.getInstance();
                     driver.changeMode();
 
@@ -156,6 +159,7 @@ public class LevelChecker {
                     List<String> portalCoords = portalCoordsMap.get(portalName);
                     if (portalCoords.size() != 2) {
                         gameCallback.levelCheckPortalError(fileName, portalName.replace("Portal", ""), portalCoords);
+                        System.out.println("ERROR LEVEL CHECK: levelCheckPortalError");
                         Driver driver = Driver.getInstance();
                         driver.changeMode();
 

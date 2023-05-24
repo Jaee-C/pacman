@@ -169,6 +169,8 @@ public class LevelChecker {
                         gameCallback.levelCheckNotAccessible(fileName, item.toString(), itemCoords);
                         System.out.println("MAP IS NOT ACCESSIBLE");
                         // TODO: Switch mode
+                        Driver driver = Driver.getInstance();
+                        driver.toEditMode();
                     }
                 }
 

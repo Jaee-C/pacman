@@ -45,13 +45,23 @@ public final class Driver {
             propertiesPath = args[0];
             if (!(Arrays.asList("test", "edit")).contains(args[1])) {
                 gameCallback.invalidMode();
-            } else if (args[1] == "test") {
+            } else if (args[1].equals("test")) {
                 mode = DriverMode.TEST;
             }
         }
 
         properties = PropertiesLoader.loadPropertiesFile(propertiesPath);
 
+        if (mode == DriverMode.TEST) {
+            toTestMode();
+        } else {
+            toEditMode();
+        }
+    }
+
+    public static void toTestMode() {
+        System.out.println("!!!!!!!!!!! Test Mode !!!!!!!!!!!!!");
+        mode = DriverMode.TEST;
         GameChecker gameChecker = new GameChecker(gameCallback);
         LevelChecker levelChecker = new LevelChecker(gameCallback);
 
@@ -62,48 +72,25 @@ public final class Driver {
             System.out.println("No valid levels found");
             return;
         }
+        int counter = 0;
+        while (counter < gameGrids.size()){
+            new Game(gameCallback, properties, gameGrids.get(counter));
+            counter++;
+        }
 
-            if (mode == DriverMode.TEST && game == null) {
-                System.out.println("Test Mode");
-                game = new Game(gameCallback, properties);
-                if (controller != null) {
-                    controller.close();
-                }
-                controller = null;
-            } else if (mode == DriverMode.EDIT && controller == null) {
-                System.out.println("Edit Mode");
-                controller = new Controller();
-                if (game != null) {
-                    game.close();
-                }
-                game = null;
-            }
-
+        game = new Game(gameCallback, properties, gameGrids.get(counter));
+        if (controller != null) {
+            controller.close();
+        }
     }
 
-    public static void changeMode() {
-        if (mode == DriverMode.TEST) {
-            System.out.println("  Change from TEST to EDIT");
-            mode = DriverMode.EDIT;
-        } else if (mode == DriverMode.EDIT) {
-            System.out.println("  Change from EDIT to TEST");
-            mode = DriverMode.TEST;
+    public static void toEditMode() {
+        System.out.println("!!!!!!!!! Edit Mode !!!!!!!!!!!1");
+        mode = DriverMode.EDIT;
+        controller = new Controller();
+        if (game != null) {
+            game.close();
         }
-
-        if (mode == DriverMode.TEST && game == null) {
-            System.out.println("Test Mode");
-            game = new Game(gameCallback, properties);
-            if (controller != null) {
-                controller.close();
-            }
-            controller = null;
-        } else if (mode == DriverMode.EDIT && controller == null) {
-            System.out.println("Edit Mode");
-            controller = new Controller();
-            if (game != null) {
-                game.close();
-            }
-            game = null;
-        }
+        game = null;
     }
 }

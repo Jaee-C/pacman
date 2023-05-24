@@ -102,7 +102,7 @@ public class Controller implements ActionListener, GUIInformation {
 			updateGrid(gridWith, gridHeight);
 		} else if (e.getActionCommand().equals("start_game")) {
 			// TODO: Code to switch to pacman game
-			driver.changeMode();
+			driver.toTestMode();
 		}
 	}
 

@@ -18,14 +18,6 @@ public class PortalStore {
         collision.addCollisionLocation(location);
     }
 
-    public List<Location> getLocations() {
-        List<Location> locations = new ArrayList<>();
-        for (Portal p : portals) {
-            locations.add(p.getLocation());
-        }
-        return locations;
-    }
-
     public List<Portal> getAll() {
         return portals;
     }
@@ -37,10 +29,6 @@ public class PortalStore {
             }
         }
         return null;
-    }
-
-    public boolean collide(Location location) {
-        return collision.collide(location);
     }
 
     /**

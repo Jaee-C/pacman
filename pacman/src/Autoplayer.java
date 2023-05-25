@@ -10,7 +10,7 @@ public class Autoplayer {
     private MoverContext mover;
     private Actor movingActor;
 
-    public Autoplayer(Actor actor, Game game, CollisionChecker wallCollisions) {
+    public Autoplayer(Actor actor, CollisionChecker wallCollisions) {
         this.movingActor = actor;
         this.mover = new MoverContext(wallCollisions);
     }

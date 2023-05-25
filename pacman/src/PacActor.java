@@ -24,7 +24,7 @@ public class PacActor extends Actor implements GGKeyRepeatListener
     super(true, "sprites/pacpix.gif", nbSprites);
     this.game = game;
     this.wallCollisions =new BoundsCollisionChecker(Game.nbHorzCells, Game.nbVertCells, walls);
-    this.autoplayer = new Autoplayer(this, game, wallCollisions);
+    this.autoplayer = new Autoplayer(this, wallCollisions);
     this.portals = portals;
   }
 

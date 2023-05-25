@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class Driver {
-    enum DriverMode {
+    public enum DriverMode {
         TEST,
         EDIT
     }
@@ -76,16 +76,21 @@ public final class Driver {
 
     }
 
-    public static void changeMode() {
-        if (mode == DriverMode.TEST) {
-            System.out.println("  Change from TEST to EDIT");
-            mode = DriverMode.EDIT;
+//    public static void changeMode() {
+//        if (mode == DriverMode.TEST) {
+//            System.out.println("  Change from TEST to EDIT");
+//            mode = DriverMode.EDIT;
+//
+//        } else if (mode == DriverMode.EDIT) {
+//            System.out.println("  Change from EDIT to TEST");
+//            mode = DriverMode.TEST;
+//        }
+//
+//        runMode();
+//    }
 
-        } else if (mode == DriverMode.EDIT) {
-            System.out.println("  Change from EDIT to TEST");
-            mode = DriverMode.TEST;
-        }
-
+    public void setMode(DriverMode mode) {
+        this.mode = mode;
         runMode();
     }
 

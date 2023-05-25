@@ -136,7 +136,7 @@ public class Game extends GameGrid
         lose = true;
 
         Driver driver = Driver.getInstance();
-        driver.changeMode();
+        driver.setMode(Driver.DriverMode.EDIT);
 
         returnVal = "Pacman Hit";
       } else {

@@ -103,7 +103,7 @@ public class Controller implements ActionListener, GUIInformation {
 		} else if (e.getActionCommand().equals("update")) {
 			updateGrid(gridWith, gridHeight);
 		} else if (e.getActionCommand().equals("start_game")) {
-			driver.changeMode();
+			driver.setMode(Driver.DriverMode.TEST);
 		}
 
 	}
@@ -220,11 +220,6 @@ public class Controller implements ActionListener, GUIInformation {
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				selectedFile = chooser.getSelectedFile();
 				if (selectedFile.canRead() && selectedFile.exists()) {
-					// Level Checking
-					String filename = selectedFile.getName();
-					LevelChecker levelChecker = driver.getLevelChecker();
-					levelChecker.checkLevels(Arrays.asList(filename));
-
 					document = (Document) builder.build(selectedFile);
 
 					Element rootNode = document.getRootElement();
@@ -280,6 +275,10 @@ public class Controller implements ActionListener, GUIInformation {
 
 					String mapString = model.getMapAsString();
 					grid.redrawGrid();
+					// Level Checking
+					String filename = selectedFile.getName();
+					LevelChecker levelChecker = driver.getLevelChecker();
+					levelChecker.checkLevels(Arrays.asList(filename));
 				}
 			}
 		} catch (Exception e) {

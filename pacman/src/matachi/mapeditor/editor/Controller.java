@@ -141,10 +141,7 @@ public class Controller implements ActionListener, GUIInformation {
 		int returnVal = chooser.showSaveDialog(null);
 		try {
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				// Level Checking
-				String filename = chooser.getSelectedFile().getName();
-				LevelChecker levelChecker = driver.getLevelChecker();
-				levelChecker.checkLevels(Arrays.asList(filename));
+
 
 				Element level = new Element("level");
 				Document doc = new Document(level);
@@ -195,6 +192,11 @@ public class Controller implements ActionListener, GUIInformation {
 				xmlOutput.setFormat(Format.getPrettyFormat());
 				xmlOutput
 						.output(doc, new FileWriter(chooser.getSelectedFile()));
+
+				// Level Checking
+				String filename = chooser.getSelectedFile().getName();
+				LevelChecker levelChecker = driver.getLevelChecker();
+				levelChecker.checkLevels(Arrays.asList(filename));
 			}
 		} catch (FileNotFoundException e1) {
 			JOptionPane.showMessageDialog(null, "Invalid file!", "error",
@@ -373,9 +375,5 @@ public class Controller implements ActionListener, GUIInformation {
 	public void close() {
 		System.out.println("Close Controller");
 		this.view.close();
-	}
-
-	public View getView() {
-		return view;
 	}
 }

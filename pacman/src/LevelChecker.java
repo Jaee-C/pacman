@@ -1,10 +1,6 @@
 package src;
 
 import ch.aplu.jgamegrid.Location;
-
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 import org.w3c.dom.*;

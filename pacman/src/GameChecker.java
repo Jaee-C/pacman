@@ -26,8 +26,9 @@ public class GameChecker {
         if (!folder.exists() || !folder.isDirectory()) {
             // Error Log
             gameCallback.gameCheckNoMapsFound();
-            // TODO Switch Mode
-
+            // Switch Mode
+            Driver driver = Driver.getInstance();
+            driver.setMode(Driver.DriverMode.EDIT);
             return res;
         }
 
@@ -38,8 +39,9 @@ public class GameChecker {
         if (files == null) {
             // Error log
             gameCallback.gameCheckNoMapsFound();
-            // TODO Switch Mode
-
+            // Switch Mode
+            Driver driver = Driver.getInstance();
+            driver.setMode(Driver.DriverMode.EDIT);
             return res;
         }
 
@@ -78,8 +80,9 @@ public class GameChecker {
         if (levelsMap.size() == 0) {
             // Error log
             gameCallback.gameCheckNoMapsFound();
-            // TODO Switch Mode
-
+            // Switch Mode
+            Driver driver = Driver.getInstance();
+            driver.setMode(Driver.DriverMode.EDIT);
             return res;
         }
 
@@ -90,8 +93,9 @@ public class GameChecker {
             } else {
                 // Error log
                 gameCallback.gameCheckMultipleMapsSameLevel(val);
-                // TODO Switch Mode
-
+                // Switch Mode
+                Driver driver = Driver.getInstance();
+                driver.setMode(Driver.DriverMode.EDIT);
                 res.clear();
                 return res;
             }

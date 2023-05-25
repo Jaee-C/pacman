@@ -77,6 +77,7 @@ public final class Driver {
 
     public void setMode(DriverMode mode) {
         this.mode = mode;
+        loadFilename = null;
         runMode();
     }
 
@@ -119,6 +120,8 @@ public final class Driver {
         if (counter < gameGrids.size()) {
             game.close();
             game = new Game(gameCallback, properties, gameGrids.get(counter));
+        } else {
+            this.setMode(DriverMode.EDIT);
         }
     }
 

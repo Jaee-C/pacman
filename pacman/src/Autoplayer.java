@@ -17,10 +17,6 @@ public class Autoplayer {
         mover.setCollisionChecker(wallCollisions);
     }
 
-    public void setPropertyMoves(String propertyMoveString) {
-        mover.setPropertyMoves(propertyMoveString);
-    }
-
     public void setPortals(List<Portal> portals, CollisionChecker portalCollisions) {
         mover.setPortals(portals, portalCollisions);
     }

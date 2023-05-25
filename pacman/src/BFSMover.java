@@ -17,8 +17,6 @@ public class BFSMover implements IMover {
     public Location move(Actor movingActor, Location target) {
         if (path.isEmpty()) {
             Location nextItem = target;
-            System.out.println("Next: " + nextItem);
-            System.out.println("Initial Location: " + movingActor.getLocation());
             SearchGameState gameState = new SearchGameState(movingActor.getLocation(), nextItem, collisionChecker, new ArrayList<>(), portalCollisions, portals);
             path = searcher.search(gameState);
         }

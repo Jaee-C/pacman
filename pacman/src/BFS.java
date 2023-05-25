@@ -14,7 +14,6 @@ public class BFS {
         while (!queue.isEmpty()) {
             SearchGameState currentState = queue.remove(0);
             if (currentState.isGoalState()) {
-                System.out.println("Reached goal " + currentState.getCurrentLocation());
                 queue = new ArrayList<>();
                 return currentState.getPath();
             }

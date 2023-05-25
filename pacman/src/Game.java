@@ -17,19 +17,16 @@ public class Game extends GameGrid
   public final static int nbVertCells = 11;
   protected PacManGameGrid grid;
 
-  protected PacActor pacActor = new PacActor(this);
-  private Monster troll = new Monster(this, MonsterType.Troll);
-  private Monster tx5 = new Monster(this, MonsterType.TX5);
+  protected PacActor pacActor;
+  private Monster troll;
+  private Monster tx5;
 
-  private ArrayList<Location> pillAndItemLocations = new ArrayList<Location>();
-  private ArrayList<Actor> iceCubes = new ArrayList<Actor>();
-  private ArrayList<Actor> goldPieces = new ArrayList<Actor>();
+  private ArrayList<Location> pillAndItemLocations = new ArrayList<>();
+  private ArrayList<Actor> iceCubes = new ArrayList<>();
+  private ArrayList<Actor> goldPieces = new ArrayList<>();
   private PortalStore portals = new PortalStore();
   private GameCallback gameCallback;
-  private Properties properties;
   private int seed = 30006;
-  private ArrayList<Location> propertyPillLocations = new ArrayList<>();
-  private ArrayList<Location> propertyGoldLocations = new ArrayList<>();
   private List<Location> wallLocations = new ArrayList<>();
   public boolean lose = false;
 
@@ -38,23 +35,25 @@ public class Game extends GameGrid
     //Setup game
 
     super(nbHorzCells, nbVertCells, 20, false);
-    System.out.println("Game Constructor Called");
 
     this.gameCallback = gameCallback;
-    this.properties = properties;
 
     this.grid = level;
 
     setSimulationPeriod(100);
     setTitle("[PacMan in the Multiverse]");
 
-    //Setup for auto test
-    pacActor.setAuto(Boolean.parseBoolean(properties.getProperty("PacMan.isAuto")));
-    loadPillAndItemsLocations();
 
     GGBackground bg = getBg();
     drawGrid(bg);
 
+    // Setup actors
+    this.troll = new Monster(this, MonsterType.Troll, portals, wallLocations);
+    this.tx5 = new Monster(this, MonsterType.TX5, portals, wallLocations);
+    this.pacActor = new PacActor(this, portals, wallLocations);
+
+    //Setup for auto test
+    pacActor.setAuto(Boolean.parseBoolean(properties.getProperty("PacMan.isAuto")));
 
     //Setup Random seeds
     seed = Integer.parseInt(properties.getProperty("seed"));
@@ -67,15 +66,9 @@ public class Game extends GameGrid
     tx5.setSlowDown(3);
     pacActor.setSlowDown(3);
     tx5.stopMoving(5);
-    setupActorLocations();
-    pacActor.setupWalls(wallLocations);
-    pacActor.setupPortals(portals);
-    setupPillAndItemsLocations();
-    troll.setupWalls(wallLocations);
-    tx5.setupWalls(wallLocations);
-    troll.setupPortals(portals);
-    tx5.setupPortals(portals);
 
+    setupActorLocations();
+    setupPillAndItemsLocations();
 
     //Run the game
     doRun();
@@ -95,14 +88,6 @@ public class Game extends GameGrid
 
     int maxPillsAndItems = countPillsAndItems();
 
-//    do {
-//      hasPacmanBeenHit = troll.getLocation().equals(pacActor.getLocation()) ||
-//              tx5.getLocation().equals(pacActor.getLocation());
-//      hasPacmanEatAllPills = pacActor.getNbPills() >= maxPillsAndItems;
-//      delay(10);
-//
-//    } while(!hasPacmanBeenHit && !hasPacmanEatAllPills);
-//    delay(120);
     if (pacActor == null || troll == null || tx5 == null || !this.getFrame().isActive()) return "";
 
     boolean hasPacmanBeenHit = false;
@@ -185,13 +170,6 @@ public class Game extends GameGrid
         }
       }
     }
-//    if (propertyPillLocations.size() != 0) {
-//      pillsAndItemsCount += propertyPillLocations.size();
-//    }
-//
-//    if (propertyGoldLocations.size() != 0) {
-//      pillsAndItemsCount += propertyGoldLocations.size();
-//    }
 
     return pillsAndItemsCount;
   }
@@ -204,25 +182,6 @@ public class Game extends GameGrid
     pillAndItemLocations.remove(location);
   }
 
-  private void loadPillAndItemsLocations() {
-    String pillsLocationString = properties.getProperty("Pills.location");
-    if (pillsLocationString != null) {
-      String[] singlePillLocationStrings = pillsLocationString.split(";");
-      for (String singlePillLocationString: singlePillLocationStrings) {
-        String[] locationStrings = singlePillLocationString.split(",");
-        propertyPillLocations.add(new Location(Integer.parseInt(locationStrings[0]), Integer.parseInt(locationStrings[1])));
-      }
-    }
-
-    String goldLocationString = properties.getProperty("Gold.location");
-    if (goldLocationString != null) {
-      String[] singleGoldLocationStrings = goldLocationString.split(";");
-      for (String singleGoldLocationString: singleGoldLocationStrings) {
-        String[] locationStrings = singleGoldLocationString.split(",");
-        propertyGoldLocations.add(new Location(Integer.parseInt(locationStrings[0]), Integer.parseInt(locationStrings[1])));
-      }
-    }
-  }
   private void setupPillAndItemsLocations() {
     for (int y = 0; y < nbVertCells; y++)
     {

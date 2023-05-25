@@ -14,37 +14,27 @@ public class PacActor extends Actor implements GGKeyRepeatListener
   private int nbPills = 0;
   private int score = 0;
   private Game game;
-  private int seed;
   private Random randomiser = new Random();
   private Autoplayer autoplayer;
   private CollisionChecker wallCollisions;
   private CollisionChecker portalCollisions;
   private PortalStore portals;
-  public PacActor(Game game)
-  {
-    super(true, "sprites/pacpix.gif", nbSprites);  // Rotatable
-    this.game = game;
-    this.wallCollisions = new BoundsCollisionChecker(game.getNumHorzCells(), game.getNumVertCells());
-    this.portalCollisions = new CollisionChecker(game.getNumHorzCells(), game.getNumVertCells());
-    this.autoplayer = new Autoplayer(this, game, wallCollisions);
-  }
   private boolean isAuto = false;
+
+  public PacActor(Game game, PortalStore portals, List<Location> walls) {
+    super(true, "sprites/pacpix.gif", nbSprites);
+    this.game = game;
+    this.wallCollisions =new BoundsCollisionChecker(Game.nbHorzCells, Game.nbVertCells, walls);
+    this.portalCollisions = new CollisionChecker(portals.getLocations());
+    this.autoplayer = new Autoplayer(this, game, wallCollisions);
+    this.portals = portals;
+  }
 
   public void setAuto(boolean auto) {
     isAuto = auto;
   }
 
-  public void setupPortals(PortalStore portals) {
-    this.portals = portals;
-    this.portalCollisions.setCollisionLocations(portals.getLocations());
-  }
-
-  public void setupWalls(List<Location> wallLocations) {
-    this.wallCollisions.setCollisionLocations(wallLocations);
-  }
-
   public void setSeed(int seed) {
-    this.seed = seed;
     randomiser.setSeed(seed);
   }
 

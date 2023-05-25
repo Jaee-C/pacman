@@ -19,14 +19,14 @@ public class Monster extends Actor
   private CollisionChecker portalCollisions;
   private PortalStore portals;
 
-
-  public Monster(Game game, MonsterType type)
-  {
+  public Monster(Game game, MonsterType type, PortalStore portals, List<Location> walls) {
     super("sprites/" + type.getImageName());
     this.game = game;
     this.type = type;
+    this.portals = portals;
+    this.portalCollisions = new CollisionChecker(portals.getLocations());
     this.wallCollisions = new BoundsCollisionChecker(game.getNumHorzCells(), game.getNumVertCells());
-    this.portalCollisions = new CollisionChecker(game.getNumHorzCells(), game.getNumVertCells());
+    this.wallCollisions.setCollisionLocations(walls);
   }
 
   public void stopMoving(int seconds) {
@@ -40,15 +40,6 @@ public class Monster extends Actor
         monster.stopMoving = false;
       }
     }, seconds * SECOND_TO_MILLISECONDS);
-  }
-
-  public void setupPortals(PortalStore portals) {
-    this.portals = portals;
-    this.portalCollisions.setCollisionLocations(portals.getLocations());
-  }
-
-  public void setupWalls(List<Location> wallLocations) {
-    this.wallCollisions.setCollisionLocations(wallLocations);
   }
 
   public void setSeed(int seed) {

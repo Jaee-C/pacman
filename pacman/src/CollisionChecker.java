@@ -1,18 +1,19 @@
 package src;
 
-import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.Location;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CollisionChecker {
-    protected final int horzCells;
-    protected final int vertCells;
     private List<Location> collisionLocations;
 
-    public CollisionChecker(int horzCells, int vertCells) {
-        this.horzCells = horzCells;
-        this.vertCells =vertCells;
+    public CollisionChecker() {
+        this.collisionLocations = new ArrayList<>();
+    }
+
+    public CollisionChecker(List<Location> collisions) {
+        this.collisionLocations = collisions;
     }
 
     public boolean collide(Location location) {

@@ -6,7 +6,7 @@ import ch.aplu.jgamegrid.Location;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BFSMover implements IMover {
+public class BFSMover implements IMoverStrategy {
     private BFS searcher = new BFS();
     private CollisionChecker collisionChecker;
     private List<Location> path = new ArrayList<>();

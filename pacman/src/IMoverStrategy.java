@@ -5,7 +5,7 @@ import ch.aplu.jgamegrid.Location;
 
 import java.util.List;
 
-public interface IMover {
+public interface IMoverStrategy {
     Location move(Actor movingActor, Location target);
     void setCollisionChecker(CollisionChecker collisionChecker);
     void setPortals(List<Portal> portals, CollisionChecker portalCollisions);

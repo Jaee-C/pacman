@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class RandomMover implements IMover {
+public class RandomMover implements IMoverStrategy {
     private int seed;
     private Random randomiser = new Random();
     private ArrayList<Location> visitedList = new ArrayList<Location>();

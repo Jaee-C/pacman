@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Autoplayer {
-    private MoverStrategy mover = new MoverStrategy();
+    private MoverContext mover;
     private Actor movingActor;
     private Game game;
 
     public Autoplayer(Actor actor, Game game, CollisionChecker wallCollisions) {
         this.movingActor = actor;
         this.game = game;
-        mover.setCollisionChecker(wallCollisions);
+        this.mover = new MoverContext(wallCollisions);
     }
 
     public void setPortals(List<Portal> portals, CollisionChecker portalCollisions) {

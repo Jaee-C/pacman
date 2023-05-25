@@ -5,13 +5,17 @@ import ch.aplu.jgamegrid.Location;
 
 import java.util.List;
 
-public class MoverStrategy implements IMover {
+public class MoverContext {
 
     private RandomMover randomMover = new RandomMover();
     private BFSMover bfsMover = new BFSMover();
-    private IMover mover = null;
+    private IMoverStrategy mover = null;
 
-    @Override
+    public MoverContext(CollisionChecker collision) {
+        randomMover.setCollisionChecker(collision);
+        bfsMover.setCollisionChecker(collision);
+    }
+
     public Location move(Actor movingActor, Location target) {
         Location next = null;
         mover = bfsMover;
@@ -23,13 +27,11 @@ public class MoverStrategy implements IMover {
         return next;
     }
 
-    @Override
     public void setCollisionChecker(CollisionChecker collisionChecker) {
         randomMover.setCollisionChecker(collisionChecker);
         bfsMover.setCollisionChecker(collisionChecker);
     }
 
-    @Override
     public void setPortals(List<Portal> portals, CollisionChecker portalCollisions) {
         randomMover.setPortals(portals, portalCollisions);
         bfsMover.setPortals(portals, portalCollisions);

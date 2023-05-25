@@ -169,8 +169,6 @@ public class LevelChecker {
                 }
                 PacManGameGrid gameGrid = new PacManGameGrid(columns, rows, mazeString.toString());
 
-                System.out.print(fileName + ": ");
-
                 if (pacCoords.size() == 0) {
                     // No pacman, don't need to check map
                     continue;
@@ -192,7 +190,6 @@ public class LevelChecker {
                     for (GameGridCell item : unreachedItems.keySet()) {
                         List<String> itemCoords = unreachedItems.get(item);
                         gameCallback.levelCheckNotAccessible(fileName, item.toString(), itemCoords);
-                        System.out.println("MAP IS NOT ACCESSIBLE");
 
                         Driver driver = Driver.getInstance();
                         driver.setMode(Driver.DriverMode.EDIT, filePath);

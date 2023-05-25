@@ -60,7 +60,6 @@ public final class Driver {
                 // Open this file in edit mode
                 mode = DriverMode.EDIT;
                 loadFilename = args[0];
-                System.out.println("Loading File: " + loadFilename);
             } else {
                 // open in test mode
                 mode = DriverMode.TEST;
@@ -93,7 +92,6 @@ public final class Driver {
                 controller.close();
             }
             controller = null;
-            System.out.println("!!!!!! Test Mode !!!!!!!!");
             List<String> fileNames = gameChecker.getGames();
             gameGrids = levelChecker.checkLevels(fileNames);
 
@@ -105,7 +103,6 @@ public final class Driver {
             }
 
         } else if (mode == DriverMode.EDIT && controller == null) {
-            System.out.println("!!!!!!111 Edit Mode !!!!!!!!!1");
             controller = new Controller();
             if (loadFilename != null) {
                 controller.loadFile(loadFilename);
@@ -118,7 +115,6 @@ public final class Driver {
     }
 
     public void nextLevel() {
-        System.out.println("Next Level");
         counter++;
         if (counter < gameGrids.size()) {
             game.close();

@@ -67,7 +67,6 @@ public class MapValidator {
 
             if (target.isEmpty()) {
                 tempGame.doPause();
-                System.out.println("MAP ACCESSIBLE");
                 return target;
             }
 

@@ -282,9 +282,7 @@ public class Game extends GameGrid
   }
 
   public void close() {
-    System.out.println("Close Game");
     stopGameThread();
-//    this.getFrame().dispose();
     this.hide();
   }
 }

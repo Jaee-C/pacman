@@ -64,8 +64,6 @@ public class Controller implements ActionListener, GUIInformation {
 	 * Construct the controller.
 	 */
 	public Controller() {
-		System.out.println("Controller Constructor Called");
-
 		init(Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
 		driver = Driver.getInstance();
 	}

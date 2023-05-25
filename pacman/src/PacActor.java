@@ -63,14 +63,11 @@ public class PacActor extends Actor implements GGKeyRepeatListener
         setDirection(Location.SOUTH);
         break;
     }
+
     if (next != null && !wallCollisions.collide(next))
     {
       setLocation(next);
       eatPill(next);
-    }
-
-    if (next != null)
-    {
       next = portals.checkAndTeleport(next);
       setLocation(next);
       eatPill(next);

@@ -48,10 +48,6 @@ public class PacActor extends Actor implements GGKeyRepeatListener
     randomiser.setSeed(seed);
   }
 
-  public void setPropertyMoves(String propertyMoveString) {
-    autoplayer.setPropertyMoves(propertyMoveString);
-  }
-
   public void keyRepeated(int keyCode)
   {
     if (isAuto) {

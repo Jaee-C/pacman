@@ -31,7 +31,6 @@ public class Game extends GameGrid
   private ArrayList<Location> propertyPillLocations = new ArrayList<>();
   private ArrayList<Location> propertyGoldLocations = new ArrayList<>();
   private List<Location> wallLocations = new ArrayList<>();
-  private PortalFactory portalFactory;
   public boolean lose = false;
 
   public Game(GameCallback gameCallback, Properties properties, PacManGameGrid level)
@@ -45,8 +44,6 @@ public class Game extends GameGrid
     this.properties = properties;
 
     this.grid = level;
-    this.portalFactory = PortalFactory.getInstance();
-
 
     setSimulationPeriod(100);
     setTitle("[PacMan in the Multiverse]");
@@ -71,7 +68,6 @@ public class Game extends GameGrid
     pacActor.setSlowDown(3);
     tx5.stopMoving(5);
     setupActorLocations();
-    pacActor.setPropertyMoves(properties.getProperty("PacMan.move"));
     pacActor.setupWalls(wallLocations);
     pacActor.setupPortals(portals);
     setupPillAndItemsLocations();

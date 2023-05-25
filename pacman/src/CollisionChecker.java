@@ -24,4 +24,8 @@ public class CollisionChecker {
     public void setCollisionLocations(List<Location> collisionLocations) {
         this.collisionLocations = collisionLocations;
     }
+
+    public void addCollisionLocation(Location collision) {
+        collisionLocations.add(collision);
+    }
 }

@@ -16,7 +16,6 @@ public class Monster extends Actor
   private int seed = 0;
   private Random randomiser = new Random(0);
   private CollisionChecker wallCollisions;
-  private CollisionChecker portalCollisions;
   private PortalStore portals;
 
   public Monster(Game game, MonsterType type, PortalStore portals, List<Location> walls) {
@@ -24,7 +23,6 @@ public class Monster extends Actor
     this.game = game;
     this.type = type;
     this.portals = portals;
-    this.portalCollisions = new CollisionChecker(portals.getLocations());
     this.wallCollisions = new BoundsCollisionChecker(game.getNumHorzCells(), game.getNumVertCells());
     this.wallCollisions.setCollisionLocations(walls);
   }
@@ -122,12 +120,9 @@ public class Monster extends Actor
     game.getGameCallback().monsterLocationChanged(this);
     addVisitedList(next);
 
-    if (portalCollisions.collide(next)) {
-      Portal portal = portals.getPortalAt(next);
-      if (portal != null) {
-        portal.teleport(portals, this);
-      }
-    }
+    next = portals.checkAndTeleport(next);
+    setLocation(next);
+    addVisitedList(next);
   }
 
   public MonsterType getType() {
@@ -136,6 +131,9 @@ public class Monster extends Actor
 
   private void addVisitedList(Location location)
   {
+    if (visitedList.contains(location))
+      return;
+
     visitedList.add(location);
     if (visitedList.size() == listLength)
       visitedList.remove(0);

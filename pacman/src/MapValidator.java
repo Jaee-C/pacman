@@ -25,8 +25,6 @@ public class MapValidator {
         ArrayList<Location> target = setupEntitiesLocation(tempGame, grid);
         CollisionChecker collisionChecker = new BoundsCollisionChecker(grid.getNbHorzCells(), grid.getNbVertCells());
         collisionChecker.setCollisionLocations(wallLocations);
-        CollisionChecker portalCollisionChecker = new CollisionChecker(grid.getNbHorzCells(), grid.getNbVertCells());
-        portalCollisionChecker.setCollisionLocations(portals.getLocations());
 
         List<Location> tobeVisited = new ArrayList<>();
         List<Location> visited = new ArrayList<>();
@@ -61,13 +59,8 @@ public class MapValidator {
                 return target;
             }
 
-            if (portalCollisionChecker.collide(next)) {
-                // Reached portal
-                Portal portal = portals.getPortalAt(next);
-                next = portal.teleport(portals, pacman);
-            } else {
-                pacman.setLocation(next);
-            }
+            next = portals.checkAndTeleport(next);
+            pacman.setLocation(next);
 
             visited.add(next);
             target.remove(next);

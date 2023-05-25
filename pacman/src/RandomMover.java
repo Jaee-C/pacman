@@ -89,7 +89,7 @@ public class RandomMover implements IMoverStrategy {
     }
 
     @Override
-    public void setPortals(List<Portal> portals, CollisionChecker portalCollisions) {
+    public void setPortals(PortalStore portals) {
         return;
     }
 }

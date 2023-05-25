@@ -17,7 +17,6 @@ public class PacActor extends Actor implements GGKeyRepeatListener
   private Random randomiser = new Random();
   private Autoplayer autoplayer;
   private CollisionChecker wallCollisions;
-  private CollisionChecker portalCollisions;
   private PortalStore portals;
   private boolean isAuto = false;
 
@@ -25,7 +24,6 @@ public class PacActor extends Actor implements GGKeyRepeatListener
     super(true, "sprites/pacpix.gif", nbSprites);
     this.game = game;
     this.wallCollisions =new BoundsCollisionChecker(Game.nbHorzCells, Game.nbVertCells, walls);
-    this.portalCollisions = new CollisionChecker(portals.getLocations());
     this.autoplayer = new Autoplayer(this, game, wallCollisions);
     this.portals = portals;
   }
@@ -71,10 +69,11 @@ public class PacActor extends Actor implements GGKeyRepeatListener
       eatPill(next);
     }
 
-    if (next != null && portalCollisions.collide(next))
+    if (next != null)
     {
-      Portal portal = portals.getPortalAt(next);
-      portal.teleport(portals, this);
+      next = portals.checkAndTeleport(next);
+      setLocation(next);
+      eatPill(next);
     }
   }
 

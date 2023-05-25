@@ -9,11 +9,13 @@ import java.util.List;
 public class PortalStore {
     private List<Portal> portals = new ArrayList<>();
     private PortalFactory factory = PortalFactory.getInstance();
+    private CollisionChecker collision = new CollisionChecker();
 
     public void put(GameGrid game, PortalColour colour, Location location) {
         Portal portal = factory.createPortal(colour);
         game.addActor(portal, location);
         portals.add(portal);
+        collision.addCollisionLocation(location);
     }
 
     public List<Location> getLocations() {
@@ -35,5 +37,21 @@ public class PortalStore {
             }
         }
         return null;
+    }
+
+    public boolean collide(Location location) {
+        return collision.collide(location);
+    }
+
+    /**
+     * Checks if location collides with a portal and teleports if so
+     * Returns teleported location if teleported, otherwise returns original location
+     */
+    public Location checkAndTeleport(Location location) {
+        if (collision.collide(location)) {
+            Portal collided = getPortalAt(location);
+            return collided.teleport(this);
+        }
+        return location;
     }
 }

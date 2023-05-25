@@ -10,14 +10,13 @@ public class BFSMover implements IMoverStrategy {
     private BFS searcher = new BFS();
     private CollisionChecker collisionChecker;
     private List<Location> path = new ArrayList<>();
-    private List<Portal> portals;
-    private CollisionChecker portalCollisions;
+    private PortalStore portals;
 
     @Override
     public Location move(Actor movingActor, Location target) {
         if (path.isEmpty()) {
             Location nextItem = target;
-            SearchGameState gameState = new SearchGameState(movingActor.getLocation(), nextItem, collisionChecker, new ArrayList<>(), portalCollisions, portals);
+            SearchGameState gameState = new SearchGameState(movingActor.getLocation(), nextItem, collisionChecker, new ArrayList<>(), portals);
             path = searcher.search(gameState);
         }
 
@@ -34,8 +33,7 @@ public class BFSMover implements IMoverStrategy {
     }
 
     @Override
-    public void setPortals(List<Portal> portals, CollisionChecker portalCollisions) {
-        this.portalCollisions = portalCollisions;
+    public void setPortals(PortalStore portals) {
         this.portals = portals;
     }
 }

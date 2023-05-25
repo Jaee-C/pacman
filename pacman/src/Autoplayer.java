@@ -9,16 +9,14 @@ import java.util.List;
 public class Autoplayer {
     private MoverContext mover;
     private Actor movingActor;
-    private Game game;
 
     public Autoplayer(Actor actor, Game game, CollisionChecker wallCollisions) {
         this.movingActor = actor;
-        this.game = game;
         this.mover = new MoverContext(wallCollisions);
     }
 
-    public void setPortals(List<Portal> portals, CollisionChecker portalCollisions) {
-        mover.setPortals(portals, portalCollisions);
+    public void setPortals(PortalStore portals) {
+        mover.setPortals(portals);
     }
 
     public Location move(ArrayList<Location> items) {

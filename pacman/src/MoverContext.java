@@ -32,9 +32,9 @@ public class MoverContext {
         bfsMover.setCollisionChecker(collisionChecker);
     }
 
-    public void setPortals(List<Portal> portals, CollisionChecker portalCollisions) {
-        randomMover.setPortals(portals, portalCollisions);
-        bfsMover.setPortals(portals, portalCollisions);
+    public void setPortals(PortalStore portals) {
+        randomMover.setPortals(portals);
+        bfsMover.setPortals(portals);
     }
 
     public void setSeed(int seed) {

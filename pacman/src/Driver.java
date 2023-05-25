@@ -22,7 +22,7 @@ public final class Driver {
     public static final String DEFAULT_PROPERTIES_PATH = "properties/test2.properties";
     private static Controller controller = null;
     private static Game game = null;
-    private static DriverMode mode = DriverMode.EDIT;
+    private static DriverMode mode;
     private static Driver instance;
     private static GameCallback gameCallback;
     private static Properties properties;
@@ -33,9 +33,7 @@ public final class Driver {
     private static String gameRes = "";
     private static int counter = 0;
     private static List<PacManGameGrid> gameGrids;
-    private Driver() {
-
-    }
+    private Driver() {}
 
     public static Driver getInstance() {
         if (instance == null) {
@@ -62,6 +60,7 @@ public final class Driver {
                 // Open this file in edit mode
                 mode = DriverMode.EDIT;
                 loadFilename = args[0];
+                System.out.println("Loading File: " + loadFilename);
             } else {
                 // open in test mode
                 mode = DriverMode.TEST;
@@ -125,11 +124,11 @@ public final class Driver {
         counter++;
         if (counter < gameGrids.size()) {
             game.close();
-
             game = new Game(gameCallback, properties, gameGrids.get(counter));
-//            return true;
         }
+    }
 
-//        return false;
+    public static LevelChecker getLevelChecker() {
+        return levelChecker;
     }
 }

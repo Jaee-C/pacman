@@ -76,21 +76,14 @@ public final class Driver {
 
     }
 
-//    public static void changeMode() {
-//        if (mode == DriverMode.TEST) {
-//            System.out.println("  Change from TEST to EDIT");
-//            mode = DriverMode.EDIT;
-//
-//        } else if (mode == DriverMode.EDIT) {
-//            System.out.println("  Change from EDIT to TEST");
-//            mode = DriverMode.TEST;
-//        }
-//
-//        runMode();
-//    }
-
     public void setMode(DriverMode mode) {
         this.mode = mode;
+        runMode();
+    }
+
+    public void setMode(DriverMode mode, String filename) {
+        this.mode = mode;
+        loadFilename = filename;
         runMode();
     }
 

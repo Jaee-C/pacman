@@ -128,7 +128,7 @@ public class LevelChecker {
                     gameCallback.levelCheckNoPacmanStart(fileName);
                     System.out.println("ERROR LEVEL CHECK: No Pacman Start");
                     Driver driver = Driver.getInstance();
-                    driver.setMode(Driver.DriverMode.EDIT);
+                    driver.setMode(Driver.DriverMode.EDIT, filePath);
 
                     allGameGrids.clear();
                     return allGameGrids;
@@ -137,7 +137,7 @@ public class LevelChecker {
                     gameCallback.levelCheckMultiplePacmanStart(fileName, pacCoords);
                     System.out.println("ERROR LEVEL CHECK: Multiple Pacman Start");
                     Driver driver = Driver.getInstance();
-                    driver.setMode(Driver.DriverMode.EDIT);
+                    driver.setMode(Driver.DriverMode.EDIT, filePath);
 
                     allGameGrids.clear();
                     return allGameGrids;
@@ -148,7 +148,7 @@ public class LevelChecker {
                     gameCallback.levelCheckGoldPillError(fileName);
                     System.out.println("ERROR LEVEL CHECK: levelCheckGoldPillError");
                     Driver driver = Driver.getInstance();
-                    driver.setMode(Driver.DriverMode.EDIT);
+                    driver.setMode(Driver.DriverMode.EDIT, filePath);
 
                     allGameGrids.clear();
                     return allGameGrids;
@@ -161,7 +161,7 @@ public class LevelChecker {
                         gameCallback.levelCheckPortalError(fileName, portalName.replace("Portal", ""), portalCoords);
                         System.out.println("ERROR LEVEL CHECK: levelCheckPortalError");
                         Driver driver = Driver.getInstance();
-                        driver.setMode(Driver.DriverMode.EDIT);
+                        driver.setMode(Driver.DriverMode.EDIT, filePath);
 
                         allGameGrids.clear();
                         return allGameGrids;
@@ -195,7 +195,7 @@ public class LevelChecker {
                         System.out.println("MAP IS NOT ACCESSIBLE");
 
                         Driver driver = Driver.getInstance();
-                        driver.setMode(Driver.DriverMode.EDIT);
+                        driver.setMode(Driver.DriverMode.EDIT, filePath);
 
                         allGameGrids.clear();
                         return allGameGrids;

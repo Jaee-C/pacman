@@ -7,13 +7,13 @@ import java.util.List;
 
 public class MoverContext {
 
-    private RandomMover randomMover = new RandomMover();
-    private BFSMover bfsMover = new BFSMover();
+    private RandomMover randomMover;
+    private BFSMover bfsMover;
     private IMoverStrategy mover = null;
 
     public MoverContext(CollisionChecker collision) {
-        randomMover.setCollisionChecker(collision);
-        bfsMover.setCollisionChecker(collision);
+        this.randomMover = new RandomMover(collision);
+        this.bfsMover = new BFSMover(collision);
     }
 
     public Location move(Actor movingActor, Location target) {
@@ -25,11 +25,6 @@ public class MoverContext {
         }
     
         return next;
-    }
-
-    public void setCollisionChecker(CollisionChecker collisionChecker) {
-        randomMover.setCollisionChecker(collisionChecker);
-        bfsMover.setCollisionChecker(collisionChecker);
     }
 
     public void setPortals(PortalStore portals) {

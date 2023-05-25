@@ -39,29 +39,26 @@ public class PacManGameGrid
     return null;
   }
 
-  public ArrayList<Location> getTrollLocations(){
-    ArrayList<Location> trollLocations = new ArrayList<>();
+  public ArrayList<Location> getMonsterLocation(MonsterType type){
+    ArrayList<Location> monsterLocations = new ArrayList<>();
+
+    GameGridCell cellType;
+
+    if (type == MonsterType.TX5)
+      cellType = GameGridCell.TX5;
+    else if (type == MonsterType.Troll)
+      cellType = GameGridCell.Troll;
+    else
+      return monsterLocations;
+
     for (int i = 0; i < nbVertCells; i++)
     {
       for (int k = 0; k < nbHorzCells; k++) {
-        if (mazeArray[i][k] == GameGridCell.Troll)
-          trollLocations.add(new Location(k,i));
+        if (mazeArray[i][k] == cellType)
+          monsterLocations.add(new Location(k,i));
       }
     }
-    return trollLocations;
-
-  }
-
-  public ArrayList<Location> getTX5Locations(){
-    ArrayList<Location> TX5Locations = new ArrayList<>();
-    for (int i = 0; i < nbVertCells; i++)
-    {
-      for (int k = 0; k < nbHorzCells; k++) {
-        if (mazeArray[i][k] == GameGridCell.TX5)
-          TX5Locations.add(new Location(k,i));
-      }
-    }
-    return TX5Locations;
+    return monsterLocations;
 
   }
 

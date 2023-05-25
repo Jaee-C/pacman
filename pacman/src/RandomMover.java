@@ -14,10 +14,14 @@ public class RandomMover implements IMoverStrategy {
     private final int listLength = 10;
     private CollisionChecker collisionChecker = null;
 
+    public RandomMover(CollisionChecker collisionChecker) {
+        this.collisionChecker = collisionChecker;
+    }
+
     @Override
     public Location move(Actor movingActor, Location target) {
         if (this.collisionChecker == null) {
-            throw new IllegalStateException("MoveValidator is not set");
+            throw new IllegalStateException("CollisionChecker is not set");
         }
         double oldDirection = movingActor.getDirection();
 
@@ -63,6 +67,11 @@ public class RandomMover implements IMoverStrategy {
         }
     }
 
+    @Override
+    public void setPortals(PortalStore portals) {
+        return;
+    }
+
     public void setSeed(int seed) {
         this.seed = seed;
         randomiser.setSeed(seed);
@@ -81,15 +90,5 @@ public class RandomMover implements IMoverStrategy {
             if (loc.equals(location))
                 return true;
         return false;
-    }
-
-    @Override
-    public void setCollisionChecker(CollisionChecker collisionChecker) {
-        this.collisionChecker = collisionChecker;
-    }
-
-    @Override
-    public void setPortals(PortalStore portals) {
-        return;
     }
 }

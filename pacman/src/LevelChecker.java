@@ -14,9 +14,9 @@ import javax.xml.parsers.*;
 import java.io.*;
 
 public class LevelChecker {
-    GameCallback gameCallback;
-    List<String> portalStrings = Arrays.asList("PortalWhiteTile", "PortalYellowTile", "PortalDarkGoldTile", "PortalDarkGrayTile");
-    MapValidator mapValidator = new MapValidator();
+    private GameCallback gameCallback;
+    private List<String> portalStrings = Arrays.asList("PortalWhiteTile", "PortalYellowTile", "PortalDarkGoldTile", "PortalDarkGrayTile");
+    private MapValidator mapValidator = new MapValidator();
 
     public LevelChecker(GameCallback callback) {
         this.gameCallback = callback;

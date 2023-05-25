@@ -15,7 +15,7 @@ public class Game extends GameGrid
 {
   public final static int nbHorzCells = 20;
   public final static int nbVertCells = 11;
-  protected PacManGameGrid grid;
+  private PacManGameGrid grid;
 
   protected PacActor pacActor;
   private Monster troll;
@@ -142,12 +142,12 @@ public class Game extends GameGrid
   }
 
   private void setupActorLocations() {
-    if(!grid.getTX5Locations().isEmpty()){
-      addActor(tx5, grid.getTX5Locations().get(0), Location.NORTH);
+    if(!grid.getMonsterLocation(MonsterType.TX5).isEmpty()){
+      addActor(tx5, grid.getMonsterLocation(MonsterType.TX5).get(0), Location.NORTH);
     }
 
-    if(!grid.getTrollLocations().isEmpty()){
-      addActor(troll, grid.getTrollLocations().get(0), Location.NORTH);
+    if(!grid.getMonsterLocation(MonsterType.Troll).isEmpty()){
+      addActor(troll, grid.getMonsterLocation(MonsterType.Troll).get(0), Location.NORTH);
     }
 
     addActor(pacActor, grid.getPacManStartLocation());
